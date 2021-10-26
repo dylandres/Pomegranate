@@ -3,7 +3,8 @@ import NavBar from './components/Navbar.js'
 
 function App() {
   return (
-    <NavBar/ >
+    <NavBar/>
+    
   );
 }
 
