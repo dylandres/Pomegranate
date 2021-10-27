@@ -26,21 +26,23 @@
 
   .filter {
     position: absolute;
-    top:17px;
-    right: 320px;
+    float: right;
+    top: 2.5%;
+    right: 22.2%;
   }
 
   .button {
     position: absolute;
-    top: 49px;
-    right: 345px;
+    float: right;
+    top: 6%;
+    right: 23.9%;
   }
 
   .avatar {
     color:fuchsia;
     float: right;
     position: absolute;
-    top: -160px;
     right: 20px;
     width: 10%;
+    height: 15%;
   }

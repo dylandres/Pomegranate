@@ -6,8 +6,12 @@ import  { useState } from 'react';
 
 function Navbar() {
 
-    const [textField, setTextField] = useState({content: '', checked: false});
-    // const [filter, setFilter] = usestat
+    const [textField, setTextField] = useState({content: ''});
+    const [filter, setFilter] = useState({filter: 'all'});
+
+    const searchFor = async (text, filter) => {
+        
+    }
 
     return (
         <div class='container'>
@@ -17,13 +21,13 @@ function Navbar() {
             <form method='GET' action='/search'>
                 <input type='text' class='search-bar' value = {textField.content} placeholder="Try 'NASA'"
                 onChange={e=>setTextField({...textField, content:e.target.value})}></input>
-                <select class='filter'>
+                <select class='filter' onChange={e=>setFilter({filter:e.target.value})}>
                     <option value="all">All</option>
-                    <option value="title">Platform</option>
-                    <option value="class">Quiz</option>
-                    <option value="day">User</option>
+                    <option value="platform">Platform</option>
+                    <option value="quiz">Quiz</option>
+                    <option value="user">User</option>
                 </select>
-                <input type='button' class='button' value='Search'></input>
+                <input type='button' class='button' value='Search' onClick={e=>searchFor(textField, filter)}></input>
             </form>
             {/* Profile Pic / Profile Button */}
             <Avatar class='avatar'/>
