@@ -10,9 +10,10 @@ function Navbar() {
     const [filter, setFilter] = useState({filter: 'all'});
     // const [searchResults, setSearchResults] = useState({content: []})
 
-    const searchFor = async (text, filter) => {
-        // const results = await search;
+    const searchFor = async (query, filter) => {
+        // const results = await search(query, filter);
         // setSearchResults(results);
+        console.log('searching!');
     }
 
     return (
@@ -20,7 +21,7 @@ function Navbar() {
             {/* Logo / Home Button */}
             <img src={logo} class='logo'/>
             {/* Search bar, filter, and button */}
-            <form method='GET' action='/search'>
+            <form method='GET' action='/search' onSubmit={e=>searchFor(textField, filter)}>
                 <input type='text' class='search-bar' value = {textField.content} placeholder="Try 'NASA'"
                 onChange={e=>setTextField({...textField, content:e.target.value})}></input>
                 <select class='filter' onChange={e=>setFilter({filter:e.target.value})}>
@@ -29,7 +30,7 @@ function Navbar() {
                     <option value="quiz">Quiz</option>
                     <option value="user">User</option>
                 </select>
-                <input type='button' class='button' value='Search' onClick={e=>searchFor(textField, filter)}></input>
+                <input type='button' class='button' value='Search'></input>
             </form>
             {/* Profile Pic / Profile Button */}
             <Avatar class='avatar'/>

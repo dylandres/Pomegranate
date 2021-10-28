@@ -2,6 +2,7 @@ import './App.css';
 import NavBar from './components/Navbar.js'
 import { BrowserRouter as Router, Route } from 'react-router-dom';
 import HomePage from './components/Homepage.js'
+import SearchResults from './components/Searchresults.js'
 
 function App() {
   return (
@@ -11,9 +12,9 @@ function App() {
         <NavBar/>
         <br/>
         {/* Home Page */}
-        <Route path="/" component={HomePage}/>
+        <Route path="/" exact component={HomePage}/>
         {/* Search Results Page */}
-        <Route path="/search" />
+        <Route path="/search" component={SearchResults}/>
       </body>
     </Router>
   );
