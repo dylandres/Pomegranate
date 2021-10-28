@@ -4,6 +4,9 @@ import  { useState } from 'react';
 
 function SearchResults() {
 
+    const [searchResults, setSearchResults] = useState({content: []})
+
+
     return (
         <body>
             Search results page
