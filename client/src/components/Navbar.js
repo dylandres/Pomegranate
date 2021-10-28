@@ -29,7 +29,7 @@ function Navbar() {
             {/* Login / Logout button */}
             {loggedInUser == null
             ? <input type='button' class='logbutton' value='Login' onClick={() => setLoggedInUser("Bob")}></input> 
-            : <Link to={`/search`}> <input type='button' class='logbutton' value='Log Out' onClick={() => setLoggedInUser(null)}></input> </Link> }
+            : <Link to={`/`}> <input type='button' class='logbutton' value='Log Out' onClick={() => setLoggedInUser(null)}></input> </Link> }
             {/* User Profile */}
             {loggedInUser != null
             ? <Link to={`/profile/${loggedInUser}`}> <Avatar class='avatar'/></Link>
