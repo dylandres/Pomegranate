@@ -1,10 +1,10 @@
 import React from 'react'
-import './Homepage.css';
+import './Dashboard.css';
 import  { useState } from 'react';
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
-import './react-tabs.css';
+import './tabs.css';
 
-function HomePage() {
+function DashBoard() {
 
     return (
         <body>
@@ -15,18 +15,19 @@ function HomePage() {
                         <Tab>For You</Tab>
                     </TabList>
                     <TabPanel>
-                        <h2>item 1</h2>
+                        <h2>list of quizzes</h2>
                     </TabPanel>
                     <TabPanel>
-                        <h2>item 1</h2>
+                        <h2>list of quizzes (subscribed)</h2>
                     </TabPanel>
                 </Tabs>
             </div>
             <div class='subscriptions'>
                 <div class='subscriptions_header'>subscriptions</div>
+                platform card
             </div>
         </body>
     );
   }
 
-export default HomePage;
+export default DashBoard;

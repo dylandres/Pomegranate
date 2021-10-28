@@ -26,4 +26,6 @@
 .subscriptions_header {
     text-align: center;
     padding: 6px 20%;
+    border: 1px solid gray;
+    height:3%;
 }
