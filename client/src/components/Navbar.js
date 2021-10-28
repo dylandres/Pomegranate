@@ -16,7 +16,7 @@ function Navbar() {
             {/* Logo / Home Button */}
             <Link to='/'> <img src={logo} class='logo'/> </Link>
             {/* Search bar, filter, and button */}
-            <form method='GET' action='/search'>
+            <form method='GET' action={`/search?query=${textField}&filter=${filter}`}>
                 <input type='text' class='search-bar' name='query' value = {textField} onChange={e=>setTextField(e.target.value)}placeholder="Try 'NASA'"></input>
                 <select class='filter' name='filter' onChange={e=>setFilter(e.target.value)}>
                     <option value="all">All</option>
@@ -24,7 +24,7 @@ function Navbar() {
                     <option value="quiz">Quiz</option>
                     <option value="user">User</option>
                 </select>
-                <Link to={`search?query=${textField}&filter=${filter}`}> <button type='submit' class='button'>Search</button> </Link>
+                <Link to={`/search?query=${textField}&filter=${filter}`}> <button type='submit' class='button'>Search</button> </Link>
             </form>
             {/* Login / Logout button */}
             {loggedInUser == null
