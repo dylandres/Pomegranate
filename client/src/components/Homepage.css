@@ -1,0 +1,21 @@
+.feed {
+    position: absolute;
+    float: left;
+    left: 1%;
+    width: 65%;
+    height: 80%;
+    border: 5px solid green;
+    /* padding: 50px;
+    margin: 20px; */
+}
+
+.subscriptions {
+    position: absolute;
+    float: right;
+    right: 1%;
+    width: 25%;
+    height: 80%;
+    border: 5px solid blue;
+    /* padding: 50px;
+    margin: 20px; */
+}

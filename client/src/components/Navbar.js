@@ -8,10 +8,11 @@ function Navbar() {
 
     const [textField, setTextField] = useState({content: ''});
     const [filter, setFilter] = useState({filter: 'all'});
-    // const 
+    // const [searchResults, setSearchResults] = useState({content: []})
 
     const searchFor = async (text, filter) => {
-        // const searchResults = await search
+        // const results = await search;
+        // setSearchResults(results);
     }
 
     return (
