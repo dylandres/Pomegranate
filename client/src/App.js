@@ -15,7 +15,7 @@ function App() {
         {/* DashBoard */}
         <Route path="/" exact component={DashBoard}/>
         {/* Search Results Page */}
-        <Route path="/search" component={SearchResults}/>
+        <Route path='/search' component={SearchResults}/>
         {/* User's Profile Page */}
         <Route path='/profile' component={ProfilePage}/>
       </body>
