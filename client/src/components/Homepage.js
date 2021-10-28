@@ -2,7 +2,7 @@ import React from 'react'
 import './Homepage.css';
 import  { useState } from 'react';
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
-import 'react-tabs/style/react-tabs.css';
+import './react-tabs.css';
 
 function HomePage() {
 
@@ -23,7 +23,7 @@ function HomePage() {
                 </Tabs>
             </div>
             <div class='subscriptions'>
-                subscriptions
+                <div class='subscriptions_header'>subscriptions</div>
             </div>
         </body>
     );

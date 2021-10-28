@@ -4,9 +4,11 @@
     left: 1%;
     width: 65%;
     height: 80%;
-    border: 5px solid green;
+    border: 2px solid gray;
+    /* border: 5px solid green; */
     /* padding: 50px;
     margin: 20px; */
+    background: lightgray;
 }
 
 .subscriptions {
@@ -15,7 +17,13 @@
     right: 1%;
     width: 25%;
     height: 80%;
-    border: 5px solid blue;
+    border: 2px solid gray;
+    background: lightgray;
     /* padding: 50px;
     margin: 20px; */
+}
+
+.subscriptions_header {
+    text-align: center;
+    padding: 6px 20%;
 }
