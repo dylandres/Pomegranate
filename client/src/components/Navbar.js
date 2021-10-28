@@ -2,6 +2,7 @@ import React from 'react'
 import './Navbar.css';
 import logo from './images/pomegranate.png'
 import { Avatar } from '@material-ui/core';
+import { Link } from 'react-router-dom'
 // import  { useState } from 'react';
 
 function Navbar() {
@@ -9,7 +10,7 @@ function Navbar() {
     return (
         <div class='container'>
             {/* Logo / Home Button */}
-            <img src={logo} class='logo'/>
+            <Link to='/'> <img src={logo} class='logo'/> </Link>
             {/* Search bar, filter, and button */}
             <form method='GET' action='/search'>
                 <input type='text' class='search-bar' name='query' placeholder="Try 'NASA'"></input>
