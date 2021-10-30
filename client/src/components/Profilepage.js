@@ -1,5 +1,5 @@
 import React from 'react'
-import './Profilepage.css';
+import '../style/Profilepage.css';
 import  { useState, useEffect } from 'react';
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 import { useLocation } from 'react-router-dom';
