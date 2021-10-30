@@ -2,7 +2,7 @@ import React from 'react'
 import '../style/Dashboard.css';
 import  { useState } from 'react';
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
-import './tabs.css';
+import '../style/tabs.css';
 
 function DashBoard() {
 

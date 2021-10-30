@@ -3,7 +3,7 @@ import '../style/Profilepage.css';
 import  { useState, useEffect } from 'react';
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 import { useLocation } from 'react-router-dom';
-import './tabs.css';
+import '../style/tabs.css';
 
 function ProfilePage() {
     // Get username from url
