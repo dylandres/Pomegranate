@@ -39,7 +39,7 @@
   }
 
   .avatar {
-    color: yellow;
+    color: fuchsia;
     float: right;
     position: absolute;
     right: 20px;
@@ -48,7 +48,7 @@
   }
 
   .logbutton{
-    background-color: blue;
+    background-color: lightblue;
     position: absolute;
     float: right;
     width: 5%;
