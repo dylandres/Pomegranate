@@ -8,16 +8,24 @@ function SearchResults() {
 
     const [results, setResult] = useState([])
 
+    const getResults = (query, filter) => {
+        return axios.get('http://localhost:4000/api/users').then(res => res.data);
+    }
+
     const search = async(query, filter) => {
-        const result = 1;
+        const result = await getResults(query, filter);
+        console.log(JSON.stringify(result));
+        setResult(result);
     }
 
     // When this page renders, get 'query' and 'filter' params
     const url = useLocation().search;
     const query = new URLSearchParams(url).get('query');
     const filter = new URLSearchParams(url).get('filter');
-    // Then run a search
-    search(query, filter);
+    // Then run a search once
+    useEffect(() => {
+        search(query, filter);
+      }, [])
     return (
         <body>
             <b>Search results</b>
@@ -25,6 +33,8 @@ function SearchResults() {
             Query: {query}
             <br/>
             Filter: {filter}
+            <br/>
+            Results: {JSON.stringify(results)}
         </body>
     );
   }
