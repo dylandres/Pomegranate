@@ -14,7 +14,7 @@ function Navbar() {
     return (
         <div class='container'>
             {/* Logo / Home Button */}
-            <Link to='/'> <img src={logo} class='logo'/> </Link>
+            <Link to='/'> <img src={logo} class='logo' alt='Pomegranate logo'/> </Link>
             {/* Search bar, filter, and button */}
             <form method='GET' action={`/search?query=${textField}&filter=${filter}`}>
                 <input type='text' class='search-bar' name='query' value = {textField} onChange={e=>setTextField(e.target.value)}placeholder="Try 'NASA'"></input>
