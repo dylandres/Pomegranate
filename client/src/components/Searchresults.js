@@ -2,6 +2,7 @@ import React from 'react'
 import '../style/Searchresults.css';
 import  { useState, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
+import axios from 'axios';
 
 function SearchResults() {
 
