@@ -21,6 +21,7 @@
     "use-search-params": "^1.0.4",
     "web-vitals": "^1.1.2"
   },
+  "proxy": "http://localhost:4000/",
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
