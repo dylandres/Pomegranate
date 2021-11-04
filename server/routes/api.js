@@ -1,3 +1,4 @@
+const { json } = require('express');
 const express = require('express');
 const router = express.Router();
 const Award = require('../db/models/award.model.js');
@@ -8,8 +9,41 @@ const Quiz = require('../db/models/quiz.model.js');
 const QuizPage = require('../db/models/quizPage.model.js');
 const User = require('../db/models/user.model.js');
 
+/////////////////////////////////SEARCH STUFF////////////////////////////////
+router.get('/users/:query/platform', (req, res, next) => {
+                                            // regex for case insensitive query
+    Platform.find({ 'platformName': { $regex : new RegExp(req.params.query, "i") } })
+        .then(data => {
+            console.log('platform')
+            console.log(data)
+            res.json(data)
+        })
+        .catch(next)
+});
+
+router.get('/users/:query/quiz', (req, res, next) => {
+    QuizPage.find({ 'quizName':  { $regex : new RegExp(req.params.query, "i") }})
+        .then(data => {
+            console.log('quiz')
+            console.log(data)
+            res.json(data)
+        })
+        .catch(next)
+});
+
+router.get('/users/:query/user', (req, res, next) => {
+    Profile.find({ 'userName': { $regex : new RegExp(req.params.query, "i") } })
+        .then(data => {
+        console.log('user')
+        console.log(data)
+        res.json(data)
+        })
+        .catch(next)
+});
+
 //////////////////////////////////USER//////////////////////////////////
 router.get('/users', (req, res, next) => {
+    console.log('api3');
     User.find({}, '-updatedAt')
         .then(data => {
             res.json(data)
