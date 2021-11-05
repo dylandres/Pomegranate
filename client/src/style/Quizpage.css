@@ -1,0 +1,35 @@
+.quiz-profile {
+    position: absolute;
+    float: left;
+    left: 1%;
+    width: 98%;
+    height: 40%;
+    border: 2px solid gray;
+    background: lightgray;
+}
+
+.title {
+    text-align: center;
+}
+
+.quiz-logo {
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    width:12.5%;
+    height:40%;
+    border-radius: 10px;
+}
+
+.quiz-banner {
+    position: relative;
+    width: 100%;
+    height: 100%;
+}
+
+.take-quiz-button{
+    background-color: lightblue;
+    font-size: 2rem;
+    width: 10%;
+    height: 20%;
+  }

@@ -17,6 +17,10 @@ const QuizSchema = new Schema( {
     leaderboard : {
         type: Map,
         required: true
+    },
+    quizName : {
+        type: String,
+        required: true
     }
 }, {timestamps: true});
 

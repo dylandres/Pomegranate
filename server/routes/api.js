@@ -1,3 +1,4 @@
+const { json } = require('express');
 const express = require('express');
 const router = express.Router();
 const Award = require('../db/models/award.model.js');
@@ -36,9 +37,42 @@ router.post('/login', (req, res, next) => {
 
 
 
+/////////////////////////////////SEARCH STUFF////////////////////////////////
+router.get('/users/:query/platform', (req, res, next) => {
+                                            // regex for case insensitive query
+    Platform.find({ 'platformName': { $regex : new RegExp(req.params.query, "i") } })
+        .then(data => {
+            console.log('platform')
+            console.log(data)
+            res.json(data)
+        })
+        .catch(next)
+});
+
+router.get('/users/:query/quiz', (req, res, next) => {
+    QuizPage.find({ 'quizName':  { $regex : new RegExp(req.params.query, "i") }})
+        .then(data => {
+            console.log('quiz')
+            console.log(data)
+            res.json(data)
+        })
+        .catch(next)
+});
+
+router.get('/users/:query/user', (req, res, next) => {
+    Profile.find({ $or: [{'userName': { $regex : new RegExp(req.params.query, "i") }}, 
+                         {'fullName': { $regex : new RegExp(req.params.query, "i")}}] })
+        .then(data => {
+        console.log('user')
+        console.log(data)
+        res.json(data)
+        })
+        .catch(next)
+});
 
 //////////////////////////////////USER//////////////////////////////////
 router.get('/users', (req, res, next) => {
+    console.log('api3');
     User.find({}, '-updatedAt')
         .then(data => {
             res.json(data)
@@ -81,7 +115,7 @@ router.delete('/profiles/:id', (req, res, next) => {
 
 //////////////////////////////////QUIZPAGE//////////////////////////////////
 router.get('/quizpages', (req, res, next) => {
-    QuizPage.find({}, 'quizName')
+    QuizPage.find({})
         .then(data => {
             res.json(data)
         })
@@ -124,6 +158,14 @@ router.delete('/awards/:id', (req, res, next) => {
 //////////////////////////////////PLATFORM//////////////////////////////////
 router.get('/platforms', (req, res, next) => {
     Platform.find({}, '-updatedAt')
+        .then(data => {
+            res.json(data)
+        })
+        .catch(next)
+});
+
+router.get('/platforms/:name', (req, res, next) => {
+    Platform.findOne({'platformName': req.params.name})
         .then(data => {
             res.json(data)
         })
