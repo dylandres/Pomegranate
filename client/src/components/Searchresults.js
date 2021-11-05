@@ -59,7 +59,7 @@ function SearchResults() {
                                     <p>{platform.description}</p>
                                     </div>
                                     <div className="card-action">
-                                    <a href={`/platform/${platform.platformName}`}>Visit {platform.platformName}!</a>
+                                    <a href={`/platform/${platform.platformName}`}>Visit {platform.platformName} Platform!</a>
                                     </div>
                                 </div>
                                 </div>
@@ -78,7 +78,7 @@ function SearchResults() {
                                 <p>{quiz.summary}</p>
                                 </div>
                                 <div className="card-action">
-                                <a href={`/quizpage/${quiz.quizName}`}>Visit {quiz.quizName}!</a>
+                                <a href={`/quizpage/${quiz.quizName}`}>Take {quiz.quizName} Quiz!</a>
                                 </div>
                             </div>
                             </div>
@@ -97,7 +97,7 @@ function SearchResults() {
                                     <p>{user.bio}</p>
                                     </div>
                                     <div className="card-action">
-                                    <a href={`/profile/${user.userName}`}>Visit {user.userName}!</a>
+                                    <a href={`/profile/${user.userName}`}>Visit {user.userName}'s page!</a>
                                     </div>
                                 </div>
                                 </div>
