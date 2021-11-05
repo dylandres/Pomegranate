@@ -40,12 +40,12 @@ function QuizPage() {
       }, [])
     return (
         <body>
-            <h1 class='title'>Welcome to the {quizName} Quiz Page!</h1>
-            <div class='quiz-profile'>
-                {quiz != null ? <img class="quiz-banner" src={quiz.quizBanner}></img> : <img class="quiz-banner" src=""></img>}
-                {quiz != null ? <img class="quiz-logo" src={quiz.quizLogo}></img> : <img class="quiz-logo" src=""></img>}
+            <h1 className='title'>Welcome to the {quizName} Quiz Page!</h1>
+            <div className='quiz-profile'>
+                {quiz != null ? <img className="quiz-banner" src={quiz.quizBanner}></img> : <img className="quiz-banner" src=""></img>}
+                {quiz != null ? <img className="quiz-logo" src={quiz.quizLogo}></img> : <img className="quiz-logo" src=""></img>}
                 <br/> <br/> <br/>
-                <Link to={`/quiztaking/${window.location.href.split('/').pop()}`}> <input type='button' class='take-quiz-button' value='Take Quiz!'></input> </Link>
+                <Link to={`/quiztaking/${window.location.href.split('/').pop()}`}> <input type='button' className='take-quiz-button' value='Take Quiz!'></input> </Link>
             </div>
         </body>
     );

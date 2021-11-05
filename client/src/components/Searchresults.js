@@ -66,18 +66,18 @@ function SearchResults() {
                         console.log(typeof(result));
                         if (result.platformName)
                             return <Link to={`/platform/${result.platformName}`} style={{ textDecoration: 'none' }}>
-                                <div class="card_container">
-                                <div class="col s12 m7">
-                                <div class="card">
+                                <div className="card_container">
+                                <div className="col s12 m7">
+                                <div className="card">
                                 {/* Platform */}
                                     <div>
-                                    <img class="search-card-image" src={result.platformLogo}></img><br/>
+                                    <img className="search-card-image" src={result.platformLogo}></img><br/>
                                     </div>
-                                    <span class="card-title"><b>{result.platformName}</b></span>
-                                    <div class="card-content">
+                                    <span className="card-title"><b>{result.platformName}</b></span>
+                                    <div className="card-content">
                                     <p>{result.description}</p>
                                     </div>
-                                    <div class="card-action">
+                                    <div className="card-action">
                                     <a href={`/platform/${result.platformName}`}>Visit {result.platformName}!</a>
                                     </div>
                                 </div>
@@ -85,18 +85,18 @@ function SearchResults() {
                             </div></Link>
                         if (result.quizName)
                             return <Link to={`/quizpage/${result.quizName}`} style={{ textDecoration: 'none' }}>
-                                <div class="card_container">
-                                <div class="col s12 m7">
-                                <div class="card">
+                                <div className="card_container">
+                                <div className="col s12 m7">
+                                <div className="card">
                                 {/* Quiz */}
                                     <div>
-                                    <img class="search-card-image" src={result.quizLogo}></img><br/>
+                                    <img className="search-card-image" src={result.quizLogo}></img><br/>
                                     </div>
-                                    <span class="card-title"><b>{result.quizName}</b></span>
-                                    <div class="card-content">
+                                    <span className="card-title"><b>{result.quizName}</b></span>
+                                    <div className="card-content">
                                     <p>{result.summary}</p>
                                     </div>
-                                    <div class="card-action">
+                                    <div className="card-action">
                                     <a href={`/quizpage/${result.quizName}`}>Visit {result.quizName}!</a>
                                     </div>
                                 </div>
@@ -104,18 +104,18 @@ function SearchResults() {
                             </div></Link>
                         if (result.userName)
                             return <Link to={`/profile/${result.userName}`} style={{ textDecoration: 'none' }}>
-                                <div class="card_container">
-                                <div class="col s12 m7">
-                                <div class="card">
+                                <div className="card_container">
+                                <div className="col s12 m7">
+                                <div className="card">
                                 {/* User */}
                                     <div>
-                                    <img class="search-card-image" src={result.profilePicture}></img><br/>
+                                    <img className="search-card-image" src={result.profilePicture}></img><br/>
                                     </div>
-                                    <span class="card-title"><b>{result.userName} ({result.fullName})</b></span>
-                                    <div class="card-content">
+                                    <span className="card-title"><b>{result.userName} ({result.fullName})</b></span>
+                                    <div className="card-content">
                                     <p>{result.bio}</p>
                                     </div>
-                                    <div class="card-action">
+                                    <div className="card-action">
                                     <a href={`/profile/${result.userName}`}>Visit {result.userName}!</a>
                                     </div>
                                 </div>

@@ -2,6 +2,7 @@ import React from 'react'
 import '../style/Dashboard.css';
 import  { useState, useEffect } from 'react';
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
+import { useLocation, Link } from 'react-router-dom';
 import '../style/tabs.css';
 import axios from 'axios';
 import logo from './images/pomegranate.png'
@@ -25,7 +26,7 @@ function DashBoard() {
 
     return (
         <body>
-            <div class='feed'>
+            <div className='feed'>
                 <Tabs>
                     <TabList>
                         <Tab>Popular Quizzes</Tab>
@@ -35,23 +36,24 @@ function DashBoard() {
                     {
                     <ul className="popular-quizzes">
                         {popularQuizzes.map(quiz => (
-                            <div class="card_container">
-                                <div class="col s12 m7">
-                                <div class="card">
+                            <Link to={`/quizpage/${quiz.quizName}`} style={{ textDecoration: 'none' }}>
+                            <div className="card_container">
+                                <div className="col s12 m7">
+                                <div className="card">
                                     <div>
-                                    <img class="dash-card-image" src={quiz.quizLogo}></img><br/>
+                                    <img className="dash-card-image" src={quiz.quizLogo}></img><br/>
                                     </div>
-                                    <span class="card-title"><b>{quiz.quizName}</b></span>
-                                    <div class="card-content">
+                                    <span className="card-title"><b>{quiz.quizName}</b></span>
+                                    <div className="card-content">
                                     <p>{quiz.summary}</p>
                                     </div>
-                                    <div class="card-action">
+                                    <div className="card-action">
                                     <a href={`/quizpage/${quiz.quizName}`}>Visit {quiz.quizName}!</a>
                                     </div>
                                     Times Taken: {quiz.timesTaken}
                                 </div>
                                 </div>
-                            </div>
+                            </div></Link>
                         )
                         )}
                     </ul>
@@ -62,8 +64,8 @@ function DashBoard() {
                     </TabPanel>
                 </Tabs>
             </div>
-            <div class='subscriptions'>
-                <div class='subscriptions_header'>subscriptions</div>
+            <div className='subscriptions'>
+                <div className='subscriptions_header'>subscriptions</div>
                 platform card
             </div>
         </body>

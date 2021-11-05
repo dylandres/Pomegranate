@@ -25,7 +25,7 @@ function QuizTaking() {
 
     return (
         <body>
-            <h1 class='title'>quiz taking page for {quizName}</h1>
+            <h1 className='title'>quiz taking page for {quizName}</h1>
         </body>
     );
   }
