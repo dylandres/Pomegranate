@@ -3,6 +3,7 @@ import '../style/Searchresults.css';
 import  { useState, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 import axios from 'axios';
+import logo from './images/pomegranate.png'
 
 function SearchResults() {
 
@@ -61,14 +62,14 @@ function SearchResults() {
                 <ul className="results">
                     {results.map((result) => {
                         if (result.platformName)
-                            return <div class="row">
+                            return <div class="card_container">
                                 <div class="col s12 m7">
                                 <div class="card">
+                                {/* Platform */}
                                     <div class="card-image">
-                                    <img src="images/sample-1.jpg"></img><br/>
-                                    <span class="card-title"><b>{result.platformName}</b></span>
+                                    <img src={logo}></img><br/>
                                     </div>
-                                    Platform
+                                    <span class="card-title"><b>{result.platformName}</b></span>
                                     <div class="card-content">
                                     <p>{result.description}</p>
                                     </div>
@@ -79,14 +80,14 @@ function SearchResults() {
                                 </div>
                             </div>
                         if (result.quizName)
-                            return <div class="row">
+                            return <div class="card_container">
                                 <div class="col s12 m7">
                                 <div class="card">
+                                {/* Quiz */}
                                     <div class="card-image">
-                                    <img src="images/sample-1.jpg"></img><br/>
-                                    <span class="card-title"><b>{result.quizName}</b></span>
+                                    <img src={logo}></img><br/>
                                     </div>
-                                    Quiz
+                                    <span class="card-title"><b>{result.quizName}</b></span>
                                     <div class="card-content">
                                     <p>{result.summary}</p>
                                     </div>
@@ -97,14 +98,14 @@ function SearchResults() {
                                 </div>
                             </div>
                         if (result.userName)
-                            return <div class="row">
+                            return <div class="card_container">
                                 <div class="col s12 m7">
                                 <div class="card">
+                                {/* User */}
                                     <div class="card-image">
-                                    <img src="images/sample-1.jpg"></img><br/>
-                                    <span class="card-title"><b>{result.userName}</b></span>
+                                    <img src={logo}></img><br/>
                                     </div>
-                                    User
+                                    <span class="card-title"><b>{result.userName} ({result.fullName})</b></span>
                                     <div class="card-content">
                                     <p>{result.bio}</p>
                                     </div>
@@ -119,7 +120,6 @@ function SearchResults() {
                 </ul>
             }
             <br/>
-            {'end'}
         </body>
     );
   }
