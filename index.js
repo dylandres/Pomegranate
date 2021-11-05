@@ -5,11 +5,11 @@ const cors = require('cors')
 
 const app = express();
 
-var corsOptions = {
-    origin: 'http://localhost:4000/'
-};
+// var corsOptions = {
+//     origin: 'http://localhost:4000/'
+// };
 
-app.use(cors(corsOptions));
+app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({extended: true}));
 
@@ -24,6 +24,9 @@ db.mongoose.connect(db.url, {
     process.exit();
 })
 
+app.get('/', (req, res) => {
+    res.send('This is the backend');
+})
 app.use('/api', require('./server/routes/api'));
 app.use(express.static(path.join(__dirname, "client", "build")));
 app.use('*', express.static(path.join(__dirname, "client", "build")));
