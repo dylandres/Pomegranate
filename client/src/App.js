@@ -5,6 +5,7 @@ import DashBoard from './components/Dashboard.js'
 import SearchResults from './components/Searchresults.js'
 import ProfilePage from './components/Profilepage.js'
 import QuizPage from './components/Quizpage.js'
+import QuizTaking from './components/Quiztaking.js'
 
 function App() {
   return (
@@ -19,8 +20,10 @@ function App() {
         <Route path='/search' component={SearchResults}/>
         {/* Profile Page */}
         <Route path='/profile' component={ProfilePage}/>
-        {/* Quiz Page Page */}
+        {/* Quiz Page */}
         <Route path='/quizpage' component={QuizPage}/>
+        {/* Quiz Taking */}
+        <Route path='/quiztaking' component={QuizTaking}/>
       </body>
     </Router>
   );
