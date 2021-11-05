@@ -30,8 +30,8 @@ function ProfilePage() {
             <h1 class='profile-title'>@{username}</h1>
             <h1 class='profile-name'>{user.fullName}</h1>
             <div class='profile'>
-                {user != null ? <img class="profile-banner" src={user.profileBanner}></img> : <img class="image" src=""></img>}
-                {user != null ? <img class="profile-logo" src={user.profilePicture}></img> : <img class="image" src=""></img>}
+                {user != null ? <img class="profile-banner" src={user.profileBanner}></img> : <img class="profile-banner" src=""></img>}
+                {user != null ? <img class="profile-logo" src={user.profilePicture}></img> : <img class="profile-logo" src=""></img>}
                 <Tabs>
                     <TabList style={{position:'relative', top: '0%'}}>
                         <Tab style={{padding: '6px 6.5%'}}>Profile</Tab>

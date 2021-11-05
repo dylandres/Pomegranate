@@ -6,6 +6,7 @@ import SearchResults from './components/Searchresults.js'
 import ProfilePage from './components/Profilepage.js'
 import PlatformPage from './components/Platformpage.js'
 import QuizPage from './components/Quizpage.js'
+import QuizTaking from './components/Quiztaking.js'
 
 function App() {
   return (
@@ -20,10 +21,16 @@ function App() {
         <Route path='/search' component={SearchResults}/>
         {/* Profile Page */}
         <Route path='/profile' component={ProfilePage}/>
+<<<<<<< HEAD
         {/* Platform Page*/}
         <Route path='/platform' component={PlatformPage}/>
         {/* Quiz Page Page */}
+=======
+        {/* Quiz Page */}
+>>>>>>> 9a57971b07bb339b1779f263e47fcec157099932
         <Route path='/quizpage' component={QuizPage}/>
+        {/* Quiz Taking */}
+        <Route path='/quiztaking' component={QuizTaking}/>
       </body>
     </Router>
   );
