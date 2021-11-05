@@ -25,30 +25,29 @@ function PlatformPage() {
     useEffect(() => {
         newProfile(platformName);
         console.log(platform);
-    }, [platformName]);
+    }, []);
 
 
     return (
         <body>
-            <h1 class='title'>Welcome to {platform.platformName}!</h1>
-            <div class='profile'>
-                <img src={platform.platformLogo} className='platform-logo'/>
-                <img src={platform.platformBanner} className='platform-banner'/>
+            <h1 class='platform-title'>{platform.platformName}</h1>
+            <div class='platform'>
+                {platform != null ? <img class="platform-banner" src={platform.platformBanner}></img> : <img class="image" src=""></img>}
+                {platform != null ? <img class="platform-logo" src={platform.platformLogo}></img> : <img class="image" src=""></img>}
                 <Tabs>
-                    <TabList style={{position:'relative', top: '70%'}}>
-                        <Tab style={{padding: '6px 6%'}}>Quizzes</Tab>
-                        <Tab style={{padding: '6px 6%'}}>Leaderboard</Tab>
-                        <Tab style={{padding: '6px 6%'}}>About</Tab>
+                    <TabList style={{position:'relative', top: '0%'}}>
+                    <Tab style={{padding: '6px 14%'}}>Quizzes</Tab>
+                    <Tab style={{padding: '6px 14%'}}>Leaderboard</Tab>
+                    <Tab style={{padding: '6px 14%'}}>About</Tab>
                     </TabList>
-                    <TabPanel style={{position:'relative', top: '70%'}}>
+                    <TabPanel style={{position:'relative', top: '0%'}}>
                         <h2>Quizzes</h2>
                     </TabPanel>
-                    <TabPanel style={{position:'relative', top: '70%'}}>
+                    <TabPanel style={{position:'relative', top: '0%'}}>
                         <h2>Leaderboard</h2>
                     </TabPanel>
-                    <TabPanel style={{position:'relative', top: '70%'}}>
-                        <h2>About platform</h2>
-                        <p>{platform.description}</p>
+                    <TabPanel style={{position:'relative', top: '0%'}}>
+                        {platform != null ? <h2>{platform.description}</h2> : <h2></h2>}
                     </TabPanel>
                 </Tabs>
             </div>

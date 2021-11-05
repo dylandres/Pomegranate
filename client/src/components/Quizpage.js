@@ -57,7 +57,7 @@ function QuizPage() {
     //             </Tabs>
     //         </div>
     //     </body>
-    );
+    //);
   }
 
 export default QuizPage;

@@ -32,7 +32,8 @@ router.get('/users/:query/quiz', (req, res, next) => {
 });
 
 router.get('/users/:query/user', (req, res, next) => {
-    Profile.find({ 'userName': { $regex : new RegExp(req.params.query, "i") } })
+    Profile.find({ $or: [{'userName': { $regex : new RegExp(req.params.query, "i") }}, 
+                         {'fullName': { $regex : new RegExp(req.params.query, "i")}}] })
         .then(data => {
         console.log('user')
         console.log(data)
