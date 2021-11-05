@@ -29,3 +29,12 @@
     border: 1px solid gray;
     height:3%;
 }
+
+.popular-quizzes {
+    text-align:center;
+}
+
+.dash-card-image {
+    text-align: center;
+    width:20%;
+  }

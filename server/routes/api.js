@@ -86,7 +86,7 @@ router.delete('/profiles/:id', (req, res, next) => {
 
 //////////////////////////////////QUIZPAGE//////////////////////////////////
 router.get('/quizpages', (req, res, next) => {
-    QuizPage.find({}, 'quizName')
+    QuizPage.find({})
         .then(data => {
             res.json(data)
         })

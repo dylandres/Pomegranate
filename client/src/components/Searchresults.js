@@ -3,6 +3,7 @@ import '../style/Searchresults.css';
 import  { useState, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 import axios from 'axios';
+import logo from './images/pomegranate.png'
 
 function SearchResults() {
 
@@ -64,14 +65,14 @@ function SearchResults() {
                         console.log(result);
                         console.log(typeof(result));
                         if (result.platformName)
-                            return <div class="row">
+                            return <div class="card_container">
                                 <div class="col s12 m7">
                                 <div class="card">
-                                    <div class="card-image">
-                                    <img src="images/sample-1.jpg"></img><br/>
-                                    <span class="card-title"><b>{result.platformName}</b></span>
+                                {/* Platform */}
+                                    <div>
+                                    <img class="search-card-image" src={result.platformLogo}></img><br/>
                                     </div>
-                                    Platform
+                                    <span class="card-title"><b>{result.platformName}</b></span>
                                     <div class="card-content">
                                     <p>{result.description}</p>
                                     </div>
@@ -82,32 +83,32 @@ function SearchResults() {
                                 </div>
                             </div>
                         if (result.quizName)
-                            return <div class="row">
+                            return <div class="card_container">
                                 <div class="col s12 m7">
                                 <div class="card">
-                                    <div class="card-image">
-                                    <img src="images/sample-1.jpg"></img><br/>
-                                    <span class="card-title"><b>{result.quizName}</b></span>
+                                {/* Quiz */}
+                                    <div>
+                                    <img class="search-card-image" src={result.quizLogo}></img><br/>
                                     </div>
-                                    Quiz
+                                    <span class="card-title"><b>{result.quizName}</b></span>
                                     <div class="card-content">
                                     <p>{result.summary}</p>
                                     </div>
                                     <div class="card-action">
-                                    <a href="#">Visit {result.quizName}!</a>
+                                    <a href={`/quizpage/${result.quizName}`}>Visit {result.quizName}!</a>
                                     </div>
                                 </div>
                                 </div>
                             </div>
                         if (result.userName)
-                            return <div class="row">
+                            return <div class="card_container">
                                 <div class="col s12 m7">
                                 <div class="card">
-                                    <div class="card-image">
-                                    <img src="images/sample-1.jpg"></img><br/>
-                                    <span class="card-title"><b>{result.userName}</b></span>
+                                {/* User */}
+                                    <div>
+                                    <img class="search-card-image" src={result.profilePicture}></img><br/>
                                     </div>
-                                    User
+                                    <span class="card-title"><b>{result.userName} ({result.fullName})</b></span>
                                     <div class="card-content">
                                     <p>{result.bio}</p>
                                     </div>
@@ -122,7 +123,6 @@ function SearchResults() {
                 </ul>
             }
             <br/>
-            {'end'}
         </body>
     );
   }
