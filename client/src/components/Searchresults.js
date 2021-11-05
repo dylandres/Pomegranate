@@ -32,6 +32,7 @@ function SearchResults() {
         const result = await getResults(query, filter);
         console.log(JSON.stringify(result));
         setResult(result);
+        console.log(results);
     }
 
     // When this page renders, get 'query' and 'filter' params
@@ -60,6 +61,8 @@ function SearchResults() {
             {
                 <ul className="results">
                     {results.map((result) => {
+                        console.log(result);
+                        console.log(typeof(result));
                         if (result.platformName)
                             return <div class="row">
                                 <div class="col s12 m7">
@@ -73,7 +76,7 @@ function SearchResults() {
                                     <p>{result.description}</p>
                                     </div>
                                     <div class="card-action">
-                                    <a href="#">Visit {result.platformName}!</a>
+                                    <a href={`/platform/${result.platformName}`}>Visit {result.platformName}!</a>
                                     </div>
                                 </div>
                                 </div>

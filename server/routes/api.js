@@ -135,6 +135,14 @@ router.get('/platforms', (req, res, next) => {
         .catch(next)
 });
 
+router.get('/platforms/:name', (req, res, next) => {
+    Platform.findOne({'platformName': req.params.name})
+        .then(data => {
+            res.json(data)
+        })
+        .catch(next)
+});
+
 router.post('/platforms', (req, res, next) => {
     Platform.create(req.body)
         .then(data => res.json(data))

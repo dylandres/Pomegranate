@@ -4,6 +4,7 @@ import { BrowserRouter as Router, Route } from 'react-router-dom';
 import DashBoard from './components/Dashboard.js'
 import SearchResults from './components/Searchresults.js'
 import ProfilePage from './components/Profilepage.js'
+import PlatformPage from './components/Platformpage.js'
 
 function App() {
   return (
@@ -18,6 +19,8 @@ function App() {
         <Route path='/search' component={SearchResults}/>
         {/* User's Profile Page */}
         <Route path='/profile' component={ProfilePage}/>
+        {/* Platform Page*/}
+        <Route path='/platform' component={PlatformPage}/>
       </body>
     </Router>
   );
