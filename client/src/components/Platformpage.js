@@ -5,6 +5,7 @@ import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 import { useLocation } from 'react-router-dom';
 import '../style/tabs.css';
 import axios from 'axios';
+import logo from './images/pomegranate.png'
 
 function PlatformPage() {
 
@@ -32,8 +33,8 @@ function PlatformPage() {
         <body>
             <h1 className='platform-title'>{platform.platformName}</h1>
             <div className='platform'>
-                {platform != null ? <img className="platform-banner" src={platform.platformBanner}></img> : <img className="image" src=""></img>}
-                {platform != null ? <img className="platform-logo" src={platform.platformLogo}></img> : <img className="image" src=""></img>}
+                {platform.platformBanner != '' ? <img className="platform-banner" src={platform.platformBanner}></img> : <img className="platform-banner" src="https://pomegranate-io.s3.amazonaws.com/1200px-Black_flag.svg.png"></img>}
+                {platform.platformLogo != '' ? <img className="platform-logo" src={platform.platformLogo}></img> : <img className="platform-logo" src="https://pomegranate-io.s3.amazonaws.com/pomegranate.png"></img>}
                 <Tabs>
                     <TabList style={{position:'relative', top: '0%'}}>
                     <Tab style={{padding: '6px 14%'}}>Quizzes</Tab>
