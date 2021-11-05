@@ -4,6 +4,7 @@ import logo from './images/pomegranate.png'
 import { Avatar } from '@material-ui/core';
 import { Link } from 'react-router-dom'
 import  { useState } from 'react';
+import GoogleWrapper from './GoogleWrapper.js'
 
 function Navbar() {
 
@@ -38,6 +39,7 @@ function Navbar() {
             {loggedInUser != null
             ? `Hello, ${loggedInUser}`
             : null }
+            <GoogleWrapper/>
         </div>
     );
   }
