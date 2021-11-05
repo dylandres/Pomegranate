@@ -21,13 +21,9 @@ function App() {
         <Route path='/search' component={SearchResults}/>
         {/* Profile Page */}
         <Route path='/profile' component={ProfilePage}/>
-<<<<<<< HEAD
         {/* Platform Page*/}
         <Route path='/platform' component={PlatformPage}/>
         {/* Quiz Page Page */}
-=======
-        {/* Quiz Page */}
->>>>>>> 9a57971b07bb339b1779f263e47fcec157099932
         <Route path='/quizpage' component={QuizPage}/>
         {/* Quiz Taking */}
         <Route path='/quiztaking' component={QuizTaking}/>
