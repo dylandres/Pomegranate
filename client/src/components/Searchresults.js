@@ -3,37 +3,26 @@ import '../style/Searchresults.css';
 import  { useState, useEffect } from 'react';
 import { useLocation, Link } from 'react-router-dom';
 import axios from 'axios';
-import logo from './images/pomegranate.png'
 
 function SearchResults() {
 
-    const [results, setResult] = useState([])
+    const [platforms, setPlatforms] = useState([]);
+    const [quizzes, setQuizzes] = useState([]);
+    const [users, setUsers] = useState([]);
 
-    const getResults = (query, filter) => {
-        if (filter == 'platform')
-            return axios.get(`/api/users/${query}/platform`).then(res => res.data);
-        if (filter == 'quiz')
-            return axios.get(`/api/users/${query}/quiz`).then(res => res.data);
-        if (filter == 'user')
-            return axios.get(`/api/users/${query}/user`).then(res => res.data);
-        if (filter == 'all') {
-            // Combine 3 promises into 1 big promise object
-            return Promise.all([axios.get(`/api/users/${query}/platform`),
-                         axios.get(`/api/users/${query}/quiz`),         
-                         axios.get(`/api/users/${query}/user`)])
-                        // filter out empty promises
-                        .then((res) => res.filter(item => item.data != ''))
-                         // flatten list
-                        .then((res) => res.map(item => (item.data[0])))
-        }
-
+    const getPlatforms = async(query) => {
+        const result = await axios.get(`/api/users/${query}/platform`).then(res => res.data);
+        setPlatforms(result);
     }
 
-    const search = async(query, filter) => {
-        const result = await getResults(query, filter);
-        console.log(JSON.stringify(result));
-        setResult(result);
-        console.log(results);
+    const getQuizzes = async(query) => {
+        const result = await axios.get(`/api/users/${query}/quiz`).then(res => res.data);
+        setQuizzes(result);
+    }
+
+    const getUsers = async(query) => {
+        const result = await axios.get(`/api/users/${query}/user`).then(res => res.data);
+        setUsers(result);
     }
 
     // When this page renders, get 'query' and 'filter' params
@@ -43,86 +32,77 @@ function SearchResults() {
 
     // Run search if query/filter changes
     useEffect(() => {
-        search(query, filter);
+        if (filter == "platform" || filter === "all")
+            getPlatforms(query);
+        if (filter == "quiz" || filter === "all") 
+            getQuizzes(query);
+        if (filter == "user" || filter === "all")
+            getUsers(query);
       }, [query, filter])
 
     return (
         <body>
-            {results.length > 0 ? 
-                results.length > 1 ? <b>{results.length} results found</b>
-                : <b>1 result found</b> 
-            : <b>No results found</b>}
             <br/><br/>
-            Query: {query}
-            <br/>
-            Filter: {filter}
-            {/* <br/> */}
-            {/* Results: {JSON.stringify(results)} */}
-            <br/>
             {
                 <ul className="results">
-                    {results.map((result) => {
-                        console.log(result);
-                        console.log(typeof(result));
-                        if (result.platformName)
-                            return <Link to={`/platform/${result.platformName}`} style={{ textDecoration: 'none' }}>
+                    {platforms.map(platform => (
+                            <Link to={`/platform/${platform.platformName}`} style={{ textDecoration: 'none' }}>
                                 <div className="card_container">
                                 <div className="col s12 m7">
                                 <div className="card">
                                 {/* Platform */}
                                     <div>
-                                    <img className="search-card-image" src={result.platformLogo}></img><br/>
+                                    <img className="search-card-image" src={platform.platformLogo}></img><br/>
                                     </div>
-                                    <span className="card-title"><b>{result.platformName}</b></span>
+                                    <span className="card-title"><b>{platform.platformName}</b></span>
                                     <div className="card-content">
-                                    <p>{result.description}</p>
+                                    <p>{platform.description}</p>
                                     </div>
                                     <div className="card-action">
-                                    <a href={`/platform/${result.platformName}`}>Visit {result.platformName}!</a>
+                                    <a href={`/platform/${platform.platformName}`}>Visit {platform.platformName}!</a>
                                     </div>
                                 </div>
                                 </div>
                             </div></Link>
-                        if (result.quizName)
-                            return <Link to={`/quizpage/${result.quizName}`} style={{ textDecoration: 'none' }}>
+                    ))}
+                    {quizzes.map((quiz) => (
+                        <Link to={`/quizpage/${quiz.quizName}`} style={{ textDecoration: 'none' }}>
+                            <div className="card_container">
+                            <div className="col s12 m7">
+                            <div className="card">
+                                <div>
+                                <img className="search-card-image" src={quiz.quizLogo}></img><br/>
+                                </div>
+                                <span className="card-title"><b>{quiz.quizName}</b></span>
+                                <div className="card-content">
+                                <p>{quiz.summary}</p>
+                                </div>
+                                <div className="card-action">
+                                <a href={`/quizpage/${quiz.quizName}`}>Visit {quiz.quizName}!</a>
+                                </div>
+                            </div>
+                            </div>
+                        </div></Link>
+                    ))}
+                    {users.map((user) => (
+                            <Link to={`/profile/${user.userName}`} style={{ textDecoration: 'none' }}>
                                 <div className="card_container">
                                 <div className="col s12 m7">
                                 <div className="card">
-                                {/* Quiz */}
                                     <div>
-                                    <img className="search-card-image" src={result.quizLogo}></img><br/>
+                                    <img className="search-card-image" src={user.profilePicture}></img><br/>
                                     </div>
-                                    <span className="card-title"><b>{result.quizName}</b></span>
+                                    <span className="card-title"><b>{user.userName} ({user.fullName})</b></span>
                                     <div className="card-content">
-                                    <p>{result.summary}</p>
+                                    <p>{user.bio}</p>
                                     </div>
                                     <div className="card-action">
-                                    <a href={`/quizpage/${result.quizName}`}>Visit {result.quizName}!</a>
+                                    <a href={`/profile/${user.userName}`}>Visit {user.userName}!</a>
                                     </div>
                                 </div>
                                 </div>
                             </div></Link>
-                        if (result.userName)
-                            return <Link to={`/profile/${result.userName}`} style={{ textDecoration: 'none' }}>
-                                <div className="card_container">
-                                <div className="col s12 m7">
-                                <div className="card">
-                                {/* User */}
-                                    <div>
-                                    <img className="search-card-image" src={result.profilePicture}></img><br/>
-                                    </div>
-                                    <span className="card-title"><b>{result.userName} ({result.fullName})</b></span>
-                                    <div className="card-content">
-                                    <p>{result.bio}</p>
-                                    </div>
-                                    <div className="card-action">
-                                    <a href={`/profile/${result.userName}`}>Visit {result.userName}!</a>
-                                    </div>
-                                </div>
-                                </div>
-                            </div></Link>
-                    }
-                    )}
+                    ))}
                 </ul>
             }
             <br/>
