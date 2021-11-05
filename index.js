@@ -24,9 +24,6 @@ db.mongoose.connect(db.url, {
     process.exit();
 })
 
-app.get('/', (req, res) => {
-    res.send('This is the backend');
-})
 app.use('/api', require('./server/routes/api'));
 app.use(express.static(path.join(__dirname, "client", "build")));
 app.use('*', express.static(path.join(__dirname, "client", "build")));
