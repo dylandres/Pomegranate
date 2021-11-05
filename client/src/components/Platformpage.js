@@ -30,10 +30,10 @@ function PlatformPage() {
 
     return (
         <body>
-            <h1 class='platform-title'>{platform.platformName}</h1>
-            <div class='platform'>
-                {platform != null ? <img class="platform-banner" src={platform.platformBanner}></img> : <img class="image" src=""></img>}
-                {platform != null ? <img class="platform-logo" src={platform.platformLogo}></img> : <img class="image" src=""></img>}
+            <h1 className='platform-title'>{platform.platformName}</h1>
+            <div className='platform'>
+                {platform != null ? <img className="platform-banner" src={platform.platformBanner}></img> : <img className="image" src=""></img>}
+                {platform != null ? <img className="platform-logo" src={platform.platformLogo}></img> : <img className="image" src=""></img>}
                 <Tabs>
                     <TabList style={{position:'relative', top: '0%'}}>
                     <Tab style={{padding: '6px 14%'}}>Quizzes</Tab>
