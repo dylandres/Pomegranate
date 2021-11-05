@@ -16,7 +16,7 @@ function GoogleWrapper() {
             clientId = '954435352392-10dqjijkaksqlb0fb482e7hgapcg1nji.apps.googleusercontent.com'
             buttonText= 'Login'
             onSuccess = {handleLoginSuccess}
-            onFailure = {(err) => console.log ('err')}
+            onFailure = {(err) => console.log (err)}
             cookiePolicy = {'single_host_origin'}
             />
         </div>
