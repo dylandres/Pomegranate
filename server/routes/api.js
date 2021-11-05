@@ -8,6 +8,35 @@ const Quiz = require('../db/models/quiz.model.js');
 const QuizPage = require('../db/models/quizPage.model.js');
 const User = require('../db/models/user.model.js');
 
+////////////////////////////////login / auth ///////////////////////////
+
+router.post('/login', (req, res, next) => {
+    const userObj = req.body
+    const email = userObj.email
+    const famName = userObj.famName
+    const givenName = userObj.givenName
+    User.find({email: email})
+        .then(data => {
+            //if data is empty array then this user has never logged in before
+            console.log("WOWOWOW" + data)
+            if(!data.length) {
+                console.log('not empty')
+                console.log(data + 'not empty')
+                Profile.create({userName: givenName + famName, fullName: givenName + " " + famName, profilePicture: '', profileBanner: '', bio: ''}, (err) => console.log(err))
+
+            }
+            //otherwise this user exists
+            else {
+                //console.log(data)
+            }
+        })
+        .catch(next)
+})
+
+
+
+
+
 //////////////////////////////////USER//////////////////////////////////
 router.get('/users', (req, res, next) => {
     User.find({}, '-updatedAt')
