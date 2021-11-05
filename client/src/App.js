@@ -25,6 +25,8 @@ function App() {
         <Route path='/quizpage' component={QuizPage}/>
         {/* Quiz Taking */}
         <Route path='/quiztaking' component={QuizTaking}/>
+        {/* Platform Page */}
+        <Route path='/platform' component={PlatformPage}/>
       </body>
     </Router>
   );
