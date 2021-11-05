@@ -66,8 +66,8 @@ function SearchResults() {
                                 <div class="col s12 m7">
                                 <div class="card">
                                 {/* Platform */}
-                                    <div class="card-image">
-                                    <img src={logo}></img><br/>
+                                    <div>
+                                    <img class="search-card-image" src={result.platformLogo}></img><br/>
                                     </div>
                                     <span class="card-title"><b>{result.platformName}</b></span>
                                     <div class="card-content">
@@ -84,15 +84,15 @@ function SearchResults() {
                                 <div class="col s12 m7">
                                 <div class="card">
                                 {/* Quiz */}
-                                    <div class="card-image">
-                                    <img src={logo}></img><br/>
+                                    <div>
+                                    <img class="search-card-image" src={result.quizLogo}></img><br/>
                                     </div>
                                     <span class="card-title"><b>{result.quizName}</b></span>
                                     <div class="card-content">
                                     <p>{result.summary}</p>
                                     </div>
                                     <div class="card-action">
-                                    <a href="#">Visit {result.quizName}!</a>
+                                    <a href={`/quizpage/${result.quizName}`}>Visit {result.quizName}!</a>
                                     </div>
                                 </div>
                                 </div>
@@ -102,8 +102,8 @@ function SearchResults() {
                                 <div class="col s12 m7">
                                 <div class="card">
                                 {/* User */}
-                                    <div class="card-image">
-                                    <img src={logo}></img><br/>
+                                    <div>
+                                    <img class="search-card-image" src={result.profilePicture}></img><br/>
                                     </div>
                                     <span class="card-title"><b>{result.userName} ({result.fullName})</b></span>
                                     <div class="card-content">

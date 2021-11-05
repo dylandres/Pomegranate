@@ -38,15 +38,15 @@ function DashBoard() {
                             <div class="card_container">
                                 <div class="col s12 m7">
                                 <div class="card">
-                                    <div class="card-image">
-                                    <img src={logo}></img><br/>
+                                    <div>
+                                    <img class="dash-card-image" src={quiz.quizLogo}></img><br/>
                                     </div>
                                     <span class="card-title"><b>{quiz.quizName}</b></span>
                                     <div class="card-content">
                                     <p>{quiz.summary}</p>
                                     </div>
                                     <div class="card-action">
-                                    <a href="#">Visit {quiz.quizName}!</a>
+                                    <a href={`/quizpage/${quiz.quizName}`}>Visit {quiz.quizName}!</a>
                                     </div>
                                     Times Taken: {quiz.timesTaken}
                                 </div>

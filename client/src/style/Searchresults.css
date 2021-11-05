@@ -36,8 +36,9 @@
     font-family: "Trebuchet MS", sans-serif;
   }
 
-  .card-image {
+  .search-card-image {
     text-align: center;
+    width:20%;
   }
 
   .results {

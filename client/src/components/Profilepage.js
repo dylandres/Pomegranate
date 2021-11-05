@@ -2,10 +2,8 @@ import React from 'react'
 import '../style/Profilepage.css';
 import  { useState, useEffect } from 'react';
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
-import { useLocation } from 'react-router-dom';
 import '../style/tabs.css';
 import axios from 'axios';
-import logo from './images/pomegranate.png'
 
 function ProfilePage() {
 
@@ -31,28 +29,29 @@ function ProfilePage() {
         <body>
             <h1 class='title'>Welcome to {username}'s profile page!</h1>
             <div class='profile'>
-                <img class='image' src={logo}></img>
+                {user != null ? <img class="profile-banner" src={user.profileBanner}></img> : <img class="image" src=""></img>}
+                {user != null ? <img class="profile-logo" src={user.profilePicture}></img> : <img class="image" src=""></img>}
                 <Tabs>
-                    <TabList style={{position:'relative', top: '30%'}}>
-                        <Tab style={{padding: '6px 6%'}}>Profile</Tab>
-                        <Tab style={{padding: '6px 6%'}}>Owned Platforms</Tab>
-                        <Tab style={{padding: '6px 6%'}}>Quiz History</Tab>
-                        <Tab style={{padding: '6px 6%'}}>Subcriptions</Tab>
-                        <Tab style={{padding: '6px 6%'}}>Earned Rewards</Tab>
+                    <TabList style={{position:'relative', top: '0%'}}>
+                        <Tab style={{padding: '6px 7%'}}>Profile</Tab>
+                        <Tab style={{padding: '6px 7%'}}>Owned Platforms</Tab>
+                        <Tab style={{padding: '6px 7%'}}>Quiz History</Tab>
+                        <Tab style={{padding: '6px 7%'}}>Subcriptions</Tab>
+                        <Tab style={{padding: '6px 7%'}}>Earned Rewards</Tab>
                     </TabList>
-                    <TabPanel style={{position:'relative', top: '30%'}}>
+                    <TabPanel style={{position:'relative', top: '0%'}}>
                         {user != null ? <h2>{user.bio}</h2> : <h2></h2>}
                     </TabPanel>
-                    <TabPanel style={{position:'relative', top: '30%'}}>
+                    <TabPanel style={{position:'relative', top: '0%'}}>
                         <h2>list of owned platforms</h2>
                     </TabPanel>
-                    <TabPanel style={{position:'relative', top: '30%'}}>
+                    <TabPanel style={{position:'relative', top: '0%'}}>
                         <h2>list of quizzes</h2>
                     </TabPanel>
-                    <TabPanel style={{position:'relative', top: '30%'}}>
+                    <TabPanel style={{position:'relative', top: '0%'}}>
                         <h2>list of subscriptions</h2>
                     </TabPanel>
-                    <TabPanel style={{position:'relative', top: '30%'}}>
+                    <TabPanel style={{position:'relative', top: '0%'}}>
                         <h2>list of rewards</h2>
                     </TabPanel>
                 </Tabs>
