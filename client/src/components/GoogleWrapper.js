@@ -13,7 +13,7 @@ function GoogleWrapper() {
     return (
         <div>
             <GoogleLogin
-            clientId = '954435352392-10dqjijkaksqlb0fb482e7hgapcg1nji.apps.googleusercontent.com'
+            clientId = '954435352392-24bg4crh8bc1bkt4hbpq6ke6iadacv53.apps.googleusercontent.com'
             buttonText= 'Login'
             onSuccess = {handleLoginSuccess}
             onFailure = {(err) => console.log (err)}
