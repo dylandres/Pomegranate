@@ -1,7 +1,7 @@
 import React from 'react'
 import '../style/Searchresults.css';
 import  { useState, useEffect } from 'react';
-import { useLocation } from 'react-router-dom';
+import { useLocation, Link } from 'react-router-dom';
 import axios from 'axios';
 import logo from './images/pomegranate.png'
 
@@ -33,6 +33,7 @@ function SearchResults() {
         const result = await getResults(query, filter);
         console.log(JSON.stringify(result));
         setResult(result);
+        console.log(results);
     }
 
     // When this page renders, get 'query' and 'filter' params
@@ -61,8 +62,11 @@ function SearchResults() {
             {
                 <ul className="results">
                     {results.map((result) => {
+                        console.log(result);
+                        console.log(typeof(result));
                         if (result.platformName)
-                            return <div class="card_container">
+                            return <Link to={`/platform/${result.platformName}`} style={{ textDecoration: 'none' }}>
+                                <div class="card_container">
                                 <div class="col s12 m7">
                                 <div class="card">
                                 {/* Platform */}
@@ -74,13 +78,14 @@ function SearchResults() {
                                     <p>{result.description}</p>
                                     </div>
                                     <div class="card-action">
-                                    <a href="#">Visit {result.platformName}!</a>
+                                    <a href={`/platform/${result.platformName}`}>Visit {result.platformName}!</a>
                                     </div>
                                 </div>
                                 </div>
-                            </div>
+                            </div></Link>
                         if (result.quizName)
-                            return <div class="card_container">
+                            return <Link to={`/quizpage/${result.quizName}`} style={{ textDecoration: 'none' }}>
+                                <div class="card_container">
                                 <div class="col s12 m7">
                                 <div class="card">
                                 {/* Quiz */}
@@ -96,9 +101,10 @@ function SearchResults() {
                                     </div>
                                 </div>
                                 </div>
-                            </div>
+                            </div></Link>
                         if (result.userName)
-                            return <div class="card_container">
+                            return <Link to={`/profile/${result.userName}`} style={{ textDecoration: 'none' }}>
+                                <div class="card_container">
                                 <div class="col s12 m7">
                                 <div class="card">
                                 {/* User */}
@@ -114,7 +120,7 @@ function SearchResults() {
                                     </div>
                                 </div>
                                 </div>
-                            </div>
+                            </div></Link>
                     }
                     )}
                 </ul>

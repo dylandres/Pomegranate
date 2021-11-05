@@ -32,7 +32,8 @@ router.get('/users/:query/quiz', (req, res, next) => {
 });
 
 router.get('/users/:query/user', (req, res, next) => {
-    Profile.find({ 'userName': { $regex : new RegExp(req.params.query, "i") } })
+    Profile.find({ $or: [{'userName': { $regex : new RegExp(req.params.query, "i") }}, 
+                         {'fullName': { $regex : new RegExp(req.params.query, "i")}}] })
         .then(data => {
         console.log('user')
         console.log(data)
@@ -129,6 +130,14 @@ router.delete('/awards/:id', (req, res, next) => {
 //////////////////////////////////PLATFORM//////////////////////////////////
 router.get('/platforms', (req, res, next) => {
     Platform.find({}, '-updatedAt')
+        .then(data => {
+            res.json(data)
+        })
+        .catch(next)
+});
+
+router.get('/platforms/:name', (req, res, next) => {
+    Platform.findOne({'platformName': req.params.name})
         .then(data => {
             res.json(data)
         })
