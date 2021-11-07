@@ -29,7 +29,7 @@ function Navbar() {
                 {textField.replace(/\s/g,"") == "" ?  <button type='button' className='button'>Search</button>
                 :
                 <Link to={`/search?query=${textField}&filter=${filter}`}> <button type='submit' className='button'>Search</button> </Link>
-                }
+                } 
             </form>
             {/* Login / Logout button */}
             {loggedInUser == null
