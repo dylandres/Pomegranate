@@ -13,7 +13,7 @@
     float: left;
     left: 1%;
     width: 98%;
-    height: 70%;
+    height: 80%;
     border: 2px solid gray;
     background: lightgray;
 }
@@ -31,4 +31,77 @@
     position: relative;
     width: 100%;
     height: 40%
+}
+
+.plat-card-image {
+    text-align: center;
+    width:20%;
+  }
+
+.plat-card {
+  background: pink;
+  box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+  transition: 0.3s;
+  width: 90%;
+  border-radius: 10px;
+  font-family: "Trebuchet MS", sans-serif;
+  position:relative;
+  display: inline-block;
+  
+}
+
+.plat-card:hover {
+  box-shadow: 0 20px 100px 0 rgba(0, 0, 0, 0.2);
+  transform: scale(1.1) perspective(1px);
+}
+
+.plat-card_container {
+  /* float: left;
+  width: 90%;
+  height: 50%; */
+  /* font-size: 1rem; */
+  padding: 30px 16px;
+  /* background: pink; */
+  text-align: center;
+  transform: translateZ(0);
+}
+
+.plat-card-title {
+  font-family: "Lucida Console", "Courier New", monospace;
+  color: rgb(0, 180, 0);
+  text-align: center;
+}
+
+.plat-card-content {
+  font-family: "Trebuchet MS", sans-serif;
+  color: rgb(117, 76, 1);
+  text-align: center;
+}
+
+.plat-card-action {
+  font-family: "Trebuchet MS", sans-serif;
+  text-align: center;
+}
+
+.quiz-list {
+  columns: 2;
+  -webkit-columns: 2;
+  -moz-columns: 2;
+  align-items: center;
+  display: inline-block;
+   
+}
+
+.quiz-list:nth-child(2n+1) {
+  float: right;
+}
+
+.quiz-list:nth-child(2n) {
+  float: left;
+}
+
+.quiz-tab {
+  overflow-y: scroll;
+  min-height: 80%;
+  list-style-type: disc;
 }

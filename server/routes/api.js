@@ -122,6 +122,12 @@ router.get('/quizpages', (req, res, next) => {
         .catch(next)
 });
 
+router.get('/quizpages/:id', (req, res, next) => {
+    QuizPage.findOne({'_id': req.params.id})
+        .then(data => res.json(data))
+        .catch(next)
+})
+
 router.post('/quizpages', (req, res, next) => {
     QuizPage.create(req.body)
         .then(data => res.json(data))
