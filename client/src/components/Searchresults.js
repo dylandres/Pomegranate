@@ -30,8 +30,15 @@ function SearchResults() {
     const query = new URLSearchParams(url).get('query');
     const filter = new URLSearchParams(url).get('filter');
 
+    const clearAll = () => {
+        setPlatforms([]);
+        setQuizzes([]);
+        setUsers([]);
+    }
+
     // Run search if query/filter changes
     useEffect(() => {
+        clearAll();
         if (filter == "platform" || filter === "all")
             getPlatforms(query);
         if (filter == "quiz" || filter === "all")
