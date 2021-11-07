@@ -36,6 +36,8 @@
 .plat-card-image {
     text-align: center;
     width:20%;
+    height: 7.5em;
+
   }
 
 .plat-card {
@@ -53,6 +55,7 @@
 .plat-card:hover {
   box-shadow: 0 20px 100px 0 rgba(0, 0, 0, 0.2);
   transform: scale(1.1) perspective(1px);
+  
 }
 
 .plat-card_container {
@@ -61,6 +64,7 @@
   height: 50%; */
   /* font-size: 1rem; */
   padding: 30px 16px;
+  
   /* background: pink; */
   text-align: center;
   transform: translateZ(0);
@@ -87,21 +91,13 @@
   columns: 2;
   -webkit-columns: 2;
   -moz-columns: 2;
-  align-items: center;
-  display: inline-block;
-   
-}
-
-.quiz-list:nth-child(2n+1) {
-  float: right;
-}
-
-.quiz-list:nth-child(2n) {
-  float: left;
+  text-align: center;
+  display: inline-block;  
 }
 
 .quiz-tab {
   overflow-y: scroll;
   min-height: 80%;
   list-style-type: disc;
+  text-align: center;
 }
