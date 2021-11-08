@@ -33,7 +33,7 @@ function Navbar() {
             </form>
             {/* Login / Logout button */}
             {loggedInUser == null
-            ? <input type='button' className='logbutton' value='Login' onClick={() => setLoggedInUser("Bob")}></input> 
+            ? <div className ='google-button'><GoogleWrapper/></div>  
             : <Link to={`/`}> <input type='button' className='logbutton' value='Log Out' onClick={() => setLoggedInUser(null)}></input> </Link> }
             {/* User Profile */}
             {loggedInUser != null
@@ -43,7 +43,7 @@ function Navbar() {
             {loggedInUser != null
             ? `Hello, ${loggedInUser}`
             : null }
-            <GoogleWrapper/>
+            
         </div>
     );
   }

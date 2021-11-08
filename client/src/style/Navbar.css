@@ -58,3 +58,10 @@
     top: 30%;
     right: 15%;
   }
+
+  .google-button {
+    position: relative;
+    float: right;
+    right: 15%;
+    top: 20%;
+  }
