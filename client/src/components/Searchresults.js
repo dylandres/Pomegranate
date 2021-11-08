@@ -30,13 +30,20 @@ function SearchResults() {
     const query = new URLSearchParams(url).get('query');
     const filter = new URLSearchParams(url).get('filter');
 
+    const clearAll = () => {
+        setPlatforms([]);
+        setQuizzes([]);
+        setUsers([]);
+    }
+
     // Run search if query/filter changes
     useEffect(() => {
-        if (filter == "platform" || filter === "all")
+        clearAll();
+        if (filter === "platform" || filter === "all")
             getPlatforms(query);
-        if (filter == "quiz" || filter === "all")
+        if (filter === "quiz" || filter === "all")
             getQuizzes(query);
-        if (filter == "user" || filter === "all")
+        if (filter === "user" || filter === "all")
             getUsers(query);
     }, [query, filter])
 
@@ -52,7 +59,7 @@ function SearchResults() {
                                     <div className="card">
                                         {/* Platform */}
                                         <div>
-                                            <img className="search-card-image" src={platform.platformLogo}></img><br />
+                                            <img className="search-card-image" alt='this is a search result'src={platform.platformLogo}></img><br />
                                         </div>
                                         <span className="card-title"><b>{platform.platformName}</b></span>
                                         <div className="card-content">
@@ -72,7 +79,7 @@ function SearchResults() {
                                 <Link to={`/quizpage/${quiz.quizName}`} style={{ textDecoration: 'none' }}>
                                     <div className="card">
                                         <div>
-                                            <img className="search-card-image" src={quiz.quizLogo}></img><br />
+                                            <img className="search-card-image" alt='this is a quiz result' src={quiz.quizLogo}></img><br />
                                         </div>
                                         <span className="card-title"><b>{quiz.quizName}</b></span>
                                         <div className="card-content">
@@ -92,7 +99,7 @@ function SearchResults() {
                                 <Link to={`/profile/${user.userName}`} style={{ textDecoration: 'none' }}>
                                     <div className="card">
                                         <div>
-                                            <img className="search-card-image" src={user.profilePicture}></img><br />
+                                            <img className="search-card-image" alt='this is a user result'src={user.profilePicture}></img><br />
                                         </div>
                                         <span className="card-title"><b>{user.userName} ({user.fullName})</b></span>
                                         <div className="card-content">
