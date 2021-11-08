@@ -60,7 +60,7 @@ function PlatformPage() {
                         <Tab style={{ padding: '6px 14%' }}>Leaderboard</Tab>
                         <Tab style={{ padding: '6px 14%' }}>About</Tab>
                     </TabList>
-                    <TabPanel className="quiz-tab">
+                    <TabPanel className="quiz-tab react-tabs__tab-panel">
                         {
                             <ul className="quiz-list">
                                 {quizzes.map(quiz => (
@@ -69,29 +69,32 @@ function PlatformPage() {
                                             <Link to={`/quizpage/${quiz.quizName}`} style={{ textDecoration: 'none' }}>
                                                 <div className="plat-card" >
                                                     <div>
-                                                        <img className="plat-card-image" src={quiz.quizLogo}></img><br />
+                                                        {quiz.quizLogo !== '' ? <img className="plat-card-image" src={quiz.quizLogo}></img>:<img/>}
+                                                        <br/>
                                                     </div>
                                                     <span className="plat-card-title"><b>{quiz.quizName}</b></span>
+                                                    <br/>
                                                     <div className="plat-card-content">
                                                         <p>{quiz.summary}</p>
                                                     </div>
+                                                    <br/>
                                                     <div className="plat-card-action">
                                                         <a href={`/quizpage/${quiz.quizName}`}>Take {quiz.quizName} Quiz!</a>
                                                     </div>
+                                                    <br/>
                                                     Times Taken: {quiz.timesTaken}
                                                 </div>
                                             </Link>
                                         </div>
-                                    </div>
-                                )
+                                    </div>)
                                 )}
                             </ul>
                         }
                     </TabPanel>
-                    <TabPanel style={{ position: 'relative', top: '0%' }}>
+                    <TabPanel className='lb-tab react-tabs__tab-panel'>
                         <h2 style={{ textAlign: 'center' }}>Leaderboard</h2>
                     </TabPanel>
-                    <TabPanel style={{ position: 'relative', top: '0%' }}>
+                    <TabPanel className='about-tab react-tabs__tab-panel'>
                         {platform != null ? <h2 style={{ textAlign: 'center' }}>{platform.description}</h2> : <h2></h2>}
                     </TabPanel>
                 </Tabs>

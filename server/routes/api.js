@@ -72,13 +72,18 @@ router.get('/users/:query/user', (req, res, next) => {
 
 //////////////////////////////////USER//////////////////////////////////
 router.get('/users', (req, res, next) => {
-    console.log('api3');
     User.find({}, '-updatedAt')
         .then(data => {
             res.json(data)
         })
         .catch(next)
 });
+
+router.get('/users/:profileID', (req, res, next) => {
+    User.findOne({'profile': req.params.profileID})
+    .then(data => res.json(data))
+    .catch(next)
+})
 
 router.post('/users', (req, res, next) => {
     User.create(req.body)
@@ -177,6 +182,15 @@ router.get('/platforms/:name', (req, res, next) => {
         })
         .catch(next)
 });
+
+router.get('/platforms/:ownerID/profile', (req, res, next) => {
+    console.log(req.params.ownerID);
+    Platform.find({'ownerID': req.params.ownerID})
+    .then(data => {
+        res.json(data)
+    })
+    .catch(next)
+})
 
 router.post('/platforms', (req, res, next) => {
     Platform.create(req.body)
