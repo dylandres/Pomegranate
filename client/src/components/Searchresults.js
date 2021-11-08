@@ -51,6 +51,9 @@ function SearchResults() {
         <body>
             <br /><br />
             {
+                (!platforms.length && !quizzes.length && !users.length) 
+                ? <h1>No results found!</h1>
+                :
                 <ul className="results">
                     {platforms.map(platform => (
                         <div className="card_container">

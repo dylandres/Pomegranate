@@ -8,6 +8,7 @@ const Question = require('../db/models/question.model.js');
 const Quiz = require('../db/models/quiz.model.js');
 const QuizPage = require('../db/models/quizPage.model.js');
 const User = require('../db/models/user.model.js');
+const ObjectId = require('mongodb').ObjectId;
 
 ////////////////////////////////login / auth ///////////////////////////
 
@@ -205,45 +206,58 @@ router.delete('/platforms/:id', (req, res, next) => {
 });
 
 //////////////////////////////////QUIZ//////////////////////////////////
-router.get('/quizzes', (req, res, next) => {
-    Quiz.find({}, '-updatedAt')
+router.get('/quizzes/:quizName', (req, res, next) => {
+    Quiz.find({ 'quizName': req.params.quizName })
         .then(data => {
+            console.log('quiz')
+            console.log(req.params.query);
+            console.log(data)
             res.json(data)
         })
         .catch(next)
 });
 
-router.post('/quizzes', (req, res, next) => {
-    Quiz.create(req.body)
-        .then(data => res.json(data))
-        .catch(next)
-});
+// router.get('/quizzes', (req, res, next) => {
+//     Quiz.find({}, '-updatedAt')
+//         .then(data => {
+//             res.json(data)
+//         })
+//         .catch(next)
+// });
 
-router.delete('/quizzes/:id', (req, res, next) => {
-    Quiz.findOneAndDelete({'_id': req.params.id})
-        .then(data => res.json(data))
-        .catch(next)
-});
+// router.post('/quizzes', (req, res, next) => {
+//     Quiz.create(req.body)
+//         .then(data => res.json(data))
+//         .catch(next)
+// });
+
+// router.delete('/quizzes/:id', (req, res, next) => {
+//     Quiz.findOneAndDelete({'_id': req.params.id})
+//         .then(data => res.json(data))
+//         .catch(next)
+// });
 
 //////////////////////////////////QUESTION//////////////////////////////////
-router.get('/questions', (req, res, next) => {
-    Question.find({}, '-updatedAt')
+router.get('/questions/:id', (req, res, next) => {
+    Question.find({_id: ObjectId(req.params.id)})
         .then(data => {
+            console.log('ques');
+            console.log(data);
             res.json(data)
         })
         .catch(next)
 });
 
-router.post('/questions', (req, res, next) => {
-    Question.create(req.body)
-        .then(data => res.json(data))
-        .catch(next)
-});
+// router.post('/questions', (req, res, next) => {
+//     Question.create(req.body)
+//         .then(data => res.json(data))
+//         .catch(next)
+// });
 
-router.delete('/questions/:id', (req, res, next) => {
-    Question.findOneAndDelete({'_id': req.params.id})
-        .then(data => res.json(data))
-        .catch(next)
-});
+// router.delete('/questions/:id', (req, res, next) => {
+//     Question.findOneAndDelete({'_id': req.params.id})
+//         .then(data => res.json(data))
+//         .catch(next)
+// });
 
 module.exports = router;
