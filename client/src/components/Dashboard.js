@@ -47,9 +47,6 @@ function DashBoard() {
                                                     <div className="card-content">
                                                         <p>{quiz.summary}</p>
                                                     </div>
-                                                    <div className="card-action">
-                                                        <a href={`/quizpage/${quiz.quizName}`}>Take {quiz.quizName} Quiz!</a>
-                                                    </div>
                                                     Times Taken: {quiz.timesTaken}
                                                 </div>
                                             </Link>
