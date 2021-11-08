@@ -49,12 +49,12 @@ function ProfilePage() {
                 {profile.profileBanner !== '' ? <img className="profile-banner" src={profile.profileBanner}></img> : <img className="profile-banner" src="https://pomegranate-io.s3.amazonaws.com/1200px-Black_flag.svg.png"></img>}
                 {profile.profilePicture !== '' ? <img className="profile-logo" src={profile.profilePicture}></img> : <img className="profile-logo" src="https://pomegranate-io.s3.amazonaws.com/24-248253_user-profile-default-image-png-clipart-png-download.png"></img>}
                 <Tabs>
-                    <TabList style={{position:'relative', top: '0%'}}>
-                        <Tab style={{padding: '6px 6.5%'}}>Profile</Tab>
-                        <Tab style={{padding: '6px 6.5%'}}>Owned Platforms</Tab>
-                        <Tab style={{padding: '6px 6.5%'}}>Quiz History</Tab>
-                        <Tab style={{padding: '6px 6.5%'}}>Subcriptions</Tab>
-                        <Tab style={{padding: '6px 6.5%'}}>Earned Rewards</Tab>
+                    <TabList style={{position:'relative', top: '0%', width: '98vw'}}>
+                        <Tab className = 'profile-tab react-tabs__tab'>Profile</Tab>
+                        <Tab className = 'profile-tab react-tabs__tab'>Owned Platforms</Tab>
+                        <Tab className = 'profile-tab react-tabs__tab'>Quiz History</Tab>
+                        <Tab className = 'profile-tab react-tabs__tab'>Subscriptions</Tab>
+                        <Tab className = 'profile-tab react-tabs__tab'>Earned Rewards</Tab>
                     </TabList>
                     <TabPanel style={{position:'relative', top: '0%'}}>
                         {profile != null ? <h2>{profile.bio}</h2> : <h2></h2>}
@@ -78,9 +78,7 @@ function ProfilePage() {
                                                     
                                                     </div>
                                                     <br/>
-                                                    <div className="prof-card-action">
-                                                        <a href={`/platform/${platform.platformName}`}>Visit {platform.platformName}!</a>
-                                                    </div>
+                                                    
                                                     
                                                 </div>
                                             </Link>

@@ -65,9 +65,6 @@ function SearchResults() {
                                         <div className="card-content">
                                             <p>{platform.description}</p>
                                         </div>
-                                        <div className="card-action">
-                                            <a href={`/platform/${platform.platformName}`}>Visit {platform.platformName} Platform!</a>
-                                        </div>
                                     </div>
                                 </Link>
                             </div>
@@ -85,9 +82,6 @@ function SearchResults() {
                                         <div className="card-content">
                                             <p>{quiz.summary}</p>
                                         </div>
-                                        <div className="card-action">
-                                            <a href={`/quizpage/${quiz.quizName}`}>Take {quiz.quizName} Quiz!</a>
-                                        </div>
                                     </div>
                                 </Link>
                             </div>
@@ -104,9 +98,6 @@ function SearchResults() {
                                         <span className="card-title"><b>{user.userName} ({user.fullName})</b></span>
                                         <div className="card-content">
                                             <p>{user.bio}</p>
-                                        </div>
-                                        <div className="card-action">
-                                            <a href={`/profile/${user.userName}`}>Visit {user.userName}'s page!</a>
                                         </div>
                                     </div>
                                 </Link>

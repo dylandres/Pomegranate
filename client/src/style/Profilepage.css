@@ -13,6 +13,10 @@
     text-align: center;
 }
 
+.profile-tab {
+    padding: 6px 6%;   
+}
+
 .profile-title {
     text-align: left;
     position: absolute;
