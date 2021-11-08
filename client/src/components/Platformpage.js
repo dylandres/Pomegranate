@@ -73,18 +73,20 @@ function PlatformPage() {
                                                         <br/>
                                                     </div>
                                                     <span className="plat-card-title"><b>{quiz.quizName}</b></span>
+                                                    <br/>
                                                     <div className="plat-card-content">
                                                         <p>{quiz.summary}</p>
                                                     </div>
+                                                    <br/>
                                                     <div className="plat-card-action">
                                                         <a href={`/quizpage/${quiz.quizName}`}>Take {quiz.quizName} Quiz!</a>
                                                     </div>
+                                                    <br/>
                                                     Times Taken: {quiz.timesTaken}
                                                 </div>
                                             </Link>
                                         </div>
-                                    </div>
-)
+                                    </div>)
                                 )}
                             </ul>
                         }

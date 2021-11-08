@@ -3,7 +3,8 @@
     float: left;
     left: 1%;
     width: 98%;
-    height: 80%;
+    height: 85%;
+    top: 12.5%;
     border: 2px solid gray;
     background: lightgray;
 }
@@ -13,20 +14,20 @@
 }
 
 .profile-title {
-    text-align: center;
-    position: relative;
+    text-align: left;
+    position: absolute;
     z-index: 4;
-    top: 200%;
-    margin-left: 1.4%;
+    top: 26.5%;
+    left: 1.1%;
     background-color: lightblue;
     display: inline-block;
 }
 .profile-name {
-    text-align: center;
-    position: relative;
+    text-align: left;
+    position: absolute;
     z-index: 4;
-    top: 250%;
-    margin-left: -9.3%;
+    top: 31.1%;
+    left: 1.1%;
     background-color: lightblue;
     display: inline-block;
 }
@@ -43,29 +44,33 @@
 .profile-banner {
     position: relative;
     width: 100%;
-    height: 40%;
+    height: 30%;
 }
 
 .prof-card-image {
     text-align: center;
     width:20%;
+    height: 7.5em;
+
   }
 
 .prof-card {
   background: pink;
   box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
   transition: 0.3s;
-  width: 90%;
+  width: 40vw;
   border-radius: 10px;
   font-family: "Trebuchet MS", sans-serif;
   position:relative;
   display: inline-block;
+  text-align: center;
   
 }
 
 .prof-card:hover {
   box-shadow: 0 20px 100px 0 rgba(0, 0, 0, 0.2);
   transform: scale(1.1) perspective(1px);
+  
 }
 
 .prof-card_container {
@@ -74,6 +79,7 @@
   height: 50%; */
   /* font-size: 1rem; */
   padding: 30px 16px;
+  
   /* background: pink; */
   text-align: center;
   transform: translateZ(0);
@@ -83,15 +89,36 @@
   font-family: "Lucida Console", "Courier New", monospace;
   color: rgb(0, 180, 0);
   text-align: center;
+  display: inline-block;
 }
 
 .prof-card-content {
   font-family: "Trebuchet MS", sans-serif;
   color: rgb(117, 76, 1);
   text-align: center;
+  height: 4em;
+  display: inline-block;
 }
 
 .prof-card-action {
   font-family: "Trebuchet MS", sans-serif;
+  text-align: center;
+  display: inline-block;
+}
+
+.plat-list {
+  columns: 2;
+  -webkit-columns: 2;
+  -moz-columns: 2;
+  column-gap: 8vh;
+  text-align: center;
+  display: inline-block;
+  list-style-type: none;
+}
+
+.plat-tab {
+  overflow-y: scroll;
+  min-height: 96.5%;
+  list-style-type: none;
   text-align: center;
 }
