@@ -30,8 +30,8 @@ function ProfilePage() {
             <h1 className='profile-title'>@{username}</h1>
             <h1 className='profile-name'>{user.fullName}</h1>
             <div className='profile'>
-                {user.profileBanner != '' ? <img className="profile-banner" src={user.profileBanner}></img> : <img className="profile-banner" src="https://pomegranate-io.s3.amazonaws.com/1200px-Black_flag.svg.png"></img>}
-                {user.profilePicture != '' ? <img className="profile-logo" src={user.profilePicture}></img> : <img className="profile-logo" src="https://pomegranate-io.s3.amazonaws.com/24-248253_user-profile-default-image-png-clipart-png-download.png"></img>}
+                {user.profileBanner !== '' ? <img className="profile-banner" alt='profile banner'src={user.profileBanner}></img> : <img className="profile-banner" alt='profile banner' src="https://pomegranate-io.s3.amazonaws.com/1200px-Black_flag.svg.png"></img>}
+                {user.profilePicture !== '' ? <img className="profile-logo" alt='profile logo'src={user.profilePicture}></img> : <img className="profile-logo" alt='profile logo' src="https://pomegranate-io.s3.amazonaws.com/24-248253_user-profile-default-image-png-clipart-png-download.png"></img>}
                 <Tabs>
                     <TabList style={{position:'relative', top: '0%'}}>
                         <Tab style={{padding: '6px 6.5%'}}>Profile</Tab>
