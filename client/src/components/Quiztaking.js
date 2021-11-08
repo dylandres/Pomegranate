@@ -17,13 +17,15 @@ function QuizTaking() {
         // Get Quiz from db
         const thisQuiz = await axios.get(`/api/quizzes/${quizName}`).then(res => res.data[0]);
         setQuiz(thisQuiz);
-        var questionArray = []
-        for (var i = 0; i < thisQuiz.questions.length; i++) {
-            const question = thisQuiz.questions[i];
-            const questionData = await axios.get(`/api/questions/${question}`).then(res => res.data[0]);
-            questionArray.push(questionData);
+        if (thisQuiz.questions != null) {
+            var questionArray = []
+            for (var i = 0; i < thisQuiz.questions.length; i++) {
+                const question = thisQuiz.questions[i];
+                const questionData = await axios.get(`/api/questions/${question}`).then(res => res.data[0]);
+                questionArray.push(questionData);
+            }
+            setQuestions(questionArray);
         }
-        setQuestions(questionArray);
     }
 
 
