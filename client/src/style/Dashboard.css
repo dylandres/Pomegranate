@@ -39,4 +39,15 @@
 .dash-card-image {
     text-align: center;
     width:20%;
-  }
+}
+
+.popular-quiz-tab {
+    overflow-y: scroll;
+    min-height: 140%;
+    list-style-type: none;
+    text-align: center;
+}
+
+.for-you-tab {
+    text-align: center;
+}
