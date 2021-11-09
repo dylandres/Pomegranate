@@ -18,7 +18,7 @@ function PlatformPage() {
     }
 
     const fillQuizzes = async (platform) => {
-        const quizzes = await axios.get(`/api/quizpages`).then(res => res.data);
+        const quizzes = await axios.get(`/api/quizzes`).then(res => res.data);
         //filter out quizzes that don't belong!
         console.log(quizzes);
         const filtered = quizzes.filter(quiz => platform.quizzes.includes(quiz._id));

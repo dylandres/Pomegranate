@@ -6,10 +6,6 @@ const QuizSchema = new Schema( {
         type: Schema.Types.ObjectID,
         required: true
     },
-    quizPage : {
-        type: Schema.Types.ObjectID,
-        required: true
-    },
     questions : {
         type: [Schema.Types.ObjectID],
         required: true
@@ -22,19 +18,18 @@ const QuizSchema = new Schema( {
         type: String,
         required: true
     },
-    // ***proposed changes***
-    // quizBanner : {
-    //     type: String
-    // },
-    // quizLogo : {
-    //     type: String
-    // },
-    // summary : {
-    //     type: String
-    // },
-    // timesTaken : {
-    //     type: Number
-    // }
+    quizBanner : {
+        type: String
+    },
+    quizLogo : {
+        type: String
+    },
+    summary : {
+        type: String
+    },
+    timesTaken : {
+        type: Number
+    }
 }, {timestamps: true});
 
 const Quiz = mongoose.model('Quiz', QuizSchema)

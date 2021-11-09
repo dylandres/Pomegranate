@@ -3,10 +3,8 @@ const express = require('express');
 const router = express.Router();
 const Award = require('../db/models/award.model.js');
 const Platform = require('../db/models/platform.model.js');
-const Profile = require('../db/models/profile.model.js');
 const Question = require('../db/models/question.model.js');
 const Quiz = require('../db/models/quiz.model.js');
-const QuizPage = require('../db/models/quizPage.model.js');
 const User = require('../db/models/user.model.js');
 const ObjectId = require('mongodb').ObjectId;
 
@@ -18,18 +16,19 @@ router.post('/login', (req, res, next) => {
         .then(async user => {
             //if no user exists yet then create profile and user objects in DB
             if(!user) {
-                const newProfile = new Profile({userName: (firstName + lastName).replace(' ', ''), fullName: firstName + " " + lastName, profilePicture: profilePicture, profileBanner: '', bio: ''})
-                const newProfileId = newProfile.id
-                await newProfile.save((err) => console.log(err))
-                console.log(newProfileId)
-                User.create({email: email, googleID: googleId, subscriptions: [], profile: newProfileId, awards: []})
+                const newUser = new User({userName: (firstName + lastName).replace(' ', ''), fullName: firstName + " " + lastName, profilePicture: profilePicture, profileBanner: '', bio: '',
+                    email: email, subscriptions: [], awards: []})
+                await newUser.save((err) => console.log(err))
+                console.log("HI");
+                console.log(newUser);
+                console.log("HI2");
                 return res.json({name: firstName + ' ' + lastName, register: true})
             }
             //otherwise this user exists so update their profile in case 
             //google image or name changed, and return name and register as false
             else {
                 //console.log(data)
-                await Profile.updateOne({_id: user.profile}, {
+                await User.updateOne({_id: user.id}, {
                     fullName: firstName + ' ' + lastName,
                     profilePicture: profilePicture
                 })
@@ -55,7 +54,7 @@ router.get('/users/:query/platform', (req, res, next) => {
 });
 
 router.get('/users/:query/quiz', (req, res, next) => {
-    QuizPage.find({ 'quizName':  { $regex : new RegExp(req.params.query, "i") }})
+    Quiz.find({ 'quizName':  { $regex : new RegExp(req.params.query, "i") }})
         .then(data => {
             console.log('quiz')
             console.log(data)
@@ -65,7 +64,7 @@ router.get('/users/:query/quiz', (req, res, next) => {
 });
 
 router.get('/users/:query/user', (req, res, next) => {
-    Profile.find({ $or: [{'userName': { $regex : new RegExp(req.params.query, "i") }}, 
+    User.find({ $or: [{'userName': { $regex : new RegExp(req.params.query, "i") }}, 
                          {'fullName': { $regex : new RegExp(req.params.query, "i")}}] })
         .then(data => {
         console.log('user')
@@ -124,13 +123,13 @@ router.delete('/profiles/:id', (req, res, next) => {
 });
 
 //////////////////////////////////QUIZPAGE//////////////////////////////////
-router.get('/quizpages', (req, res, next) => {
-    QuizPage.find({})
-        .then(data => {
-            res.json(data)
-        })
-        .catch(next)
-});
+// router.get('/quizpages', (req, res, next) => {
+//     QuizPage.find({})
+//         .then(data => {
+//             res.json(data)
+//         })
+//         .catch(next)
+// });
 
 router.get('/quizpages/:id', (req, res, next) => {
     QuizPage.findOne({'_id': req.params.id})
@@ -221,13 +220,13 @@ router.get('/quizzes/:quizName', (req, res, next) => {
         .catch(next)
 });
 
-// router.get('/quizzes', (req, res, next) => {
-//     Quiz.find({}, '-updatedAt')
-//         .then(data => {
-//             res.json(data)
-//         })
-//         .catch(next)
-// });
+router.get('/quizzes', (req, res, next) => {
+    Quiz.find({})
+        .then(data => {
+            res.json(data)
+        })
+        .catch(next)
+});
 
 // router.post('/quizzes', (req, res, next) => {
 //     Quiz.create(req.body)

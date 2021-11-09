@@ -12,7 +12,7 @@ function DashBoard() {
     const [popularQuizzes, setPopularQuizzes] = useState([])
 
     const fillPopularQuizzes = async () => {
-        const quizzes = await axios.get(`/api/quizpages`).then(res => res.data);
+        const quizzes = await axios.get(`/api/quizzes`).then(res => res.data);
         // sort by popularity
         quizzes.sort((a, b) => (a.timesTaken > b.timesTaken) ? -1 : 1);
         // take top 2 quizzes
