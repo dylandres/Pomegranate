@@ -13,23 +13,27 @@ const ObjectId = require('mongodb').ObjectId;
 ////////////////////////////////login / auth ///////////////////////////
 
 router.post('/login', (req, res, next) => {
-    const userObj = req.body
-    const email = userObj.email
-    const famName = userObj.famName
-    const givenName = userObj.givenName
-    User.find({email: email})
-        .then(data => {
-            //if data is empty array then this user has never logged in before
-            console.log("WOWOWOW" + data)
-            if(!data.length) {
-                console.log('not empty')
-                console.log(data + 'not empty')
-                Profile.create({userName: givenName + famName, fullName: givenName + " " + famName, profilePicture: '', profileBanner: '', bio: ''}, (err) => console.log(err))
-
+    const {/*googleId,*/ email, firstName, lastName, profilePicture} = req.body
+    User.findOne({email: email})
+        .then(async user => {
+            //if no user exists yet then create profile and user objects in DB
+            if(!user) {
+                const newProfile = new Profile({userName: (firstName + lastName).replace(' ', ''), fullName: firstName + " " + lastName, profilePicture: profilePicture, profileBanner: '', bio: ''})
+                const newProfileId = newProfile.id
+                await newProfile.save((err) => console.log(err))
+                console.log(newProfileId)
+                User.create({email: email, googleID: googleId, subscriptions: [], profile: newProfileId, awards: []})
+                return res.json({name: firstName + ' ' + lastName, register: true})
             }
-            //otherwise this user exists
+            //otherwise this user exists so update their profile in case 
+            //google image or name changed, and return name and register as false
             else {
                 //console.log(data)
+                await Profile.updateOne({_id: user.profile}, {
+                    fullName: firstName + ' ' + lastName,
+                    profilePicture: profilePicture
+                })
+                return res.json({name: firstName + ' ' + lastName, register: false})
             }
         })
         .catch(next)
