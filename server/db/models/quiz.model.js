@@ -23,10 +23,10 @@ const QuizSchema = new Schema( {
         required: true
     },
     // ***proposed changes***
-    // quizLogo : {
+    // quizBanner : {
     //     type: String
     // },
-    // quizBanner : {
+    // quizLogo : {
     //     type: String
     // },
     // summary : {
