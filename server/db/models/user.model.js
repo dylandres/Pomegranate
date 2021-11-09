@@ -19,22 +19,22 @@ const UserSchema = new Schema( {
         required: true
     },
     // ***proposed changes***
-    // userName: {
-    //     type: String,
-    //     required: true,
+    // bio: {
+    //     type: String
     // },
     // fullName: {
     //     type: String,
     //     required: true
     // },
-    // profilePicture: {
-    //     type: String
-    // },
     // profileBanner: {
     //     type: String
     // },
-    // bio: {
+    // profilePicture: {
     //     type: String
+    // },
+    // userName: {
+    //     type: String,
+    //     required: true,
     // }
 }, {timestamps: true});
 
