@@ -1,34 +1,56 @@
-const express = require('express');
-const path = require('path')
-const bodyParser = require('body-parser');
-const cors = require('cors')
-
+const express = require("express");
+const path = require("path");
+const bodyParser = require("body-parser");
+const cors = require("cors");
+const session = require("express-session");
+const MongoStore = require("connect-mongo");
+const User = require('./server/db/models/user.model.js')
 const app = express();
 
 // var corsOptions = {
 //     origin: 'http://localhost:4000/'
 // };
 
-app.use(cors());
-app.use(express.json());
-app.use(express.urlencoded({extended: true}));
-
-const db = require('./server/db/server.js');
-db.mongoose.connect(db.url, {
+const db = require("./server/db/server.js");
+db.mongoose
+  .connect(db.url, {
     useNewUrlParser: true,
-    useUnifiedTopology: true
-}).then(() => {
+    useUnifiedTopology: true,
+  })
+  .then(() => {
     console.log("Connected to the database!");
-}).catch(err => {
+  })
+  .catch((err) => {
     console.log("Cannot connect to the database!", err);
     process.exit();
+  });
+
+app.use(
+  session({
+    resave: false,
+    saveUninitialized: false,
+    secret: "sadlkfjasldfjsmarmasdl;fkjasdlkfjasdklfa",
+    store: MongoStore.create({
+        mongoUrl: 'mongodb+srv://johntho:janetho@pomegranate.pment.mongodb.net/myFirstDatabase?retryWrites=true&w=majority'
+      }),
+  })
+);
+
+app.use(async (req, res, next) => {
+    const user = await User.findOne({_id: req.session.userId})
+    req.user = user
+    next()
 })
 
-app.use('/api', require('./server/routes/api'));
+app.use(cors());
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+
+app.use("/api", require("./server/routes/api"));
 app.use(express.static(path.join(__dirname, "client", "build")));
-app.use('*', express.static(path.join(__dirname, "client", "build")));
+app.use("*", express.static(path.join(__dirname, "client", "build")));
 
 const PORT = process.env.PORT || 4000;
 app.listen(PORT, () => {
-    console.log(`Server running on port: ${PORT}`)
-})
+  console.log(`Server running on port: ${PORT}`);
+});
