@@ -10,32 +10,27 @@ const UserSchema = new Schema( {
         type: [Schema.Types.ObjectID],
         required: true
     },
-    profile: {
-        type: Schema.Types.ObjectID,
-        required: true
-    },
     awards: {
         type: [Schema.Types.ObjectID],
         required: true
     },
-    // ***proposed changes***
-    // bio: {
-    //     type: String
-    // },
-    // fullName: {
-    //     type: String,
-    //     required: true
-    // },
-    // profileBanner: {
-    //     type: String
-    // },
-    // profilePicture: {
-    //     type: String
-    // },
-    // userName: {
-    //     type: String,
-    //     required: true,
-    // }
+    bio: {
+        type: String
+    },
+    fullName: {
+        type: String,
+        required: true
+    },
+    profileBanner: {
+        type: String
+    },
+    profilePicture: {
+        type: String
+    },
+    userName: {
+        type: String,
+        required: true,
+    }
 }, {timestamps: true});
 
 const User = mongoose.model('User', UserSchema)
