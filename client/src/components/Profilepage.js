@@ -10,7 +10,7 @@ function ProfilePage() {
 
     const [profile, setProfile] = useState({});
     const [user, setUser] = useState([]);
-    const [platforms, setPlatforms] = useState([]);
+    const [platforms, setPlatforms] = useState([]); 
     // Edit mode privilege
     // const [canEdit, setCanEdit] = useState(false);
 

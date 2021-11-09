@@ -7,32 +7,122 @@ const Question = require('../db/models/question.model.js');
 const Quiz = require('../db/models/quiz.model.js');
 const User = require('../db/models/user.model.js');
 const ObjectId = require('mongodb').ObjectId;
+const upload = require("../../services/ImageUpload");
+const aws = require("aws-sdk");
+const singleUpload = upload.single("image");
+const dotenv = require('dotenv');
+dotenv.config();
 
+aws.config.update({
+    secretAccessKey: process.env.S3_ACCESS_SECRET,
+    accessKeyId: process.env.S3_ACCESS_KEY,
+    region: "us-east-1",
+});
+
+const s3 = new aws.S3();
+
+//////////////////////////////////image/////////////////////////////////
+router.post("/platforms/:id/change-logo", function (req, res) {
+    const uid = req.params.id;
+    singleUpload(req, res, function (err) {
+        if (err) {
+            return res.json({
+                success: false,
+                errors: {
+                    title: "Image Upload Error",
+                    detail: err.message,
+                    error: err,
+                },
+            });
+        }
+        const params = {
+            Bucket: req.file.bucket,
+            Key: req.file.key
+        }
+        const url = s3.getSignedUrl('getObject', params).split("?AWS")[0];
+        let update = { platformLogo: url };
+        Platform.findByIdAndUpdate(uid, update, { new: true })
+            .then((user) => res.status(200).json({ success: true, user: user }))
+            .catch((err) => res.status(400).json({ success: false, error: err }));
+    });
+});
+
+router.post("/platforms/:id/change-banner", function (req, res) {
+    const uid = req.params.id;
+    singleUpload(req, res, function (err) {
+        if (err) {
+            return res.json({
+                success: false,
+                errors: {
+                    title: "Image Upload Error",
+                    detail: err.message,
+                    error: err,
+                },
+            });
+        }
+        const params = {
+            Bucket: req.file.bucket,
+            Key: req.file.key
+        }
+        const url = s3.getSignedUrl('getObject', params).split("?AWS")[0];
+        let update = { platformBanner: url };
+        Platform.findByIdAndUpdate(uid, update, { new: true })
+            .then((user) => res.status(200).json({ success: true, user: user }))
+            .catch((err) => res.status(400).json({ success: false, error: err }));
+    });
+});
+
+router.post("/users/:id/change-banner", function (req, res) {
+    const uid = req.params.id;
+    singleUpload(req, res, function (err) {
+        if (err) {
+            return res.json({
+                success: false,
+                errors: {
+                    title: "Image Upload Error",
+                    detail: err.message,
+                    error: err,
+                },
+            });
+        }
+        const params = {
+            Bucket: req.file.bucket,
+            Key: req.file.key
+        }
+        const url = s3.getSignedUrl('getObject', params).split("?AWS")[0];
+        let update = { profileBanner: url };
+        User.findByIdAndUpdate(uid, update, { new: true })
+            .then((user) => res.status(200).json({ success: true, user: user }))
+            .catch((err) => res.status(400).json({ success: false, error: err }));
+    });
+});
 ////////////////////////////////login / auth ///////////////////////////
 
 router.post('/login', (req, res, next) => {
-    const {/*googleId,*/ email, firstName, lastName, profilePicture} = req.body
-    User.findOne({email: email})
+    const {/*googleId,*/ email, firstName, lastName, profilePicture } = req.body
+    User.findOne({ email: email })
         .then(async user => {
             //if no user exists yet then create profile and user objects in DB
-            if(!user) {
-                const newUser = new User({userName: (firstName + lastName).replace(' ', ''), fullName: firstName + " " + lastName, profilePicture: profilePicture, profileBanner: '', bio: '',
-                    email: email, subscriptions: [], awards: []})
+            if (!user) {
+                const newUser = new User({
+                    userName: (firstName + lastName).replace(' ', ''), fullName: firstName + " " + lastName, profilePicture: profilePicture, profileBanner: '', bio: '',
+                    email: email, subscriptions: [], awards: []
+                })
                 await newUser.save((err) => console.log(err))
                 console.log("HI");
                 console.log(newUser);
                 console.log("HI2");
-                return res.json({name: firstName + ' ' + lastName, register: true})
+                return res.json({ name: firstName + ' ' + lastName, register: true })
             }
             //otherwise this user exists so update their profile in case 
             //google image or name changed, and return name and register as false
             else {
                 //console.log(data)
-                await User.updateOne({_id: user.id}, {
+                await User.updateOne({ _id: user.id }, {
                     fullName: firstName + ' ' + lastName,
                     profilePicture: profilePicture
                 })
-                return res.json({name: firstName + ' ' + lastName, register: false})
+                return res.json({ name: firstName + ' ' + lastName, register: false })
             }
         })
         .catch(next)
@@ -43,8 +133,8 @@ router.post('/login', (req, res, next) => {
 
 /////////////////////////////////SEARCH STUFF////////////////////////////////
 router.get('/users/:query/platform', (req, res, next) => {
-                                            // regex for case insensitive query
-    Platform.find({ 'platformName': { $regex : new RegExp(req.params.query, "i") } })
+    // regex for case insensitive query
+    Platform.find({ 'platformName': { $regex: new RegExp(req.params.query, "i") } })
         .then(data => {
             console.log('platform')
             console.log(data)
@@ -54,7 +144,7 @@ router.get('/users/:query/platform', (req, res, next) => {
 });
 
 router.get('/users/:query/quiz', (req, res, next) => {
-    Quiz.find({ 'quizName':  { $regex : new RegExp(req.params.query, "i") }})
+    Quiz.find({ 'quizName': { $regex: new RegExp(req.params.query, "i") } })
         .then(data => {
             console.log('quiz')
             console.log(data)
@@ -64,12 +154,14 @@ router.get('/users/:query/quiz', (req, res, next) => {
 });
 
 router.get('/users/:query/user', (req, res, next) => {
-    User.find({ $or: [{'userName': { $regex : new RegExp(req.params.query, "i") }}, 
-                         {'fullName': { $regex : new RegExp(req.params.query, "i")}}] })
+    User.find({
+        $or: [{ 'userName': { $regex: new RegExp(req.params.query, "i") } },
+        { 'fullName': { $regex: new RegExp(req.params.query, "i") } }]
+    })
         .then(data => {
-        console.log('user')
-        console.log(data)
-        res.json(data)
+            console.log('user')
+            console.log(data)
+            res.json(data)
         })
         .catch(next)
 });
@@ -84,9 +176,9 @@ router.get('/users', (req, res, next) => {
 });
 
 router.get('/users/:profileID', (req, res, next) => {
-    User.findOne({'profile': req.params.profileID})
-    .then(data => res.json(data))
-    .catch(next)
+    User.findOne({ 'profile': req.params.profileID })
+        .then(data => res.json(data))
+        .catch(next)
 })
 
 router.post('/users', (req, res, next) => {
@@ -96,7 +188,7 @@ router.post('/users', (req, res, next) => {
 });
 
 router.delete('/users/:id', (req, res, next) => {
-    User.findOneAndDelete({'_id': req.params.id})
+    User.findOneAndDelete({ '_id': req.params.id })
         .then(data => res.json(data))
         .catch(next)
 });
@@ -117,7 +209,7 @@ router.post('/profiles', (req, res, next) => {
 });
 
 router.delete('/profiles/:id', (req, res, next) => {
-    Profile.findOneAndDelete({'_id': req.params.id})
+    Profile.findOneAndDelete({ '_id': req.params.id })
         .then(data => res.json(data))
         .catch(next)
 });
@@ -132,7 +224,7 @@ router.delete('/profiles/:id', (req, res, next) => {
 // });
 
 router.get('/quizpages/:id', (req, res, next) => {
-    QuizPage.findOne({'_id': req.params.id})
+    QuizPage.findOne({ '_id': req.params.id })
         .then(data => res.json(data))
         .catch(next)
 })
@@ -144,7 +236,7 @@ router.post('/quizpages', (req, res, next) => {
 });
 
 router.delete('/quizpages/:id', (req, res, next) => {
-    QuizPage.findOneAndDelete({'_id': req.params.id})
+    QuizPage.findOneAndDelete({ '_id': req.params.id })
         .then(data => res.json(data))
         .catch(next)
 });
@@ -165,7 +257,7 @@ router.post('/awards', (req, res, next) => {
 });
 
 router.delete('/awards/:id', (req, res, next) => {
-    Award.findOneAndDelete({'_id': req.params.id})
+    Award.findOneAndDelete({ '_id': req.params.id })
         .then(data => res.json(data))
         .catch(next)
 });
@@ -180,7 +272,7 @@ router.get('/platforms', (req, res, next) => {
 });
 
 router.get('/platforms/:name', (req, res, next) => {
-    Platform.findOne({'platformName': req.params.name})
+    Platform.findOne({ 'platformName': req.params.name })
         .then(data => {
             res.json(data)
         })
@@ -189,11 +281,11 @@ router.get('/platforms/:name', (req, res, next) => {
 
 router.get('/platforms/:ownerID/profile', (req, res, next) => {
     console.log(req.params.ownerID);
-    Platform.find({'ownerID': req.params.ownerID})
-    .then(data => {
-        res.json(data)
-    })
-    .catch(next)
+    Platform.find({ 'ownerID': req.params.ownerID })
+        .then(data => {
+            res.json(data)
+        })
+        .catch(next)
 })
 
 router.post('/platforms', (req, res, next) => {
@@ -203,7 +295,7 @@ router.post('/platforms', (req, res, next) => {
 });
 
 router.delete('/platforms/:id', (req, res, next) => {
-    Platform.findOneAndDelete({'_id': req.params.id})
+    Platform.findOneAndDelete({ '_id': req.params.id })
         .then(data => res.json(data))
         .catch(next)
 });
@@ -242,7 +334,7 @@ router.get('/quizzes', (req, res, next) => {
 
 //////////////////////////////////QUESTION//////////////////////////////////
 router.get('/questions/:id', (req, res, next) => {
-    Question.find({_id: ObjectId(req.params.id)})
+    Question.find({ _id: ObjectId(req.params.id) })
         .then(data => {
             console.log('ques');
             console.log(data);
