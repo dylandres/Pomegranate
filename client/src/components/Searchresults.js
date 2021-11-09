@@ -62,7 +62,7 @@ function SearchResults() {
                                     <div className="card">
                                         {/* Platform */}
                                         <div>
-                                            <img className="search-card-image" alt='this is a search result'src={platform.platformLogo}></img><br />
+                                            {platform.platformLogo !== '' ? <img className="search-card-image" src={platform.platformLogo}></img>:<img className="search-card-image" src="https://pomegranate-io.s3.amazonaws.com/pomegranate.png"></img>}
                                         </div>
                                         <span className="card-title"><b>{platform.platformName}</b></span>
                                         <div className="card-content">
@@ -79,7 +79,7 @@ function SearchResults() {
                                 <Link to={`/quizpage/${quiz.quizName}`} style={{ textDecoration: 'none' }}>
                                     <div className="card">
                                         <div>
-                                            <img className="search-card-image" alt='this is a quiz result' src={quiz.quizLogo}></img><br />
+                                            {quiz.quizLogo !== '' ? <img className="search-card-image" src={quiz.quizLogo}></img>:<img className="search-card-image" src="https://pomegranate-io.s3.amazonaws.com/pomegranate.png"></img>}
                                         </div>
                                         <span className="card-title"><b>{quiz.quizName}</b></span>
                                         <div className="card-content">
@@ -96,7 +96,7 @@ function SearchResults() {
                                 <Link to={`/profile/${user.userName}`} style={{ textDecoration: 'none' }}>
                                     <div className="card">
                                         <div>
-                                            <img className="search-card-image" alt='this is a user result'src={user.profilePicture}></img><br />
+                                            {user.profilePicture !== '' ? <img className="search-card-image" src={user.profilePicture}></img>:<img className="search-card-image" src="https://pomegranate-io.s3.amazonaws.com/24-248253_user-profile-default-image-png-clipart-png-download.png"></img>}
                                         </div>
                                         <span className="card-title"><b>{user.userName} ({user.fullName})</b></span>
                                         <div className="card-content">
