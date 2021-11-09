@@ -3,18 +3,14 @@ import GoogleLogin from 'react-google-login'
 import axios from 'axios'
 
 function GoogleWrapper() {
-
-    const googleAuth = ({ profileObj }) => {
-        console.log(profileObj)
+    
+    const googleAuth = (googleData) => {
+        //console.log(googleData)
         axios({
           method: "post",
           url: "/api/login",
           data: {
-            //googleId: profileObj.googleId,
-            email: profileObj.email,
-            firstName: profileObj.givenName,
-            lastName: profileObj.familyName,
-            profilePicture: profileObj.imageUrl
+              token: googleData.tokenId
           },
         })
           .then((res) => console.log(res.data))
