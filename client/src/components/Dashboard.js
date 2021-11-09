@@ -29,8 +29,8 @@ function DashBoard() {
             <div className='feed'>
                 <Tabs>
                     <TabList>
-                        <Tab>Popular Quizzes</Tab>
-                        <Tab>For You</Tab>
+                        <Tab>Popular Quizzes (Experimental)</Tab>
+                        <Tab>For You (Experimental)</Tab>
                     </TabList>
                     <TabPanel className="popular-quiz-tab">
                         {
