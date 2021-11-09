@@ -5,6 +5,10 @@ import '../style/tabs.css';
 import { Link } from 'react-router-dom';
 import { parse } from '../functions.js';
 import axios from 'axios';
+//import { Avatar } from '@material-ui/core';
+//import { Link } from 'react-router-dom'
+// import  { useState } from 'react';
+// import GoogleWrapper from './GoogleWrapper.js'
 
 function QuizTaking() {
 
@@ -99,9 +103,13 @@ function QuizTaking() {
                         }
                         <br/>
                         <br/>
+                        <Link to={`/quizpage/${quizName}` }><button class="exit"> Exit Quiz </button> </Link>      
                     </div>
                 </ul>
-            }       
+                
+                
+                
+            } 
         </body>
     );
   }
