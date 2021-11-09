@@ -1,3 +1,14 @@
+.quiz-title {
+    text-align: center;
+    position: relative;
+    z-index: 4;
+    top: 250%;
+    margin-left: 1.4%;
+    background-color: lightblue;
+    display: inline-block;
+}
+
+
 .quiz-profile {
     position: absolute;
     float: left;
@@ -29,7 +40,18 @@
 
 .take-quiz-button{
     background-color: lightblue;
-    font-size: 2rem;
+    text-align: center;
+    font-size: 1.8rem;
     width: 10%;
     height: 20%;
+    border-radius: 15px;
+    transition: 0.3s;
+    position:relative;
+    top: 20%;
+    left:45%;
+  }
+
+  .take-quiz-button:hover {
+    box-shadow: 0 20px 100px 0 rgba(0, 0, 0, 0.2);
+    transform: scale(1.05) perspective(1px)
   }

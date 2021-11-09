@@ -21,7 +21,20 @@ const QuizSchema = new Schema( {
     quizName : {
         type: String,
         required: true
-    }
+    },
+    // ***proposed changes***
+    // quizBanner : {
+    //     type: String
+    // },
+    // quizLogo : {
+    //     type: String
+    // },
+    // summary : {
+    //     type: String
+    // },
+    // timesTaken : {
+    //     type: Number
+    // }
 }, {timestamps: true});
 
 const Quiz = mongoose.model('Quiz', QuizSchema)
