@@ -9,20 +9,33 @@ const User = require('../db/models/user.model.js');
 const ObjectId = require('mongodb').ObjectId;
 
 ////////////////////////////////login / auth ///////////////////////////
+const { OAuth2Client } = require('google-auth-library')
+const session = require('express-session')
+const client = new OAuth2Client('954435352392-24bg4crh8bc1bkt4hbpq6ke6iadacv53.apps.googleusercontent.com')
 
-router.post('/login', (req, res, next) => {
-    const {/*googleId,*/ email, firstName, lastName, profilePicture} = req.body
+router.post('/login', async (req, res, next) => {
+    const {token} = req.body
+    const ticket = await client.verifyIdToken({
+        idToken: token,
+        audience: '954435352392-24bg4crh8bc1bkt4hbpq6ke6iadacv53.apps.googleusercontent.com'
+    })
+    const payload = ticket.getPayload()
+    const email = payload.email
+    const firstName = payload.given_name
+    const lastName = payload.family_name
+    const profilePicture = payload.picture
     User.findOne({email: email})
         .then(async user => {
             //if no user exists yet then create profile and user objects in DB
             if(!user) {
                 const newUser = new User({userName: (firstName + lastName).replace(' ', ''), fullName: firstName + " " + lastName, profilePicture: profilePicture, profileBanner: '', bio: '',
                     email: email, subscriptions: [], awards: []})
+                req.session.userId = newUser.id
                 await newUser.save((err) => console.log(err))
                 console.log("HI");
                 console.log(newUser);
                 console.log("HI2");
-                return res.json({name: firstName + ' ' + lastName, register: true})
+                return res.json(newUser)
             }
             //otherwise this user exists so update their profile in case 
             //google image or name changed, and return name and register as false
@@ -32,15 +45,25 @@ router.post('/login', (req, res, next) => {
                     fullName: firstName + ' ' + lastName,
                     profilePicture: profilePicture
                 })
-                return res.json({name: firstName + ' ' + lastName, register: false})
+                req.session.userId = user.id
+                return res.json(req.user)
             }
         })
         .catch(next)
 })
 
+router.delete("/logout", async (req, res) => {
+    await req.session.destroy()
+    res.status(200)
+    res.json({
+        message: "Logged out successfully"
+    })
+})
 
-
-
+router.get('/getuser', async (req, res) => {
+    res.status(200)
+    res.send(req.user)
+})
 /////////////////////////////////SEARCH STUFF////////////////////////////////
 router.get('/users/:query/platform', (req, res, next) => {
                                             // regex for case insensitive query
