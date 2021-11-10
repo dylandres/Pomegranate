@@ -109,6 +109,7 @@ function QuizTaking() {
                                 }
                             })
                         }
+                    <Link to={`/quizpage/${quizName}`}>Quit Quiz</Link>
                     </div>
                 </ul>
                 :
