@@ -14,7 +14,7 @@ function QuizTaking() {
     const [questionIndex, setQuestionIndex] = useState(-1);
     const [numCorrect, setNumCorrect] = useState(0);
     const [displayFeedback, setDisplayFeedback] = useState(-1);
-    const [timer, setTimer] = useState(0);
+    const [stopwatch, setStopwatch] = useState(0);
 
     const quizName = parse(window.location.href.split('/').pop());
 
@@ -51,8 +51,8 @@ function QuizTaking() {
         setQuestionIndex(questionIndex + 1);
     }
 
-    const formatTimer = () => {
-        var time = new Date(timer * 1000).toISOString().substr(14, 5);
+    const formatTime = () => {
+        var time = new Date(stopwatch * 1000).toISOString().substr(14, 5);
         return time;
     }
 
@@ -61,11 +61,13 @@ function QuizTaking() {
       }, [])
 
     useEffect(() => {
+        // Stopwatch mechanism
         if (questionIndex > -1 && questionIndex < questions.length)
-            setTimeout(() => setTimer(timer + 1), 1000);  
+            setTimeout(() => setStopwatch(stopwatch + 1), 1000);  
     });
 
     useEffect(() => {
+        // Quiz results "page"
         if (questionIndex == questions.length)
             goToEndOfQuiz();
     });
@@ -86,7 +88,7 @@ function QuizTaking() {
                 questionIndex < questions.length ?
 
                 <ul class="question">
-                    {formatTimer()}
+                    {formatTime()}
                     <div>
                         <b>{questions[questionIndex].question}</b>
                         {
@@ -110,7 +112,7 @@ function QuizTaking() {
                                 }
                             })
                         }
-                    <Link to={`/quizpage/${quizName}`}>Quit Quiz</Link>
+                    <Link to={`/quizpage/${quizName}`}><button style={{backgroundColor: "red"}}>Quit Quiz</button></Link>
                     </div>
                 </ul>
                 :
@@ -125,7 +127,7 @@ function QuizTaking() {
                     <br></br><br></br>
                     You got {numCorrect}/{questions.length} correct!
                     <br></br><br></br>
-                    Time Taken: {formatTimer()}
+                    Time Taken: {formatTime()}
                 </div>
             }       
         </body>
