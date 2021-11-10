@@ -33,15 +33,6 @@ function QuizTaking() {
         }
     }
 
-    useEffect(() => {
-        fillQuestions(quizName);
-      }, [])
-
-    useEffect(() => {
-        if (questionIndex > -1 && questionIndex < questions.length)
-            setTimeout(() => setTimer(timer + 1), 1000);  
-    });
-
     function timeout(delay) {
         return new Promise( res => setTimeout(res, delay) );
     }
@@ -52,23 +43,32 @@ function QuizTaking() {
         setDisplayFeedback(-1);
         if (isCorrect)
             setNumCorrect(numCorrect+1); // +1 correct
-        // Last question
-        if (questionIndex == questions.length - 1) {
-            setQuestionIndex(questionIndex + 1);
-            // "processing results..."
-            await timeout(1000);
-            // bugged if +1, i have no idea why +2 works but it does
-            setQuestionIndex(questionIndex + 2);
-        }
-        else {
-            setQuestionIndex(questionIndex + 1); // next question
-        }
+        setQuestionIndex(questionIndex + 1); // next question
+    }
+
+    const goToEndOfQuiz = async () => {
+        await timeout(1000);
+        setQuestionIndex(questionIndex + 1);
     }
 
     const formatTimer = () => {
         var time = new Date(timer * 1000).toISOString().substr(14, 5);
         return time;
     }
+
+    useEffect(() => {
+        fillQuestions(quizName);
+      }, [])
+
+    useEffect(() => {
+        if (questionIndex > -1 && questionIndex < questions.length)
+            setTimeout(() => setTimer(timer + 1), 1000);  
+    });
+
+    useEffect(() => {
+        if (questionIndex == questions.length)
+            goToEndOfQuiz();
+    });
 
     return (
         <body>
