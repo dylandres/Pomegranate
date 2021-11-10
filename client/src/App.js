@@ -11,9 +11,11 @@ import { useContext } from 'react'
 import { myContext } from './Context.js'
 
 function App() {
-  const userObject = useContext(myContext)
+  const {userObject, setUserObject} = useContext(myContext)
   console.log('WOW WE HAVE THE CONTEXT!!!!')
   console.log(userObject)
+  setUserObject(null)
+  console.log('should be null' + userObject)
   return (
     <Router>
       <body>
