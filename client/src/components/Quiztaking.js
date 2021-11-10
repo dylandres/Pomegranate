@@ -4,6 +4,7 @@ import  { useState, useEffect } from 'react';
 import '../style/tabs.css';
 import { parse } from '../functions.js';
 import axios from 'axios';
+import { Link } from 'react-router-dom';
 
 function QuizTaking() {
 
