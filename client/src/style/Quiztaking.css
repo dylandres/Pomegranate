@@ -23,26 +23,25 @@
     font-size: 1.8rem;
 }
 
-.correct-answer {
+.answer {
     width: 10%;
     border-radius: 15px;
     background-color:white;
 }
 
-.correct-answer:hover{
+.answer:hover{
     box-shadow: 0 20px 100px 0 rgba(0, 0, 0, 0.2);
     transform: scale(1.05) perspective(1px)
 }
 
-.incorrect-answer {
+.disabled-answer {
     width: 10%;
     border-radius: 15px;
     background-color:white;
 }
 
-.incorrect-answer:hover{
-    box-shadow: 0 20px 100px 0 rgba(0, 0, 0, 0.2);
-    transform: scale(1.05) perspective(1px)
+.disabled-answer:active {
+    border-style: outset;
 }
 
 

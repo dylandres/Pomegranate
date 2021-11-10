@@ -2,7 +2,6 @@ import React from 'react'
 import '../style/Quiztaking.css';
 import  { useState, useEffect } from 'react';
 import '../style/tabs.css';
-import { Link } from 'react-router-dom';
 import { parse } from '../functions.js';
 import axios from 'axios';
 
@@ -13,6 +12,8 @@ function QuizTaking() {
     // -1: quiz not started, 0: ques 1, 1: ques 2, n: ques n+1
     const [questionIndex, setQuestionIndex] = useState(-1);
     const [numCorrect, setNumCorrect] = useState(0);
+    const [displayFeedback, setDisplayFeedback] = useState(-1);
+    const [timer, setTimer] = useState(0);
 
     const quizName = parse(window.location.href.split('/').pop());
 
@@ -35,23 +36,37 @@ function QuizTaking() {
         fillQuestions(quizName);
       }, [])
 
+    useEffect(() => {
+        if (questionIndex > -1 && questionIndex < questions.length)
+            setTimeout(() => setTimer(timer + 1), 1000);  
+    });
+
     function timeout(delay) {
         return new Promise( res => setTimeout(res, delay) );
     }
 
-    const correct = async (e) => {
-        e.target.style.backgroundColor = 'lightgreen';
-        await timeout(1000); // 1 sec delay to display feed back (correct)
-        e.target.style.backgroundColor = 'white';
-        setQuestionIndex(questionIndex + 1)
-        setNumCorrect(numCorrect + 1);
+    const processChoice = async (choice, isCorrect) => {
+        setDisplayFeedback(choice); // display feedback
+        await timeout(1000); // 1 sec delay
+        setDisplayFeedback(-1);
+        if (isCorrect)
+            setNumCorrect(numCorrect+1); // +1 correct
+        // Last question
+        if (questionIndex == questions.length - 1) {
+            setQuestionIndex(questionIndex + 1);
+            // "processing results..."
+            await timeout(1000);
+            // bugged if +1, i have no idea why +2 works but it does
+            setQuestionIndex(questionIndex + 2);
+        }
+        else {
+            setQuestionIndex(questionIndex + 1); // next question
+        }
     }
 
-    const incorrect = async (e) => {
-        e.target.style.backgroundColor = 'red';
-        await timeout(1000); // 1 sec delay to display feed back (incorrect)
-        e.target.style.backgroundColor = 'white';
-        setQuestionIndex(questionIndex + 1)
+    const formatTimer = () => {
+        var time = new Date(timer * 1000).toISOString().substr(14, 5);
+        return time;
     }
 
     return (
@@ -61,46 +76,55 @@ function QuizTaking() {
                 questionIndex == -1 ?
                 <div>
                     <h1 className='title'>{quizName}</h1>
-                    {/* <h2>questionIndex: {questionIndex}</h2> */}
                     <h2>length: {questions.length} questions</h2>
                     <h2>time limit: 5 min</h2>
                     <button class='start-button' onClick={() => setQuestionIndex(questionIndex + 1)}>Ready!</button>
                 </div>
                 :
-                questionIndex == questions.length ?
-                <div class="end-of-quiz">
-                    End of the quiz!
-                    You got {numCorrect}/{questions.length} correct!
-                </div>
-                :
+                
+                questionIndex < questions.length ?
+
                 <ul class="question">
-                    {/* questionIndex: {questionIndex} */}
+                    {formatTimer()}
                     <div>
                         <b>{questions[questionIndex].question}</b>
-                        <br/>
-                        {   questions[questionIndex].answer == 0 
-                            ? <button onClick = {(e) => correct(e)} class="correct-answer">{questions[questionIndex].choices[0]} correct</button>
-                            : <button onClick = {(e) => incorrect(e)} class="incorrect-answer">{questions[questionIndex].choices[0]} incorrect</button>
+                        {
+                            (displayFeedback == -1)
+                            // Display choices
+                            ? questions[questionIndex].choices.map(function(choice, i) {
+                                if (questions[questionIndex].answer == i) {
+                                    return <div><button id={i} class="answer" onClick={() => processChoice(i, true)}>{choice} correct</button><br/></div>
+                                }
+                                else {
+                                    return <div><button id={i} class="answer" onClick={() => processChoice(i, false)}>{choice} incorrect</button><br/></div>
+                                }
+                            })
+                            // Display feedback (right and wrong answers) after choice is picked
+                            : questions[questionIndex].choices.map(function(choice, i) {
+                                if (questions[questionIndex].answer == i) {
+                                    return <div><button id={i} class="disabled-answer" style={{backgroundColor: "lightgreen"}}>{choice} correct</button><br/></div>
+                                }
+                                else {
+                                    return <div><button id={i} class="disabled-answer" style={{backgroundColor: "red"}}>{choice} incorrect</button><br/></div>
+                                }
+                            })
                         }
-                        <br/>
-                        {   questions[questionIndex].answer == 1
-                            ? <button onClick = {(e) => correct(e)} class="correct-answer">{questions[questionIndex].choices[1]} correct</button>
-                            : <button onClick = {(e) => incorrect(e)} class="incorrect-answer">{questions[questionIndex].choices[1]} incorrect</button>
-                        }
-                        <br/>
-                        {   questions[questionIndex].answer == 2
-                            ? <button onClick = {(e) => correct(e)} class="correct-answer">{questions[questionIndex].choices[2]} correct</button>
-                            : <button onClick = {(e) => incorrect(e)} class="incorrect-answer">{questions[questionIndex].choices[2]} incorrect</button>
-                        }
-                        <br/>
-                        {   questions[questionIndex].answer == 3 
-                            ? <button onClick = {(e) => correct(e)} class="correct-answer">{questions[questionIndex].choices[3]} correct</button>
-                            : <button onClick = {(e) => incorrect(e)} class="incorrect-answer">{questions[questionIndex].choices[3]} incorrect</button>
-                        }
-                        <br/>
-                        <br/>
                     </div>
                 </ul>
+                :
+                questionIndex == questions.length
+                ? <div class="end-of-quiz">
+                <br></br><br></br>
+                    Processing results...
+                </div>
+                : <div class="end-of-quiz">
+                    <br></br><br></br>
+                    End of the quiz!
+                    <br></br><br></br>
+                    You got {numCorrect}/{questions.length} correct!
+                    <br></br><br></br>
+                    Time Taken: {formatTimer()}
+                </div>
             }       
         </body>
     );
