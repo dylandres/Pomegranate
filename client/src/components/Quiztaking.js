@@ -112,7 +112,7 @@ function QuizTaking() {
                                 }
                             })
                         }
-                    <Link to={`/quizpage/${quizName}`}><button style={{backgroundColor: "red"}}>Quit Quiz</button></Link>
+                    <Link to={`/quizpage/${quizName}`}><button class="quit-quiz" >EXIT</button></Link>
                     </div>
                 </ul>
                 :
