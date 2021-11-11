@@ -1,17 +1,18 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import '../style/Navbar.css';
 import logo from './images/pomegranate.png'
 import { Avatar } from '@material-ui/core';
 import { Link } from 'react-router-dom'
 import  { useState } from 'react';
 import GoogleWrapper from './GoogleWrapper.js'
-
+import { myContext } from '../Context.js'
 function Navbar() {
-
+    const {userObject, setUserObject} = useContext(myContext)
+    console.log(userObject)
     const [textField, setTextField] = useState('');
     const [filter, setFilter] = useState('all');
-    const [loggedInUser, setLoggedInUser] = useState(null);
-
+    //const [userObject, setuserObject] = useState(userObject);
+    //replace userObject 
     return (
         <div className='container'>
             {/* Logo / Home Button */}
@@ -32,16 +33,14 @@ function Navbar() {
                 } 
             </form>
             {/* Login / Logout button */}
-            {loggedInUser == null
-            ? <div className ='google-button'><GoogleWrapper/></div>  
-            : <Link to={`/`}> <input type='button' className='logbutton' value='Log Out' onClick={() => setLoggedInUser(null)}></input> </Link> }
+            <div className ='google-button'><GoogleWrapper/></div>
             {/* User Profile */}
-            {loggedInUser != null
-            ? <Link to={`/profile/${loggedInUser}`}> <Avatar className='avatar'/></Link>
+            {userObject
+            ? <Link to={`/profile/${userObject.userName}`}> <Avatar className='avatar'/></Link>
             : null }
             {/* Greeting */}
-            {loggedInUser != null
-            ? `Hello, ${loggedInUser}`
+            {userObject
+            ? `Hello, ${userObject.fullName}`
             : null }
             
         </div>
