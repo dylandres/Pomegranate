@@ -1,6 +1,6 @@
 import React from 'react'
 import '../style/Profilepage.css';
-import { useState, useEffect, useReducer } from 'react';
+import { useState, useEffect, useReducer, useContext } from 'react';
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 import { useLocation, Link } from 'react-router-dom';
 import '../style/tabs.css';
@@ -10,15 +10,17 @@ import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
 import zIndex from '@material-ui/core/styles/zIndex';
 import UploadImage from './UploadImage.js'
+import { myContext } from '../Context.js'
 
 function ProfilePage() {
-
+    
     const [profile, setProfile] = useState({});
     const [platforms, setPlatforms] = useState([]);
     const [ignored, forceUpdate] = useReducer(x => x + 1, 0);
     const [isEditing, setEditing] = useState(false);
     const [isOwner, setOwner] = useState(false);
     const [thisBio, setBio] = useState('');
+    const {userObject, setUserObject} = useContext(myContext)
     // Edit mode privilege
     // const [canEdit, setCanEdit] = useState(false);
 
@@ -30,6 +32,8 @@ function ProfilePage() {
     const getProfile = async (username) => {
         const thisProfile = await axios.get(`/api/users/${username}/user`).then(res => res.data);
         setProfile(thisProfile[0]);
+        if(userObject && (thisProfile[0]._id === userObject._id))
+            setUserObject(thisProfile[0]);
         setBio(thisProfile[0].bio);
         getPlatforms(thisProfile[0]);
         return thisProfile;
@@ -74,23 +78,31 @@ function ProfilePage() {
             <h1 className='profile-title'>@{username}</h1>
             <h1 className='profile-name'>{profile.fullName}</h1>
             <div className='profile'>
+                {console.log(profile)}
+                {console.log(userObject)}
                 {
-                    !isEditing ?
-                        <div style={{ position: 'absolute', top: '23%', right: '1%', zIndex: 4 }}>
-                            <Button variant="contained" onClick={changeEditing}>Edit</Button>
-                        </div>
+                    userObject ?
+                        profile._id === userObject._id ?
+                            !isEditing ?
+                                <div style={{ position: 'absolute', top: '23%', right: '1%', zIndex: 4 }}>
+                                    <Button variant="contained" onClick={changeEditing}>Edit</Button>
+                                </div>
+                                :
+                                <span style={{ position: 'absolute', width: '100%', height: '100%' }}>
+                                    <div style={{ position: 'absolute', zIndex: 4, top: '1%', left: '11%', display: 'inline-block' }}>
+                                        <UploadImage imgType='Picture' colType='users' uid={profile._id} whichImage='change-pic' state={forceUpdate} />
+                                    </div>
+                                    <div style={{ position: 'absolute', zIndex: 4, top: '1%', right: '1%', display: 'inline-block' }}>
+                                        <UploadImage imgType='Banner' colType='users' uid={profile._id} whichImage='change-banner' state={forceUpdate} />
+                                    </div>
+                                    <div style={{ position: 'absolute', top: '23%', right: '1%', zIndex: 4 }}>
+                                        <Button variant="contained" onClick={changeEditing}>Stop Editing</Button>
+                                    </div>
+                                </span>
                         :
-                        <span style={{ position: 'absolute', width: '100%', height: '100%' }}>
-                            <div style={{ position: 'absolute', zIndex: 4, top: '1%', left: '11%', display: 'inline-block' }}>
-                                <UploadImage imgType='Picture' colType='users' uid={profile._id} whichImage='change-pic' state={forceUpdate} />
-                            </div>
-                            <div style={{ position: 'absolute', zIndex: 4, top: '1%', right: '1%', display: 'inline-block' }}>
-                                <UploadImage imgType='Banner' colType='users' uid={profile._id} whichImage='change-banner' state={forceUpdate} />
-                            </div>
-                            <div style={{ position: 'absolute', top: '23%', right: '1%', zIndex: 4 }}>
-                                <Button variant="contained" onClick={changeEditing}>Stop Editing</Button>
-                            </div>
-                        </span>
+                        null
+                    :
+                    null
                 }
                 {profile.profileBanner !== '' ? <img className="profile-banner" src={profile.profileBanner}></img> : <img className="profile-banner" src="https://pomegranate-io.s3.amazonaws.com/1200px-Black_flag.svg.png"></img>}
                 {profile.profilePicture !== '' ? <img className="profile-logo" src={profile.profilePicture}></img> : <img className="profile-logo" src="https://pomegranate-io.s3.amazonaws.com/24-248253_user-profile-default-image-png-clipart-png-download.png"></img>}
@@ -104,10 +116,10 @@ function ProfilePage() {
                     </TabList>
                     <TabPanel style={{ position: 'relative', top: '0%' }}>
                         {profile != null ?
-                            <div style={{ zIndex: '5', textAlign: 'center', width: '100%', height: '100%' }}>
+                            <div style={{ zIndex: '5', textAlign: 'center', width: '100%', height: '100%', zIndex: 6 }}>
                                 <h2 style={viewMode} >{profile.bio}</h2>
                                 <TextField variant="outlined"
-                                    style={Object.assign({}, editMode, { width: '90%' })} onChange={handleEditChange}
+                                    style={Object.assign({}, editMode, { width: '90%', zIndex: 6 })} onChange={handleEditChange}
                                     value={thisBio} multiline
                                 />
                                 <br />

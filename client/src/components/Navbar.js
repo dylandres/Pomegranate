@@ -1,4 +1,4 @@
-import React, { useContext } from 'react'
+import React, { useContext, useReducer } from 'react'
 import '../style/Navbar.css';
 import logo from './images/pomegranate.png'
 import { Avatar } from '@material-ui/core';
@@ -6,11 +6,14 @@ import { Link } from 'react-router-dom'
 import  { useState } from 'react';
 import GoogleWrapper from './GoogleWrapper.js'
 import { myContext } from '../Context.js'
+
+
 function Navbar() {
     const {userObject, setUserObject} = useContext(myContext)
     console.log(userObject)
     const [textField, setTextField] = useState('');
     const [filter, setFilter] = useState('all');
+    const [ignored, forceUpdate] = useReducer(x => x + 1, 0);
     //const [userObject, setuserObject] = useState(userObject);
     //replace userObject 
     return (
@@ -36,7 +39,11 @@ function Navbar() {
             <div className ='google-button'><GoogleWrapper/></div>
             {/* User Profile */}
             {userObject
-            ? <Link to={`/profile/${userObject.userName}`}> <Avatar className='avatar'/></Link>
+            ? <div style={{position: 'absolute', top: '20%', right: '2%'}}>
+                <Link to={`/profile/${userObject.userName}`}> 
+                <Avatar sx={{width: '100%', height: '100%'}} className='avatar' src={userObject.profilePicture}/>
+                </Link>
+            </div>
             : null }
             {/* Greeting */}
             {userObject

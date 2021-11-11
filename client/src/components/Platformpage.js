@@ -1,7 +1,7 @@
 import React from 'react'
 import '../style/Platformpage.css';
 import '../style/Searchresults.css';
-import { useState, useEffect, useReducer } from 'react';
+import { useState, useEffect, useReducer, useContext } from 'react';
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 import { useLocation, Link } from 'react-router-dom';
 import UploadImage from './UploadImage.js'
@@ -12,17 +12,20 @@ import { makeStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
 import zIndex from '@material-ui/core/styles/zIndex';
+import { myContext } from '../Context.js'
+import ProfilePage from './Profilepage';
 
 
 function PlatformPage() {
-
+    
     const [platform, setPlatform] = useState({});
     const [quizzes, setQuizzes] = useState([]);
     const [ignored, forceUpdate] = useReducer(x => x + 1, 0);
     const [isEditing, setEditing] = useState(false);
     const [isOwner, setOwner] = useState(false);
     const [thisDesc, setDesc] = useState('');
-
+    const {userObject, setUserObject} = useContext(myContext)
+    
     const changeEditing = () => {
         setEditing(!isEditing);
         forceUpdate();
@@ -88,22 +91,28 @@ function PlatformPage() {
             <h1 className='platform-title'>{platform.platformName}</h1>
             <div className='platform'>
                 {
-                    !isEditing ?
-                        <div style={{ position: 'absolute', top: '23%', right: '1%', zIndex: 4 }}>
-                            <Button variant="contained" onClick={changeEditing}>Edit</Button>
-                        </div>
+                    userObject ?
+                        platform.ownerID === userObject._id ?
+                            !isEditing ?
+                                <div style={{ position: 'absolute', top: '23%', right: '1%', zIndex: 4 }}>
+                                    <Button variant="contained" onClick={changeEditing}>Edit</Button>
+                                </div>
+                                :
+                                <span style={{ position: 'absolute', width: '100%', height: '100%'}}>
+                                    <div style={{ position: 'absolute', zIndex: 3, top: '1%', left: '11%', display: 'inline-block', overflowY: 'hidden' }}>
+                                        <UploadImage imgType='Logo' colType='platforms' uid={platform._id} whichImage='change-logo' state={forceUpdate} />
+                                    </div>
+                                    <div style={{ position: 'absolute', zIndex: 3, top: '1%', right: '1%', display: 'inline-block', overflowY: 'hidden' }}>
+                                        <UploadImage imgType='Banner' colType='platforms' uid={platform._id} whichImage='change-banner' state={forceUpdate} />
+                                    </div>
+                                    <div style={{ position: 'absolute', top: '23%', right: '1%', zIndex: 4 }}>
+                                        <Button variant="contained" onClick={changeEditing}>Stop Editing</Button>
+                                    </div>
+                                </span>
+                            :
+                            null
                         :
-                        <span style={{ position: 'absolute', width: '100%', height: '100%' }}>
-                            <div style={{ position: 'absolute', zIndex: 4, top: '1%', left: '11%', display: 'inline-block' }}>
-                                <UploadImage imgType='Logo' colType='platforms' uid={platform._id} whichImage='change-logo' state={forceUpdate} />
-                            </div>
-                            <div style={{ position: 'absolute', zIndex: 4, top: '1%', right: '1%', display: 'inline-block' }}>
-                                <UploadImage imgType='Banner' colType='platforms' uid={platform._id} whichImage='change-banner' state={forceUpdate} />
-                            </div>
-                            <div style={{ position: 'absolute', top: '23%', right: '1%', zIndex: 4 }}>
-                                <Button variant="contained" onClick={changeEditing}>Stop Editing</Button>
-                            </div>
-                        </span>
+                        null
                 }
                 {platform.platformBanner !== '' ? <img className="platform-banner" src={platform.platformBanner}></img> : <img className="platform-banner" src="https://pomegranate-io.s3.amazonaws.com/1200px-Black_flag.svg.png"></img>}
                 {platform.platformLogo !== '' ? <img className="platform-logo" src={platform.platformLogo}></img> : <img className="platform-logo" src="https://pomegranate-io.s3.amazonaws.com/pomegranate.png"></img>}
@@ -145,10 +154,10 @@ function PlatformPage() {
                     </TabPanel>
                     <TabPanel className='about-tab react-tabs__tab-panel'>
                         {platform != null ?
-                            <div style={{ zIndex: '5', textAlign: 'center', width: '100%', height: '100%' }}>
+                            <div style={{ zIndex: 6, textAlign: 'center', width: '100%', height: '100%' }}>
                                 <h2 style={viewMode} >{platform.description}</h2>
                                 <TextField variant="outlined" size={thisDesc}
-                                    style={Object.assign({}, editMode, { width: '90%' })} onChange={handleEditChange}
+                                    style={Object.assign({}, editMode, { width: '90%', zIndex: 7 })} onChange={handleEditChange}
                                     value={thisDesc}
                                 />
                                 <br />
