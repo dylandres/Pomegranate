@@ -22,7 +22,7 @@ function PlatformPage() {
     const [quizzes, setQuizzes] = useState([]);
     const [ignored, forceUpdate] = useReducer(x => x + 1, 0);
     const [isEditing, setEditing] = useState(false);
-    const [isOwner, setOwner] = useState(false);
+    const [isSubbed, setSubbed] = useState(false);
     const [thisDesc, setDesc] = useState('');
     const {userObject, setUserObject} = useContext(myContext)
     
@@ -31,6 +31,28 @@ function PlatformPage() {
         forceUpdate();
     };
 
+    const subscribe = async () => {
+        if(userObject) {
+            await axios.put(`/api/users/${userObject._id}/${platform._id}/subscribe`).then(res => res.data);
+            await axios.put(`/api/platforms/${platform._id}/${userObject._id}/subscribe`).then(res => res.data);
+            setSubbed(!isSubbed);
+        }
+    }
+
+    const unsubscribe = async () => {
+        if(userObject) {
+            await axios.put(`/api/users/${userObject._id}/${platform._id}/unsubscribe`).then(res => res.data);
+            await axios.put(`/api/platforms/${platform._id}/${userObject._id}/unsubscribe`).then(res => res.data);
+            setSubbed(!isSubbed);
+        }
+    }
+
+    const isSubscribed = (plat) => {
+        if(userObject) {
+            return plat.subscribers.includes(userObject._id);
+        }
+    }
+
     const getResults = (platformName) => {
         return axios.get(`/api/platforms/${platformName}`).then(res => res.data);
     }
@@ -38,7 +60,6 @@ function PlatformPage() {
     const fillQuizzes = async (platform) => {
         const quizzes = await axios.get(`/api/quizzes`).then(res => res.data);
         //filter out quizzes that don't belong!
-        console.log(quizzes);
         const filtered = quizzes.filter(quiz => platform.quizzes.includes(quiz._id));
         // sort by popularity
         filtered.sort((a, b) => (a.timesTaken > b.timesTaken) ? -1 : 1);
@@ -62,15 +83,14 @@ function PlatformPage() {
         setPlatform(newPlatform);
         setDesc(newPlatform.description)
         fillQuizzes(newPlatform);
-        console.log(platform);
+        setSubbed(isSubscribed(newPlatform));
     }
 
     var platformName = window.location.href.split('/').pop();
 
     useEffect(() => {
         newPlatform(platformName);
-        console.log(platform);
-    }, [ignored]);
+    }, [ignored, userObject]);
 
     let viewMode = {};
     let editMode = {};
@@ -94,7 +114,7 @@ function PlatformPage() {
                     userObject ?
                         platform.ownerID === userObject._id ?
                             !isEditing ?
-                                <div style={{ position: 'absolute', top: '23%', right: '1%', zIndex: 4 }}>
+                                <div style={{ position: 'absolute', top: '24.5%', right: '1%', zIndex: 4 }}>
                                     <Button variant="contained" onClick={changeEditing}>Edit</Button>
                                 </div>
                                 :
@@ -116,6 +136,22 @@ function PlatformPage() {
                 }
                 {platform.platformBanner !== '' ? <img className="platform-banner" src={platform.platformBanner}></img> : <img className="platform-banner" src="https://pomegranate-io.s3.amazonaws.com/1200px-Black_flag.svg.png"></img>}
                 {platform.platformLogo !== '' ? <img className="platform-logo" src={platform.platformLogo}></img> : <img className="platform-logo" src="https://pomegranate-io.s3.amazonaws.com/pomegranate.png"></img>}
+                {console.log(isSubbed)}
+                {console.log(platform)}
+                {console.log(userObject)}
+                {
+                    userObject?
+                        !isSubbed ?
+                            <div style={{ position: 'absolute', top: '24.5%', left: '1%', zIndex: 4 }}>
+                                <Button variant="contained" onClick={subscribe}>Subscribe</Button>
+                            </div>
+                            :
+                            <div style={{ position: 'absolute', top: '24.5%', left: '1%', zIndex: 4 }}>
+                                <Button variant="contained" onClick={unsubscribe}>Unsubscribe</Button>
+                            </div>
+                        :
+                        null
+                }
                 <Tabs>
                     <TabList style={{ position: 'relative', top: '0%' }}>
                         <Tab style={{ padding: '6px 14%', zIndex: '5' }}>Quizzes</Tab>
@@ -169,10 +205,6 @@ function PlatformPage() {
                             :
                             <h2></h2>
                         }
-
-
-
-
                     </TabPanel>
                 </Tabs>
             </div>
