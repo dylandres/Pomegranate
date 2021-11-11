@@ -7,15 +7,8 @@ import ProfilePage from './components/Profilepage.js'
 import PlatformPage from './components/Platformpage.js'
 import QuizPage from './components/Quizpage.js'
 import QuizTaking from './components/Quiztaking.js'
-import { useContext } from 'react'
-import { myContext } from './Context.js'
 
 function App() {
-  const {userObject, setUserObject} = useContext(myContext)
-  console.log('WOW WE HAVE THE CONTEXT!!!!')
-  console.log(userObject)
-  setUserObject(null)
-  console.log('should be null' + userObject)
   return (
     <Router>
       <body>

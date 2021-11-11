@@ -1,5 +1,7 @@
 const express = require("express");
 const path = require("path");
+const dotenv = require('dotenv')
+dotenv.config()
 const bodyParser = require("body-parser");
 const cors = require("cors");
 const session = require("express-session");
@@ -31,7 +33,7 @@ app.use(
     saveUninitialized: false,
     secret: "sadlkfjasldfjsmarmasdl;fkjasdlkfjasdklfa",
     store: MongoStore.create({
-        mongoUrl: 'mongodb+srv://johntho:janetho@pomegranate.pment.mongodb.net/myFirstDatabase?retryWrites=true&w=majority'
+        mongoUrl: process.env.MONGO_DB_URL
       }),
   })
 );

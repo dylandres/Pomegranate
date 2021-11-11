@@ -3,7 +3,7 @@ mongoose.Promise = global.Promise;
 
 const db = {};
 db.mongoose = mongoose;
-db.url = 'mongodb+srv://johntho:janetho@pomegranate.pment.mongodb.net/Pomegranate?retryWrites=true&w=majority';
+db.url = process.env.MONGO_DB_URL;
 db.models = require('./models/models.js');
 
 module.exports = db;
