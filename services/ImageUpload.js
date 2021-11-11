@@ -14,7 +14,8 @@ aws.config.update({
 const s3 = new aws.S3();
 
 const fileFilter = (req, file, cb) => {
-    if (file.mimetype === "image/jpeg" || file.mimetype === "image/png" || file.mimetime === "image/jpg" || file.mimetime === "image/webp") {
+    console.log(file.mimetype);
+    if (file.mimetype === "image/jpeg" || file.mimetype === "image/png" || file.mimetype === "image/jpg" || file.mimetype === "image/webp") {
         cb(null, true);
     } else {
         cb(new Error("Invalid file type, only JPEG and PNG is allowed!"), false);
