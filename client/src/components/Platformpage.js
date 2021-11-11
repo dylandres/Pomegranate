@@ -49,11 +49,11 @@ function PlatformPage() {
     }
 
     const editDesc = async (description) => {
-        const task = {desc: description};
+        const task = { desc: description };
         await axios.put(`/api/platforms/${platform._id}/description`, task);
         forceUpdate();
     }
-    
+
     const newPlatform = async (pName) => {
         const newPlatform = await getResults(pName);
         setPlatform(newPlatform);
@@ -72,11 +72,11 @@ function PlatformPage() {
     let viewMode = {};
     let editMode = {};
 
-    if(isEditing) {
-        viewMode.display="none";
+    if (isEditing) {
+        viewMode.display = "none";
     }
     else {
-        editMode.display="none";
+        editMode.display = "none";
     }
 
     const handleEditChange = (event) => {
@@ -88,22 +88,22 @@ function PlatformPage() {
             <h1 className='platform-title'>{platform.platformName}</h1>
             <div className='platform'>
                 {
-                !isEditing ? 
-                <div style={{position:'absolute', top: '23%', right: '1%', zIndex: 4}}>
-                    <Button variant="contained" onClick={changeEditing}>Edit</Button>
-                </div> 
-                :
-                <span style ={{position: 'absolute', width: '100%', height: '100%'}}> 
-                    <div style={{ position: 'absolute', zIndex: 4, top: '1%', left: '11%', display: 'inline-block' }}>
-                        <UploadImage imgType = 'Logo' colType='platforms' uid={platform._id} whichImage='change-logo' state = {forceUpdate}/>
-                    </div>
-                    <div style={{ position: 'absolute', zIndex: 4, top: '1%', right: '1%', display: 'inline-block' }}>
-                        <UploadImage imgType = 'Banner' colType='platforms' uid={platform._id} whichImage='change-banner' state = {forceUpdate}/>
-                    </div>
-                    <div style={{position:'absolute', top: '23%', right: '1%', zIndex: 4}}>
-                    <Button variant="contained" onClick={changeEditing}>Stop Editing</Button>
-                    </div> 
-                </span>
+                    !isEditing ?
+                        <div style={{ position: 'absolute', top: '23%', right: '1%', zIndex: 4 }}>
+                            <Button variant="contained" onClick={changeEditing}>Edit</Button>
+                        </div>
+                        :
+                        <span style={{ position: 'absolute', width: '100%', height: '100%' }}>
+                            <div style={{ position: 'absolute', zIndex: 4, top: '1%', left: '11%', display: 'inline-block' }}>
+                                <UploadImage imgType='Logo' colType='platforms' uid={platform._id} whichImage='change-logo' state={forceUpdate} />
+                            </div>
+                            <div style={{ position: 'absolute', zIndex: 4, top: '1%', right: '1%', display: 'inline-block' }}>
+                                <UploadImage imgType='Banner' colType='platforms' uid={platform._id} whichImage='change-banner' state={forceUpdate} />
+                            </div>
+                            <div style={{ position: 'absolute', top: '23%', right: '1%', zIndex: 4 }}>
+                                <Button variant="contained" onClick={changeEditing}>Stop Editing</Button>
+                            </div>
+                        </span>
                 }
                 {platform.platformBanner !== '' ? <img className="platform-banner" src={platform.platformBanner}></img> : <img className="platform-banner" src="https://pomegranate-io.s3.amazonaws.com/1200px-Black_flag.svg.png"></img>}
                 {platform.platformLogo !== '' ? <img className="platform-logo" src={platform.platformLogo}></img> : <img className="platform-logo" src="https://pomegranate-io.s3.amazonaws.com/pomegranate.png"></img>}
@@ -144,21 +144,21 @@ function PlatformPage() {
                         <h2 style={{ textAlign: 'center' }}>Leaderboard</h2>
                     </TabPanel>
                     <TabPanel className='about-tab react-tabs__tab-panel'>
-                        {platform != null ? 
-                        <div style={{zIndex:'5', textAlign: 'center', width: '100%', height: '100%'}}>
-                            <h2 style={viewMode} >{platform.description}</h2> 
-                            <TextField variant="outlined" size={thisDesc}
-                            style={Object.assign({}, editMode, {width: '90%'})} onChange={handleEditChange}
-                            value = {thisDesc}
-                            />
-                            <br/>
-                            <Button style={editMode} variant='contained' onClick = {() => setDesc(platform.description)}>Cancel Edit</Button>
-                            &nbsp;
-                            &nbsp;
-                            <Button style={editMode} variant='contained' onClick = {() => editDesc(thisDesc)}>Confirm Edit</Button>
-                        </div>
-                        :
-                        <h2></h2>
+                        {platform != null ?
+                            <div style={{ zIndex: '5', textAlign: 'center', width: '100%', height: '100%' }}>
+                                <h2 style={viewMode} >{platform.description}</h2>
+                                <TextField variant="outlined" size={thisDesc}
+                                    style={Object.assign({}, editMode, { width: '90%' })} onChange={handleEditChange}
+                                    value={thisDesc}
+                                />
+                                <br />
+                                <Button style={editMode} variant='contained' onClick={() => setDesc(platform.description)}>Cancel Edit</Button>
+                                &nbsp;
+                                &nbsp;
+                                <Button style={editMode} variant='contained' onClick={() => editDesc(thisDesc)}>Confirm Edit</Button>
+                            </div>
+                            :
+                            <h2></h2>
                         }
 
 
