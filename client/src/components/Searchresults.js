@@ -2,6 +2,8 @@ import React from 'react'
 import '../style/Searchresults.css';
 import { useState, useEffect } from 'react';
 import { useLocation, Link } from 'react-router-dom';
+import { makeStyles } from '@material-ui/core/styles';
+import Button from '@material-ui/core/Button';
 import axios from 'axios';
 
 function SearchResults() {

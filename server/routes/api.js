@@ -22,7 +22,7 @@ aws.config.update({
 const s3 = new aws.S3();
 
 //////////////////////////////////image/////////////////////////////////
-router.post("/platforms/:id/change-logo", function (req, res) {
+router.put("/platforms/:id/change-logo", function (req, res) {
     const uid = req.params.id;
     singleUpload(req, res, function (err) {
         if (err) {
@@ -40,6 +40,7 @@ router.post("/platforms/:id/change-logo", function (req, res) {
             Key: req.file.key
         }
         const url = s3.getSignedUrl('getObject', params).split("?AWS")[0];
+        console.log(url);
         let update = { platformLogo: url };
         Platform.findByIdAndUpdate(uid, update, { new: true })
             .then((user) => res.status(200).json({ success: true, user: user }))
@@ -47,7 +48,7 @@ router.post("/platforms/:id/change-logo", function (req, res) {
     });
 });
 
-router.post("/platforms/:id/change-banner", function (req, res) {
+router.put("/platforms/:id/change-banner", function (req, res) {
     const uid = req.params.id;
     singleUpload(req, res, function (err) {
         if (err) {
@@ -72,7 +73,33 @@ router.post("/platforms/:id/change-banner", function (req, res) {
     });
 });
 
-router.post("/users/:id/change-banner", function (req, res) {
+router.put("/users/:id/change-pic", function (req, res) {
+    const uid = req.params.id;
+    singleUpload(req, res, function (err) {
+        if (err) {
+            return res.json({
+                success: false,
+                errors: {
+                    title: "Image Upload Error",
+                    detail: err.message,
+                    error: err,
+                },
+            });
+        }
+        const params = {
+            Bucket: req.file.bucket,
+            Key: req.file.key
+        }
+        const url = s3.getSignedUrl('getObject', params).split("?AWS")[0];
+        console.log(url);
+        let update = { profilePicture: url };
+        User.findByIdAndUpdate(uid, update, { new: true })
+            .then((user) => res.status(200).json({ success: true, user: user }))
+            .catch((err) => res.status(400).json({ success: false, error: err }));
+    });
+});
+
+router.put("/users/:id/change-banner", function (req, res) {
     const uid = req.params.id;
     singleUpload(req, res, function (err) {
         if (err) {
@@ -193,6 +220,13 @@ router.delete('/users/:id', (req, res, next) => {
         .catch(next)
 });
 
+router.put('/users/:id/bio', (req, res, next) => {
+    const uid = req.params.id;
+    User.findByIdAndUpdate(uid, {$set: {'bio': req.body.bio}})
+    .then(data => res.json(data))
+    .catch(next);
+})
+
 //////////////////////////////////PROFILE//////////////////////////////////
 router.get('/profiles', (req, res, next) => {
     Profile.find({}, '-updatedAt')
@@ -278,6 +312,13 @@ router.get('/platforms/:name', (req, res, next) => {
         })
         .catch(next)
 });
+
+router.put('/platforms/:id/description', (req, res, next) => {
+    const uid = req.params.id;
+    Platform.findByIdAndUpdate(uid, {$set: {'description': req.body.desc}})
+    .then(data => res.json(data))
+    .catch(next);
+})
 
 router.get('/platforms/:ownerID/profile', (req, res, next) => {
     console.log(req.params.ownerID);
