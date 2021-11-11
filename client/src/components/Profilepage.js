@@ -18,7 +18,6 @@ function ProfilePage() {
     const [platforms, setPlatforms] = useState([]);
     const [ignored, forceUpdate] = useReducer(x => x + 1, 0);
     const [isEditing, setEditing] = useState(false);
-    const [isOwner, setOwner] = useState(false);
     const [thisBio, setBio] = useState('');
     const {userObject, setUserObject} = useContext(myContext)
     // Edit mode privilege
@@ -148,11 +147,8 @@ function ProfilePage() {
                                                     <br />
                                                     <div className="prof-card-content">
                                                         <p>{platform.description}</p>
-
                                                     </div>
                                                     <br />
-
-
                                                 </div>
                                             </Link>
                                         </div>

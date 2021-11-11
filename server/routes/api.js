@@ -245,7 +245,24 @@ router.put('/users/:id/bio', (req, res, next) => {
     User.findByIdAndUpdate(uid, {$set: {'bio': req.body.bio}})
     .then(data => res.json(data))
     .catch(next);
-})
+});
+
+router.put('/users/:id/:platformID/subscribe', (req, res, next) => {
+    const uid = req.params.id;
+    const pid = ObjectId(req.params.platformID);
+    User.findByIdAndUpdate(uid, {$push: {'subscriptions': pid}})
+    .then(data => res.json(data))
+    .catch(next);
+});
+
+router.put('/users/:id/:platformID/unsubscribe', (req, res, next) => {
+    const uid = req.params.id;
+    const pid = ObjectId(req.params.platformID);
+    User.findByIdAndUpdate(uid, {$pull: {'subscriptions': pid}})
+    .then(data => res.json(data))
+    .catch(next);
+});
+
 
 //////////////////////////////////PROFILE//////////////////////////////////
 router.get('/profiles', (req, res, next) => {
@@ -359,6 +376,22 @@ router.delete('/platforms/:id', (req, res, next) => {
     Platform.findOneAndDelete({ '_id': req.params.id })
         .then(data => res.json(data))
         .catch(next)
+});
+
+router.put('/platforms/:id/:userID/subscribe', (req, res, next) => {
+    const pid = req.params.id;
+    const uid = ObjectId(req.params.userID);
+    Platform.findByIdAndUpdate(pid, {$push: {'subscribers': uid}})
+    .then(data => res.json(data))
+    .catch(next);
+});
+
+router.put('/platforms/:id/:userID/unsubscribe', (req, res, next) => {
+    const pid = req.params.id;
+    const uid = ObjectId(req.params.userID);
+    Platform.findByIdAndUpdate(pid, {$pull: {'subscribers': uid}})
+    .then(data => res.json(data))
+    .catch(next);
 });
 
 //////////////////////////////////QUIZ//////////////////////////////////
