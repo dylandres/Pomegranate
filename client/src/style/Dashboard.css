@@ -1,5 +1,5 @@
 .feed {
-    position: absolute;
+    position: fixed;
     float: left;
     left: 1%;
     width: 65%;
@@ -10,6 +10,7 @@
     /* padding: 50px;
     margin: 20px; */
     background: lightgray;
+    border-radius: 15px;
 }
 
 .subscriptions {
@@ -23,13 +24,15 @@
     background: lightgray;
     /* padding: 50px;
     margin: 20px; */
+    border-radius: 10px;
 }
 
 .subscriptions_header {
     text-align: center;
     padding: 6px 20%;
-    border: 1px solid gray;
+    border: 0.5px solid gray;
     height:3%;
+    border-radius: 10px;
 }
 
 .popular-quizzes {
@@ -39,4 +42,16 @@
 .dash-card-image {
     text-align: center;
     width:20%;
-  }
+}
+
+.popular-quiz-tab {
+    overflow-y: scroll;
+    min-height: 144%;
+    list-style-type: none;
+    text-align: center;
+    background-color: rgb(130, 130, 220);
+}
+
+.for-you-tab {
+    text-align: center;
+}

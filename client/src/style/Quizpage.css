@@ -38,7 +38,7 @@
     height: 100%;
 }
 
-.take-quiz-button{
+/* .take-quiz-button{
     background-color: lightblue;
     text-align: center;
     font-size: 1.8rem;
@@ -54,4 +54,39 @@
   .take-quiz-button:hover {
     box-shadow: 0 20px 100px 0 rgba(0, 0, 0, 0.2);
     transform: scale(1.05) perspective(1px)
+  } */
+
+  .take-quiz-button {
+    position:relative;
+    transition: 0.5s;
+    top: 20%;
+    left:45%;
+    width: 10%;
+    height: 20%;
+    text-align: center;
+    color: #fff;
+    font-size: 20px;
+    text-decoration: none;
+    font-family: sans-serif;
+    box-sizing: border-box;
+    background: linear-gradient(90deg, #03a9f4, #f441a5, #ffeb3b, #03a9f4);
+    background-size: 400%;
+    border-radius: 30px;
+    z-index: 1;
+  }
+  
+  .take-quiz-button:hover {
+    animation: animate 8s linear infinite;
+    transition: 0.5s;
+    box-shadow: 0 20px 100px 0 rgba(0, 0, 0, 0.2);
+    transform: scale(1.05) perspective(1px)
+  }
+  
+  @keyframes animate {
+    0% {
+      background-position: 0%;
+    }
+    100% {
+      background-position: 400%;
+    }
   }

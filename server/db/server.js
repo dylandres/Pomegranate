@@ -1,5 +1,7 @@
 const mongoose = require('mongoose');
 mongoose.Promise = global.Promise;
+const dotenv = require('dotenv');
+dotenv.config();
 
 const db = {};
 db.mongoose = mongoose;
