@@ -27,6 +27,7 @@ function GoogleWrapper() {
             },
         })
           .then((res) => setUserObject(null))
+          .then(() => window.location.reload())
     }
     return (
         <div>
@@ -34,7 +35,7 @@ function GoogleWrapper() {
             clientId = '954435352392-vu748ldrt768bonguc7qp94bnj4cm334.apps.googleusercontent.com'
             buttonText= 'Login'
             onSuccess = {handleLogin}
-            onFailure = {(err) => console.log (err)}
+            onFailure = {(err) => console.log ('this is error' + err)}
             cookiePolicy = {'single_host_origin'}
             /> :
             <GoogleLogout
