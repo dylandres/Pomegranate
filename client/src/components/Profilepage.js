@@ -22,6 +22,7 @@ function ProfilePage() {
     const [thisBio, setBio] = useState('');
     const { userObject, setUserObject } = useContext(myContext)
     const [creating, setCreating] = useState(false);
+    const [subs, setSubs] = useState([]);
     // Edit mode privilege
     // const [canEdit, setCanEdit] = useState(false);
 
@@ -41,6 +42,7 @@ function ProfilePage() {
             setUserObject(thisProfile[0]);
         setBio(thisProfile[0].bio);
         getPlatforms(thisProfile[0]);
+        getSubs(thisProfile[0]);
         return thisProfile;
     }
 
@@ -48,6 +50,12 @@ function ProfilePage() {
         const allPlatforms = await axios.get(`/api/platforms/${thisUser._id}/profile`).then(res => res.data);
         console.log(allPlatforms);
         setPlatforms(allPlatforms);
+    }
+
+    const getSubs = async (thisUser) => {
+        const platforms = await axios.get(`/api/platforms`).then(res => res.data);
+        const filtered = platforms.filter(plat => plat.subscribers.includes(thisUser._id));
+        setSubs(filtered);
     }
 
     const editBio = async (biography) => {
@@ -187,8 +195,31 @@ function ProfilePage() {
                     <TabPanel style={{ position: 'relative', top: '0%' }}>
                         <h2>list of quizzes</h2>
                     </TabPanel>
-                    <TabPanel style={{ position: 'relative', top: '0%' }}>
-                        <h2>list of subscriptions</h2>
+                    <TabPanel className="plat-tab react-tabs__tab-panel">
+                        {
+                            <ul className="plat-list">
+                                {subs.map(platform => (
+                                    <div className="prof-card_container">
+                                        <div className="col s12 m7">
+                                            <Link to={`/platform/${platform.platformName}`} style={{ textDecoration: 'none' }}>
+                                                <div className="prof-card" >
+                                                    <div>
+                                                        {platform.platformLogo !== '' ? <img className="prof-card-image" src={platform.platformLogo}></img> : <img />}
+                                                        <br />
+                                                    </div>
+                                                    <span className="prof-card-title"><b>{platform.platformName}</b></span>
+                                                    <br />
+                                                    <div className="prof-card-content">
+                                                        <p>{platform.description}</p>
+                                                    </div>
+                                                    <br />
+                                                </div>
+                                            </Link>
+                                        </div>
+                                    </div>)
+                                )}
+                            </ul>
+                        }
                     </TabPanel>
                     <TabPanel style={{ position: 'relative', top: '0%' }}>
                         <h2>list of rewards</h2>

@@ -37,7 +37,7 @@
 .platform-tab {
     padding-left: 0%;
     padding-right: 0%;
-    width: 20vw;  
+    width: 18vw;  
     text-align: center;
     z-index: 5;
 }
@@ -45,7 +45,7 @@
 .platform-tab-hidden {
   padding-left: 0%;
   padding-right: 0%;
-  width: 20vw;  
+  width: 18vw;  
   text-align: center;
   z-index: 5;
 }

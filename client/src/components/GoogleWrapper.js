@@ -32,14 +32,14 @@ function GoogleWrapper() {
     return (
         <div>
             {!userObject ? <GoogleLogin
-            clientId = '954435352392-24bg4crh8bc1bkt4hbpq6ke6iadacv53.apps.googleusercontent.com'
+            clientId = '954435352392-vu748ldrt768bonguc7qp94bnj4cm334.apps.googleusercontent.com'
             buttonText= 'Login'
             onSuccess = {handleLogin}
             onFailure = {(err) => console.log (err)}
             cookiePolicy = {'single_host_origin'}
             /> :
             <GoogleLogout
-            clientId="954435352392-24bg4crh8bc1bkt4hbpq6ke6iadacv53.apps.googleusercontent.com"
+            clientId="954435352392-vu748ldrt768bonguc7qp94bnj4cm334.apps.googleusercontent.com"
             buttonText="Logout"
             onLogoutSuccess={handleLogout}
             >

@@ -19,6 +19,7 @@ function PlatformPage() {
 
     const [platform, setPlatform] = useState({});
     const [quizzes, setQuizzes] = useState([]);
+    const [subs, setSubs] = useState([]);
     const [ignored, forceUpdate] = useReducer(x => x + 1, 0);
     const [isEditing, setEditing] = useState(false);
     const [isSubbed, setSubbed] = useState(false);
@@ -87,7 +88,16 @@ function PlatformPage() {
         setPlatform(newPlatform);
         setDesc(newPlatform.description)
         fillQuizzes(newPlatform);
+        getSubs(newPlatform);
         setSubbed(isSubscribed(newPlatform));
+    }
+
+    const getSubs = async (plat) => {
+        if (userObject) {
+            const allUsers = await axios.get(`/api/users`).then(res => res.data);
+            const filtered = allUsers.filter(thisUser => plat.subscribers.includes(thisUser._id));
+            setSubs(filtered);
+        }
     }
 
     var platformName = window.location.href.split('/').pop();
@@ -167,6 +177,7 @@ function PlatformPage() {
                     <TabList style={{ position: 'relative', top: '0%', width: '98vw', textAlign: 'center' }}>
                         <Tab className='platform-tab react-tabs__tab'>Quizzes</Tab>
                         <Tab className='platform-tab react-tabs__tab'>Leaderboard</Tab>
+                        <Tab className='platform-tab react-tabs__tab'>Subscribers</Tab>
                         <Tab className='platform-tab react-tabs__tab'>About</Tab>
                         <Tab className='platform-tab-hidden react-tabs__tab' style={editMode}>Options</Tab>
                     </TabList>
@@ -199,6 +210,30 @@ function PlatformPage() {
                     </TabPanel>
                     <TabPanel className='lb-tab react-tabs__tab-panel'>
                         <h2 style={{ textAlign: 'center' }}>Leaderboard</h2>
+                    </TabPanel>
+                    <TabPanel className='quiz-tab react-tabs__tab-panel'>
+                        {
+                            <ul className="quiz-list">
+                                {subs.map(sub => (
+                                    <div className="plat-card_container">
+                                        <div className="col s12 m7">
+                                            <Link to={`/user/${sub.userName}`} style={{ textDecoration: 'none' }}>
+                                                <div className="plat-card">
+                                                    <div>
+                                                        {sub.profilePicture !== '' ? <img className="plat-card-image" src={sub.profilePicture}></img> : <img className="plat-card-image" src="https://pomegranate-io.s3.amazonaws.com/24-248253_user-profile-default-image-png-clipart-png-download.png"></img>}
+                                                    </div>
+                                                    <span className="card-title"><b>{sub.userName} ({sub.fullName})</b></span>
+                                                    <br/>
+                                                    <div className="plat-card-content">
+                                                        <p>{sub.bio}</p>
+                                                    </div>
+                                                </div>
+                                            </Link>
+                                        </div>
+                                    </div>)
+                                )}
+                            </ul>
+                        }
                     </TabPanel>
                     <TabPanel className='about-tab react-tabs__tab-panel'>
                         {platform != null ?
