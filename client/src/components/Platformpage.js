@@ -12,27 +12,31 @@ import { makeStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
 import zIndex from '@material-ui/core/styles/zIndex';
-import { myContext } from '../Context.js'
-import ProfilePage from './Profilepage';
-
+import { myContext } from '../Context.js';
+import DeletePlatform from './DeletePlatform.js';
 
 function PlatformPage() {
-    
+
     const [platform, setPlatform] = useState({});
     const [quizzes, setQuizzes] = useState([]);
     const [ignored, forceUpdate] = useReducer(x => x + 1, 0);
     const [isEditing, setEditing] = useState(false);
     const [isSubbed, setSubbed] = useState(false);
     const [thisDesc, setDesc] = useState('');
-    const {userObject, setUserObject} = useContext(myContext)
-    
+    const [deleting, setDeleting] = useState(false);
+    const { userObject, setUserObject } = useContext(myContext)
+
+    const toggleDeleting = () => {
+        setDeleting(!deleting);
+    }
+
     const changeEditing = () => {
         setEditing(!isEditing);
         forceUpdate();
     };
 
     const subscribe = async () => {
-        if(userObject) {
+        if (userObject) {
             await axios.put(`/api/users/${userObject._id}/${platform._id}/subscribe`).then(res => res.data);
             await axios.put(`/api/platforms/${platform._id}/${userObject._id}/subscribe`).then(res => res.data);
             setSubbed(!isSubbed);
@@ -40,7 +44,7 @@ function PlatformPage() {
     }
 
     const unsubscribe = async () => {
-        if(userObject) {
+        if (userObject) {
             await axios.put(`/api/users/${userObject._id}/${platform._id}/unsubscribe`).then(res => res.data);
             await axios.put(`/api/platforms/${platform._id}/${userObject._id}/unsubscribe`).then(res => res.data);
             setSubbed(!isSubbed);
@@ -48,7 +52,7 @@ function PlatformPage() {
     }
 
     const isSubscribed = (plat) => {
-        if(userObject) {
+        if (userObject) {
             return plat.subscribers.includes(userObject._id);
         }
     }
@@ -111,6 +115,13 @@ function PlatformPage() {
             <h1 className='platform-title'>{platform.platformName}</h1>
             <div className='platform'>
                 {
+                    deleting && <DeletePlatform
+                        handleClose={toggleDeleting}
+                        user={userObject}
+                        platform={platform}
+                    />
+                }
+                {
                     userObject ?
                         platform.ownerID === userObject._id ?
                             !isEditing ?
@@ -118,7 +129,7 @@ function PlatformPage() {
                                     <Button variant="contained" onClick={changeEditing}>Edit</Button>
                                 </div>
                                 :
-                                <span style={{ position: 'absolute', width: '100%', height: '100%'}}>
+                                <span style={{ position: 'absolute', width: '100%', height: '100%' }}>
                                     <div style={{ position: 'absolute', zIndex: 3, top: '1%', left: '11%', display: 'inline-block', overflowY: 'hidden' }}>
                                         <UploadImage imgType='Logo' colType='platforms' uid={platform._id} whichImage='change-logo' state={forceUpdate} />
                                     </div>
@@ -140,23 +151,24 @@ function PlatformPage() {
                 {console.log(platform)}
                 {console.log(userObject)}
                 {
-                    userObject?
+                    userObject ?
                         !isSubbed ?
-                            <div style={{ position: 'absolute', top: '24.5%', left: '1%', zIndex: 4 }}>
+                            <div style={{ position: 'absolute', top: '24.5%', left: '0.5%', zIndex: 4 }}>
                                 <Button variant="contained" onClick={subscribe}>Subscribe</Button>
                             </div>
                             :
-                            <div style={{ position: 'absolute', top: '24.5%', left: '1%', zIndex: 4 }}>
+                            <div style={{ position: 'absolute', top: '24.5%', left: '0.5%', zIndex: 4 }}>
                                 <Button variant="contained" onClick={unsubscribe}>Unsubscribe</Button>
                             </div>
                         :
                         null
                 }
                 <Tabs>
-                    <TabList style={{ position: 'relative', top: '0%' }}>
-                        <Tab style={{ padding: '6px 14%', zIndex: '5' }}>Quizzes</Tab>
-                        <Tab style={{ padding: '6px 14%', zIndex: '5' }}>Leaderboard</Tab>
-                        <Tab style={{ padding: '6px 14%', zIndex: '5' }}>About</Tab>
+                    <TabList style={{ position: 'relative', top: '0%', width: '98vw', textAlign: 'center' }}>
+                        <Tab className='platform-tab react-tabs__tab'>Quizzes</Tab>
+                        <Tab className='platform-tab react-tabs__tab'>Leaderboard</Tab>
+                        <Tab className='platform-tab react-tabs__tab'>About</Tab>
+                        <Tab className='platform-tab-hidden react-tabs__tab' style={editMode}>Options</Tab>
                     </TabList>
                     <TabPanel className="quiz-tab react-tabs__tab-panel">
                         {
@@ -205,6 +217,11 @@ function PlatformPage() {
                             :
                             <h2></h2>
                         }
+                    </TabPanel>
+                    <TabPanel className='options-tab react-tabs__tab-panel' style={editMode}>
+                        <div style={{ zIndex: 6, textAlign: 'center', width: '100%', height: '100%' }}>
+                            <Button variant='contained' onClick={toggleDeleting}>Delete Platform</Button>
+                        </div>
                     </TabPanel>
                 </Tabs>
             </div>

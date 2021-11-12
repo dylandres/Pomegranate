@@ -27,6 +27,7 @@ function GoogleWrapper() {
             },
         })
           .then((res) => setUserObject(null))
+          .then(() => window.location.reload())
     }
     return (
         <div>

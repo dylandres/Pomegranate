@@ -76,7 +76,7 @@ function DashBoard() {
                 </Tabs>
             </div>
             <div className='subscriptions'>
-                <div className='subscriptions_header'>subscriptions</div>
+                <div className='subscriptions_header'>Subscriptions</div>
                 {
                             <ul className="popular-quizzes">
                                 {subbed.map(plat => (

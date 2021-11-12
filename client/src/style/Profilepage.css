@@ -14,7 +14,11 @@
 }
 
 .profile-tab {
-    padding: 6px 6%;   
+    padding-left: 0%;
+    padding-right: 0%;
+    width: 19vw;  
+    text-align: center;
+    z-index: 5;
 }
 
 .profile-title {

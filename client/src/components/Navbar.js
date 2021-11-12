@@ -13,7 +13,6 @@ function Navbar() {
     console.log(userObject)
     const [textField, setTextField] = useState('');
     const [filter, setFilter] = useState('all');
-    const [ignored, forceUpdate] = useReducer(x => x + 1, 0);
     //const [userObject, setuserObject] = useState(userObject);
     //replace userObject 
     return (
