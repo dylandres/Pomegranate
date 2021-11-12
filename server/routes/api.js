@@ -140,6 +140,7 @@ router.post('/login', async (req, res, next) => {
     const firstName = payload.given_name
     const lastName = payload.family_name
     const profilePicture = payload.picture
+    console.log(payload)
     User.findOne({email: email})
         .then(async user => {
             //if no user exists yet then create profile and user objects in DB
