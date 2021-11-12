@@ -127,13 +127,13 @@ router.put("/users/:id/change-banner", function (req, res) {
 
 const { OAuth2Client } = require('google-auth-library')
 const session = require('express-session')
-const client = new OAuth2Client('954435352392-24bg4crh8bc1bkt4hbpq6ke6iadacv53.apps.googleusercontent.com')
+const client = new OAuth2Client('954435352392-vu748ldrt768bonguc7qp94bnj4cm334.apps.googleusercontent.com')
 
 router.post('/login', async (req, res, next) => {
     const {token} = req.body
     const ticket = await client.verifyIdToken({
         idToken: token,
-        audience: '954435352392-24bg4crh8bc1bkt4hbpq6ke6iadacv53.apps.googleusercontent.com'
+        audience: '954435352392-vu748ldrt768bonguc7qp94bnj4cm334.apps.googleusercontent.com'
     })
     const payload = ticket.getPayload()
     const email = payload.email
