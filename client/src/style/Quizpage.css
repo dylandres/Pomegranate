@@ -59,7 +59,7 @@
   .take-quiz-button {
     position:relative;
     transition: 0.5s;
-    top: 20%;
+    bottom: 50%;
     left:45%;
     width: 10%;
     height: 20%;
@@ -89,4 +89,31 @@
     100% {
       background-position: 400%;
     }
+  }
+
+  .rating {
+    unicode-bidi: bidi-override;
+    color: #c5c5c5;
+    font-size: 64px;
+    width: 100px;
+    position: relative;
+    padding: 0;
+    text-shadow: 0px 1px 0 #a2a2a2;
+  }
+  
+  .rating-upper {
+    color: yellow;
+    padding: 0;
+    position: absolute;
+    z-index: 1;
+    display: flex;
+    top: 0;
+    left: 0;
+    overflow: hidden;
+  }
+  
+  .rating-lower {
+    padding: 0;
+    display: flex;
+    z-index: 0;
   }

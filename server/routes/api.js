@@ -127,19 +127,20 @@ router.put("/users/:id/change-banner", function (req, res) {
 
 const { OAuth2Client } = require('google-auth-library')
 const session = require('express-session')
-const client = new OAuth2Client('954435352392-24bg4crh8bc1bkt4hbpq6ke6iadacv53.apps.googleusercontent.com')
+const client = new OAuth2Client('954435352392-0hr4iqn8uii9u9kkoj1di3p8s5calv0t.apps.googleusercontent.com')
 
 router.post('/login', async (req, res, next) => {
     const {token} = req.body
     const ticket = await client.verifyIdToken({
         idToken: token,
-        audience: '954435352392-24bg4crh8bc1bkt4hbpq6ke6iadacv53.apps.googleusercontent.com'
+        audience: '954435352392-0hr4iqn8uii9u9kkoj1di3p8s5calv0t.apps.googleusercontent.com'
     })
     const payload = ticket.getPayload()
     const email = payload.email
     const firstName = payload.given_name
     const lastName = payload.family_name
     const profilePicture = payload.picture
+    console.log(payload)
     User.findOne({email: email})
         .then(async user => {
             //if no user exists yet then create profile and user objects in DB
@@ -409,6 +410,31 @@ router.get('/quizzes/:quizName', (req, res, next) => {
 router.get('/quizzes', (req, res, next) => {
     Quiz.find({})
         .then(data => {
+            res.json(data)
+        })
+        .catch(next)
+});
+
+router.put('/quizzes/:id/incrementNumTaken', (req, res, next) => {
+    const qid = req.params.id;
+    Quiz.findByIdAndUpdate(qid, {$inc: {'timesTaken': 1}})
+        .then(data => {
+            console.log("yerrrr");
+            console.log(data);
+            console.log("yerrrr2");
+            res.json(data)
+        })
+        .catch(next)
+});
+
+router.put('/quizzes/:id/rate/:rating', (req, res, next) => {
+    const qid = req.params.id;
+    const rating = req.params.rating;
+    Quiz.findByIdAndUpdate(qid, {$inc: {'totalVotes': 1, 'totalRating': rating}})
+        .then(data => {
+            console.log("yerrrr");
+            console.log(data);
+            console.log("yerrrr2");
             res.json(data)
         })
         .catch(next)
