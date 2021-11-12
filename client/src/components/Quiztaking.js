@@ -13,8 +13,9 @@ function QuizTaking() {
     // -1: quiz not started, 0: ques 1, 1: ques 2, n: ques n+1
     const [questionIndex, setQuestionIndex] = useState(-1);
     const [numCorrect, setNumCorrect] = useState(0);
-    const [displayFeedback, setDisplayFeedback] = useState(-1);
+    const [displayFeedback, toggleDisplayFeedback] = useState(-1);
     const [stopwatch, setStopwatch] = useState(0);
+    const [rating, setRating] = useState(0);
 
     const quizName = parse(window.location.href.split('/').pop());
 
@@ -33,27 +34,33 @@ function QuizTaking() {
         }
     }
 
-    function timeout(delay) {
+    function sleep(delay) {
         return new Promise( res => setTimeout(res, delay) );
     }
 
     const processChoice = async (choice, isCorrect) => {
-        setDisplayFeedback(choice); // display feedback
-        await timeout(1000); // 1 sec delay
-        setDisplayFeedback(-1);
+        toggleDisplayFeedback(choice); // display feedback
+        await sleep(1000); // 1 sec delay
+        toggleDisplayFeedback(-1);
         if (isCorrect)
             setNumCorrect(numCorrect+1); // +1 correct
         setQuestionIndex(questionIndex + 1); // next question
     }
 
     const goToEndOfQuiz = async () => {
-        await timeout(1000);
+        await sleep(1000);
         setQuestionIndex(questionIndex + 1);
+        await axios.put(`/api/quizzes/${quiz._id}/incrementNumTaken`).then(res => res.data);
     }
 
     const formatTime = () => {
         var time = new Date(stopwatch * 1000).toISOString().substr(14, 5);
         return time;
+    }
+
+    const submitRating = async () => {
+        await axios.put(`/api/quizzes/${quiz._id}/rate/${rating}`).then(res => res.data);;
+        setRating(-1);
     }
 
     useEffect(() => {
@@ -68,9 +75,10 @@ function QuizTaking() {
 
     useEffect(() => {
         // Quiz results "page"
-        if (questionIndex == questions.length)
+        if (questionIndex == questions.length) {
             goToEndOfQuiz();
-    });
+        }
+    }, [questionIndex]);
 
     return (
         <body>
@@ -112,7 +120,7 @@ function QuizTaking() {
                                 }
                             })
                         }
-                    <Link to={`/quizpage/${quizName}`}><button style={{backgroundColor: "red"}}>Quit Quiz</button></Link>
+                        {displayFeedback == -1 ? <Link to={`/quizpage/${quizName}`}><button style={{backgroundColor: "red"}}>Quit Quiz</button></Link> : null}
                     </div>
                 </ul>
                 :
@@ -128,6 +136,26 @@ function QuizTaking() {
                     You got {numCorrect}/{questions.length} correct!
                     <br></br><br></br>
                     Time Taken: {formatTime()}
+                    <br></br><br></br>
+                    {
+                    rating != -1
+                    ? <div>
+                            <div class="rate">
+                            <input onClick={() => setRating(5)} type="radio" id="star5" name="rate" value="5" />
+                                <label for="star5" title="text">5 stars</label>
+                            <input onClick={() => setRating(4)} type="radio" id="star4" name="rate" value="4" />
+                                <label for="star4" title="text">4 stars</label>
+                            <input onClick={() => setRating(3)} type="radio" id="star3" name="rate" value="3" />
+                                <label for="star3" title="text">3 stars</label>
+                            <input onClick={() => setRating(2)} type="radio" id="star2" name="rate" value="2" />
+                                <label for="star2" title="text">2 stars</label>
+                            <input onClick={() => setRating(1)} type="radio" id="star1" name="rate" value="1" />
+                                <label for="star1" title="text">1 star</label>
+                            </div>
+                            <button onClick={() => submitRating()} class="submit-rating">Submit Rating</button>
+                        </div>
+                    : <p>Rating received!</p>
+                    }
                 </div>
             }       
         </body>

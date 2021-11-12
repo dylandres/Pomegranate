@@ -414,6 +414,31 @@ router.get('/quizzes', (req, res, next) => {
         .catch(next)
 });
 
+router.put('/quizzes/:id/incrementNumTaken', (req, res, next) => {
+    const qid = req.params.id;
+    Quiz.findByIdAndUpdate(qid, {$inc: {'timesTaken': 1}})
+        .then(data => {
+            console.log("yerrrr");
+            console.log(data);
+            console.log("yerrrr2");
+            res.json(data)
+        })
+        .catch(next)
+});
+
+router.put('/quizzes/:id/rate/:rating', (req, res, next) => {
+    const qid = req.params.id;
+    const rating = req.params.rating;
+    Quiz.findByIdAndUpdate(qid, {$inc: {'totalVotes': 1, 'totalRating': rating}})
+        .then(data => {
+            console.log("yerrrr");
+            console.log(data);
+            console.log("yerrrr2");
+            res.json(data)
+        })
+        .catch(next)
+});
+
 // router.post('/quizzes', (req, res, next) => {
 //     Quiz.create(req.body)
 //         .then(data => res.json(data))
