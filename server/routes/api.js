@@ -396,6 +396,36 @@ router.put('/platforms/:id/:userID/unsubscribe', (req, res, next) => {
 });
 
 //////////////////////////////////QUIZ//////////////////////////////////
+router.get('/quizzes/by_id/:quiz_id', (req, res, next) => {
+    const qid = ObjectId(req.params.quiz_id);
+    Quiz.find({ '_id': qid })
+        .then(data => {
+            console.log('quiz')
+            console.log(data)
+            res.json(data)
+        })
+        .catch(next)
+});
+
+router.put('/quizzes/add_to_leaderboard/:id/:username/:score', (req, res, next) => {
+    const qid = ObjectId(req.params.id);
+    // Adds (player, score) to leaderboard
+    // If player exists, just update score
+    const key = "leaderboard." + req.params.username;
+    const value = req.params.score;
+    console.log(req.params.username)
+    console.log(value)
+    var update = { "$set" : {} }
+    update["$set"][key] = value
+    Quiz.findByIdAndUpdate(qid, update)
+    .then(data => {
+        console.log("updated leaderboard");
+        console.log(data);
+        res.json(data);
+    })
+    .catch(next);
+});
+
 router.get('/quizzes/:quizName', (req, res, next) => {
     Quiz.find({ 'quizName': req.params.quizName })
         .then(data => {

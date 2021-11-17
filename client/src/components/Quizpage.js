@@ -1,22 +1,26 @@
 import React from 'react'
 import '../style/Quizpage.css';
-import  { useState, useEffect } from 'react';
+import  { useState, useEffect, useContext } from 'react';
 import '../style/tabs.css';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
+import { myContext } from '../Context.js'
+import { sortLeaderboard } from '../functions.js';
 
 function QuizPage() {
 
     const [quiz, setQuiz] = useState({});
+    const {userObject, setUserObject} = useContext(myContext)
+    const [leaderboard, setLeaderboard] = useState({})
     // Edit mode privilege
     // const [canEdit, setCanEdit] = useState(false);
 
     const getQuiz = async(quizName) => {
         const thisQuiz = await axios.get(`/api/users/${quizName}/quiz`).then(res => res.data);
-        console.log('h1');
-        console.log(JSON.stringify(thisQuiz[0]));
-        console.log('h2');
         setQuiz(thisQuiz[0]);
+        // Get leaderboard information for quiz
+        const board = sortLeaderboard(thisQuiz[0]);
+        setLeaderboard(board);
     }
 
     const parse = (url) => {
@@ -52,10 +56,16 @@ function QuizPage() {
                 Times Taken: {quiz.timesTaken}
                 <br/>
                 Rating: {(quiz.totalRating / quiz.totalVotes).toFixed(1)}
-                {/* <br/>
-                Total Rating: {quiz.totalRating}
-                <br/>
-                Total Votes: {quiz.totalVotes} */}
+                <div className="leaderboard">
+                Leaderboard
+                <br></br>
+                {
+                Object.entries(leaderboard).map( ([player, score], i) => 
+                    <p>
+                        {i+1}: {player}: {score}
+                    </p>
+                )}
+                </div>
                 <div class="rating">
                 <div class="rating-upper" style={{width: `${calculateRating(quiz)}%`}}>
                     <span>★</span>
@@ -73,7 +83,11 @@ function QuizPage() {
                 </div>
             </div>
                 <br/> <br/> <br/>
+                {
+                (userObject) ? 
                 <Link to={`/quiztaking/${window.location.href.split('/').pop()}`}> <input type='button' className='take-quiz-button' value='Take Quiz!'></input> </Link>
+                : <p>Login to take quizzes!</p>
+                }
             </div>
         </body>
     );
