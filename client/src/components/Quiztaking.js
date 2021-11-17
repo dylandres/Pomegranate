@@ -1,10 +1,12 @@
 import React from 'react'
 import '../style/Quiztaking.css';
-import  { useState, useEffect } from 'react';
+import  { useState, useEffect, useContext } from 'react';
 import '../style/tabs.css';
 import { parse } from '../functions.js';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
+import { sortLeaderboard } from '../functions.js';
+import { myContext } from '../Context.js'
 
 function QuizTaking() {
 
@@ -15,6 +17,9 @@ function QuizTaking() {
     const [displayFeedback, toggleDisplayFeedback] = useState(-1);
     const [stopwatch, setStopwatch] = useState(0);
     const [rating, setRating] = useState(0);
+    const [leaderboard, setLeaderboard] = useState({});
+    const {userObject, setUserObject} = useContext(myContext);
+    const [quizScore, setQuizScore] = useState(0);
 
     const quizName = parse(window.location.href.split('/').pop());
 
@@ -32,6 +37,9 @@ function QuizTaking() {
             }
             setQuestions(questionArray);
         }
+        // Get leaderboard information for quiz
+        const board = sortLeaderboard(thisQuiz);
+        setLeaderboard(board);
     }
 
     function sleep(delay) {
@@ -51,6 +59,19 @@ function QuizTaking() {
         await sleep(1000);
         setQuestionIndex(questionIndex + 1);
         await axios.put(`/api/quizzes/${quiz._id}/incrementNumTaken`).then(res => res.data);
+        // Update leaderboard if necessary
+        const oldScore = leaderboard[userObject.userName];
+        // User took this quiz before
+        if (oldScore) {
+            // High-score
+            if (quizScore > oldScore) {
+                await axios.put(`/api/quizzes/add_to_leaderboard/${quiz._id}/${userObject.userName}/${quizScore}`).then(res => res.data);
+            }
+        }
+        // User's first time taking quiz
+        else {
+            await axios.put(`/api/quizzes/add_to_leaderboard/${quiz._id}/${userObject.userName}/${quizScore}`).then(res => res.data);
+        }
     }
 
     const formatTime = () => {
@@ -63,14 +84,20 @@ function QuizTaking() {
         setRating(-1);
     }
 
+    const calculateScore = () => {
+        setQuizScore(((((numCorrect / questions.length) * 10000) / stopwatch) * 100).toFixed(0));
+    }
+
     useEffect(() => {
         fillQuestions(quizName);
       }, [])
 
     useEffect(() => {
         // Stopwatch mechanism
-        if (questionIndex > -1 && questionIndex < questions.length)
+        if (questionIndex > -1 && questionIndex < questions.length) {
             setTimeout(() => setStopwatch(stopwatch + 1), 1000);  
+            calculateScore();
+        }
     });
 
     useEffect(() => {
@@ -135,6 +162,8 @@ function QuizTaking() {
                     You got {numCorrect}/{questions.length} correct!
                     <br></br><br></br>
                     Time Taken: {formatTime()}
+                    <br></br><br></br>
+                    Score: {quizScore}
                     <br></br><br></br>
                     {
                     rating != -1
