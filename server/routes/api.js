@@ -396,17 +396,6 @@ router.put('/platforms/:id/:userID/unsubscribe', (req, res, next) => {
 });
 
 //////////////////////////////////QUIZ//////////////////////////////////
-router.get('/quizzes/by_id/:quiz_id', (req, res, next) => {
-    const qid = ObjectId(req.params.quiz_id);
-    Quiz.find({ '_id': qid })
-        .then(data => {
-            console.log('quiz')
-            console.log(data)
-            res.json(data)
-        })
-        .catch(next)
-});
-
 router.get('/quizzes/:quizName', (req, res, next) => {
     Quiz.find({ 'quizName': req.params.quizName })
         .then(data => {
