@@ -104,17 +104,13 @@
   }
 
 .popular-quiz-tab {
-  overflow-y: scroll;
-  min-height: 144%;
-  list-style-type: none;
-  text-align: center;
+    overflow-y: scroll;
+    min-height: 144%;
+    list-style-type: none;
+    text-align: center;
     background-color: rgb(130, 130, 220);
 }
 
 .for-you-tab {
-  overflow-y: scroll;
-  min-height: 144%;
-  list-style-type: none;
-  text-align: center;
-    background-color: rgb(130, 130, 220);
+    text-align: center;
 }
