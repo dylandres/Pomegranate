@@ -1,6 +1,6 @@
 import React from 'react'
 import '../style/Quizpage.css';
-import  { useState, useEffect } from 'react';
+import  { useState, useEffect, useContext } from 'react';
 import '../style/tabs.css';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
@@ -66,10 +66,6 @@ function QuizPage() {
                     </p>
                 )}
                 </div>
-                {/* <br/>
-                Total Rating: {quiz.totalRating}
-                <br/>
-                Total Votes: {quiz.totalVotes} */}
                 <div class="rating">
                 <div class="rating-upper" style={{width: `${calculateRating(quiz)}%`}}>
                     <span>★</span>
@@ -87,7 +83,11 @@ function QuizPage() {
                 </div>
             </div>
                 <br/> <br/> <br/>
+                {
+                (userObject) ? 
                 <Link to={`/quiztaking/${window.location.href.split('/').pop()}`}> <input type='button' className='take-quiz-button' value='Take Quiz!'></input> </Link>
+                : <p>Login to take quizzes!</p>
+                }
             </div>
         </body>
     );
