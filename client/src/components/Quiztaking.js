@@ -10,6 +10,7 @@ function QuizTaking() {
 
     const [quiz, setQuiz] = useState({});
     const [questions, setQuestions] = useState([]);
+    // -1: quiz not started, 0: ques 1, 1: ques 2, n: ques n+1
     const [questionIndex, setQuestionIndex] = useState(-1);
     const [numCorrect, setNumCorrect] = useState(0);
     const [displayFeedback, toggleDisplayFeedback] = useState(-1);
@@ -22,7 +23,6 @@ function QuizTaking() {
         // Get Quiz from db
         const thisQuiz = await axios.get(`/api/quizzes/${quizName}`).then(res => res.data[0]);
         setQuiz(thisQuiz);
-        // Get all questions from this quiz
         if (thisQuiz.questions != null) {
             var questionArray = []
             for (var i = 0; i < thisQuiz.questions.length; i++) {
@@ -88,6 +88,7 @@ function QuizTaking() {
                 <div>
                     <h1 className='title'>{quizName}</h1>
                     <h2>length: {questions.length} questions</h2>
+                    <h2>time limit: 5 min</h2>
                     <button class='start-button' onClick={() => setQuestionIndex(questionIndex + 1)}>Ready!</button>
                 </div>
                 :
@@ -103,19 +104,19 @@ function QuizTaking() {
                             // Display choices
                             ? questions[questionIndex].choices.map(function(choice, i) {
                                 if (questions[questionIndex].answer == i) {
-                                    return <div><button id={i} class="answer" onClick={() => processChoice(i, true)}>{choice}</button><br/></div>
+                                    return <div><button id={i} class="answer" onClick={() => processChoice(i, true)}>{choice} correct</button><br/></div>
                                 }
                                 else {
-                                    return <div><button id={i} class="answer" onClick={() => processChoice(i, false)}>{choice}</button><br/></div>
+                                    return <div><button id={i} class="answer" onClick={() => processChoice(i, false)}>{choice} incorrect</button><br/></div>
                                 }
                             })
                             // Display feedback (right and wrong answers) after choice is picked
                             : questions[questionIndex].choices.map(function(choice, i) {
                                 if (questions[questionIndex].answer == i) {
-                                    return <div><button id={i} class="disabled-answer" style={{backgroundColor: "lightgreen"}}>{choice}</button><br/></div>
+                                    return <div><button id={i} class="disabled-answer" style={{backgroundColor: "lightgreen"}}>{choice} correct</button><br/></div>
                                 }
                                 else {
-                                    return <div><button id={i} class="disabled-answer" style={{backgroundColor: "red"}}>{choice}</button><br/></div>
+                                    return <div><button id={i} class="disabled-answer" style={{backgroundColor: "red"}}>{choice} incorrect</button><br/></div>
                                 }
                             })
                         }
