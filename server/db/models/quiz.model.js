@@ -29,6 +29,12 @@ const QuizSchema = new Schema( {
     },
     timesTaken : {
         type: Number
+    },
+    totalRating : {
+        type: Number
+    },
+    totalVotes : {
+        type: Number
     }
 }, {timestamps: true});
 
