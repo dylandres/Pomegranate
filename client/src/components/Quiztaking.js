@@ -165,6 +165,7 @@ function QuizTaking() {
                     <br></br><br></br>
                     Score: {quizScore}
                     <br></br><br></br>
+                    {/* <Link to={`/quizpage/${quizName}`}><button class='back-button'>BACK</button></Link> */}
                     {
                     rating != -1
                     ? <div>
@@ -180,7 +181,8 @@ function QuizTaking() {
                             <input onClick={() => setRating(1)} type="radio" id="star1" name="rate" value="1" />
                                 <label for="star1" title="text">1 star</label>
                             </div>
-                            <button onClick={() => submitRating()} class="submit-rating">Submit Rating</button>
+                            <br></br><br></br>
+                            <Link to={`/quizpage/${quizName}`}><button onClick={() => submitRating()} class="submit-rating">Submit Rating</button></Link>
                         </div>
                     : <p>Rating received!</p>
                     }
