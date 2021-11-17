@@ -3,7 +3,7 @@ const Schema = mongoose.Schema;
 
 const PlatformSchema = new Schema( {
     ownerID: {
-        type: String,
+        type: Schema.Types.ObjectID,
         required: true
     },
     subscribers: {

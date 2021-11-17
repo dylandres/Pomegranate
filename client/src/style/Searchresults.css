@@ -6,7 +6,7 @@
     border-radius: 10px;
     font-family: "Trebuchet MS", sans-serif;
     position:relative;
-    left: 20%;
+    display: inline-block;
   }
   
   .card:hover {

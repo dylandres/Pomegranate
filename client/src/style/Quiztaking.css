@@ -1,0 +1,95 @@
+.start-button {
+    background-color: lightgreen;
+    text-align: center;
+    font-size: 1.8rem;
+    width: 10%;
+    height: 90%;
+    border-radius: 15px;
+    transition: 0.3s;
+    position:relative;
+    top: 20%;
+    left:45%;
+}
+
+.start-button:hover {
+    box-shadow: 0 20px 100px 0 rgba(0, 0, 0, 0.2);
+    transform: scale(1.05) perspective(1px)
+}
+
+.question {
+    position:relative;
+    top: 100%;
+    text-align: center;
+    font-size: 1.8rem;
+}
+
+.answer {
+    width: 10%;
+    border-radius: 15px;
+    background-color:white;
+}
+
+.answer:hover{
+    box-shadow: 0 20px 100px 0 rgba(0, 0, 0, 0.2);
+    transform: scale(1.05) perspective(1px)
+}
+
+.disabled-answer {
+    width: 10%;
+    border-radius: 15px;
+    background-color:white;
+}
+
+.disabled-answer:active {
+    border-style: outset;
+}
+
+
+.end-of-quiz {
+    position:relative;
+    top: 100%;
+    text-align: center;
+    font-size: 1.8rem;
+}
+
+.rate {
+    position: absolute;
+    left: 40.5%;
+    height: 46px;
+    padding: 0 10px;
+}
+.rate:not(:checked) > input {
+    position:absolute;
+    top:-9999px;
+}
+.rate:not(:checked) > label {
+    float:right;
+    width:1em;
+    overflow:hidden;
+    white-space:nowrap;
+    cursor:pointer;
+    font-size:50px;
+    color:#ccc;
+}
+.rate:not(:checked) > label:before {
+    content: '★ ';
+}
+.rate > input:checked ~ label {
+    color: #ffc700;    
+}
+.rate:not(:checked) > label:hover,
+.rate:not(:checked) > label:hover ~ label {
+    color: #deb217;  
+}
+.rate > input:checked + label:hover,
+.rate > input:checked + label:hover ~ label,
+.rate > input:checked ~ label:hover,
+.rate > input:checked ~ label:hover ~ label,
+.rate > label:hover ~ input:checked ~ label {
+    color: #c59b08;
+}
+
+.submit-rating {
+    position: relative;
+    top: 240%;
+}

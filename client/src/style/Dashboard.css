@@ -1,5 +1,5 @@
 .feed {
-    position: absolute;
+    position: fixed;
     float: left;
     left: 1%;
     width: 65%;
@@ -10,6 +10,7 @@
     /* padding: 50px;
     margin: 20px; */
     background: lightgray;
+    border-radius: 15px;
 }
 
 .subscriptions {
@@ -23,13 +24,16 @@
     background: lightgray;
     /* padding: 50px;
     margin: 20px; */
+    border-radius: 10px;
+    overflow-y: scroll;
 }
 
 .subscriptions_header {
     text-align: center;
     padding: 6px 20%;
-    border: 1px solid gray;
+    border: 0.5px solid gray;
     height:3%;
+    border-radius: 10px;
 }
 
 .popular-quizzes {
@@ -39,4 +43,74 @@
 .dash-card-image {
     text-align: center;
     width:20%;
+}
+
+.sub-card-image {
+    text-align: center;
+    width:20%;
+    height: 7.5em;
   }
+
+.sub-card {
+    background: pink;
+    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+    transition: 0.3s;
+    width: 95%;
+    border-radius: 10px;
+    font-family: "Trebuchet MS", sans-serif;
+    position:relative;
+    display: inline-block;
+    text-align: center;
+    
+  }
+  
+  .sub-card:hover {
+    box-shadow: 0 20px 100px 0 rgba(0, 0, 0, 0.2);
+    transform: scale(1.1) perspective(1px);
+    
+  }
+
+  .sub-card-container {
+    /* float: left;
+    width: 90%;
+    height: 50%; */
+    /* font-size: 1rem; */
+    padding: 30px 16px;
+    
+    /* background: pink; */
+    text-align: center;
+    transform: translateZ(0);
+  }
+  
+  .sub-card-title {
+    font-family: "Lucida Console", "Courier New", monospace;
+    color: rgb(0, 180, 0);
+    text-align: center;
+    display: inline-block;
+  }
+  
+  .sub-card-content {
+    font-family: "Trebuchet MS", sans-serif;
+    color: rgb(117, 76, 1);
+    text-align: center;
+    height: 4em;
+    display: inline-block;
+  }
+  
+  .sub-card-action {
+    font-family: "Trebuchet MS", sans-serif;
+    text-align: center;
+    display: inline-block;
+  }
+
+.popular-quiz-tab {
+    overflow-y: scroll;
+    min-height: 144%;
+    list-style-type: none;
+    text-align: center;
+    background-color: rgb(130, 130, 220);
+}
+
+.for-you-tab {
+    text-align: center;
+}

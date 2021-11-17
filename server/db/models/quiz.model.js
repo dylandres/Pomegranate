@@ -6,10 +6,6 @@ const QuizSchema = new Schema( {
         type: Schema.Types.ObjectID,
         required: true
     },
-    quizPage : {
-        type: Schema.Types.ObjectID,
-        required: true
-    },
     questions : {
         type: [Schema.Types.ObjectID],
         required: true
@@ -21,6 +17,24 @@ const QuizSchema = new Schema( {
     quizName : {
         type: String,
         required: true
+    },
+    quizBanner : {
+        type: String
+    },
+    quizLogo : {
+        type: String
+    },
+    summary : {
+        type: String
+    },
+    timesTaken : {
+        type: Number
+    },
+    totalRating : {
+        type: Number
+    },
+    totalVotes : {
+        type: Number
     }
 }, {timestamps: true});
 

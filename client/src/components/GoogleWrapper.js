@@ -1,25 +1,52 @@
-import React from 'react'
-import GoogleLogin from 'react-google-login'
+import React, { useContext } from 'react'
+import { GoogleLogin, GoogleLogout } from 'react-google-login'
 import axios from 'axios'
+import { myContext } from '../Context.js'
 
 function GoogleWrapper() {
+    const {userObject, setUserObject} = useContext(myContext)
 
-    const handleLoginSuccess = (res) => {
+    const handleLogin = (googleData) => {
+        axios({
+          method: "post",
+          url: "/api/login",
+          data: {
+              token: googleData.tokenId
+          },
+        })
+          .then((res) => setUserObject(res.data))
+          .then(() => window.location.reload())
+          .then((err) => console.log(err))
+    }
 
-        const userObj = {email: res.profileObj.email, subscriptions: [], awards: [], givenName: res.profileObj.givenName, famName: res.profileObj.familyName}
-        console.log(userObj)
-        axios.post('api/login', userObj)
+    const handleLogout = () => {
+        axios({
+            method: 'delete',
+            url: '/api/logout',
+            data: {
+                withCredentials: true
+            },
+        })
+          .then((res) => setUserObject(null))
+          .then(() => window.location.reload()) 
     }
     return (
         <div>
-            <GoogleLogin
-            clientId = '954435352392-24bg4crh8bc1bkt4hbpq6ke6iadacv53.apps.googleusercontent.com'
+            {!userObject ? <GoogleLogin
+            clientId = '954435352392-0hr4iqn8uii9u9kkoj1di3p8s5calv0t.apps.googleusercontent.com'
             buttonText= 'Login'
-            onSuccess = {handleLoginSuccess}
-            onFailure = {(err) => console.log (err)}
+            onSuccess = {handleLogin}
+            onFailure = {(err) => console.log ('this is error' + err)}
             cookiePolicy = {'single_host_origin'}
-            />
+            /> :
+            <GoogleLogout
+            clientId="954435352392-0hr4iqn8uii9u9kkoj1di3p8s5calv0t.apps.googleusercontent.com"
+            buttonText="Logout"
+            onLogoutSuccess={handleLogout}
+            >
+            </GoogleLogout>}
         </div>
+        
     )
 }
 

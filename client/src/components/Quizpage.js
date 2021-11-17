@@ -7,7 +7,7 @@ import { Link } from 'react-router-dom';
 
 function QuizPage() {
 
-    const [quiz, setQuiz] = useState(null);
+    const [quiz, setQuiz] = useState({});
     // Edit mode privilege
     // const [canEdit, setCanEdit] = useState(false);
 
@@ -35,15 +35,43 @@ function QuizPage() {
     // Get username from url
     const quizName = parse(window.location.href.split('/').pop());
 
+    const calculateRating = (quiz) => {
+        // How many stars to fill
+        return ((quiz.totalRating / quiz.totalVotes) / 5) * 328;
+    }
+
     useEffect(() => {
         getQuiz(quizName);
       }, [])
     return (
         <body>
-            <h1 className='title'>Welcome to the {quizName} Quiz Page!</h1>
+            <h1 className='quiz-title'>{quiz.quizName}</h1>
             <div className='quiz-profile'>
-                {quiz != null ? <img className="quiz-banner" src={quiz.quizBanner}></img> : <img className="quiz-banner" src=""></img>}
-                {quiz != null ? <img className="quiz-logo" src={quiz.quizLogo}></img> : <img className="quiz-logo" src=""></img>}
+                {quiz.quizBanner !== '' ? <img className="quiz-banner" src={quiz.quizBanner}></img> : <img className="quiz-banner" src="https://pomegranate-io.s3.amazonaws.com/1200px-Black_flag.svg.png"></img>}
+                {quiz.quizLogo !== '' ? <img className="quiz-logo" src={quiz.quizLogo}></img> : <img className="quiz-logo" src="https://pomegranate-io.s3.amazonaws.com/pomegranate.png"></img>}
+                Times Taken: {quiz.timesTaken}
+                <br/>
+                Rating: {(quiz.totalRating / quiz.totalVotes).toFixed(1)}
+                {/* <br/>
+                Total Rating: {quiz.totalRating}
+                <br/>
+                Total Votes: {quiz.totalVotes} */}
+                <div class="rating">
+                <div class="rating-upper" style={{width: `${calculateRating(quiz)}%`}}>
+                    <span>★</span>
+                    <span>★</span>
+                    <span>★</span> 
+                    <span>★</span>
+                    <span>★</span>
+                </div>
+                <div class="rating-lower">
+                    <span>★</span>
+                    <span>★</span>
+                    <span>★</span>
+                    <span>★</span>
+                    <span>★</span>
+                </div>
+            </div>
                 <br/> <br/> <br/>
                 <Link to={`/quiztaking/${window.location.href.split('/').pop()}`}> <input type='button' className='take-quiz-button' value='Take Quiz!'></input> </Link>
             </div>
