@@ -2,7 +2,7 @@
     text-align: center;
     position: relative;
     z-index: 4;
-    top: 250%;
+    top: 300%;
     margin-left: 1.4%;
     background-color: lightblue;
     display: inline-block;
@@ -116,4 +116,11 @@
     padding: 0;
     display: flex;
     z-index: 0;
+  }
+
+  .leaderboard {
+    text-align: right;
+    position: absolute;
+    right: 20%;
+    top: 100%;
   }
