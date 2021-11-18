@@ -18,7 +18,7 @@ const fileFilter = (req, file, cb) => {
     if (file.mimetype === "image/jpeg" || file.mimetype === "image/png" || file.mimetype === "image/jpg" || file.mimetype === "image/webp") {
         cb(null, true);
     } else {
-        cb(new Error("Invalid file type, only JPEG and PNG is allowed!"), false);
+        cb(new Error("Invalid file type, only JPEG, PNG, JPG, or WEBP is allowed!"), false);
     }
 };
 
@@ -27,7 +27,7 @@ const upload = multer({
     storage: multerS3({
       acl: "public-read",
       s3: s3,
-      bucket: 'pomegranate-io',
+      bucket: process.env.BUCKET_NAME,
       metadata: function (req, file, cb) {
         cb(null, { fieldName: "TESTING_METADATA" });
       },

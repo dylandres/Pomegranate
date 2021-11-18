@@ -43,7 +43,7 @@ function DashBoard() {
                         <Tab>Popular Quizzes</Tab>
                         <Tab>For You</Tab>
                     </TabList>
-                    <TabPanel className="popular-quiz-tab">
+                    <TabPanel className="popular-quiz-tab react-tabs__tab-panel">
                         {
                             <ul className="popular-quizzes">
                                 {popularQuizzes.map(quiz => (
@@ -70,7 +70,7 @@ function DashBoard() {
                             </ul>
                         }
                     </TabPanel>
-                    <TabPanel className="for-you-tab">
+                    <TabPanel className="for-you-tab react-tabs__tab-panel">
                         <h2>list of quizzes (subscribed)</h2>
                     </TabPanel>
                 </Tabs>

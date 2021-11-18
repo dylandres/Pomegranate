@@ -27,6 +27,15 @@ function PlatformPage() {
     const [deleting, setDeleting] = useState(false);
     const { userObject, setUserObject } = useContext(myContext)
 
+    const convertDate = (date) => {
+        var newDate = date.substring(0, 10).split('-');
+        const month = ['January', 'February', 'March', 'April', 'May', 'June', 
+        'July', 'August', 'September', 'October', 'November', 'December'];
+        const newMonth = month[parseInt(newDate[1]) - 1];
+        const newDay = newDate[2] < 10 ? newDate[2].substring(1,2) : newDate[2];
+        return newMonth + ' ' + newDay + ', ' + newDate[0];
+    }
+    
     const toggleDeleting = () => {
         setDeleting(!deleting);
     }
@@ -140,13 +149,13 @@ function PlatformPage() {
                                 </div>
                                 :
                                 <span style={{ position: 'absolute', width: '100%', height: '100%' }}>
-                                    <div style={{ position: 'absolute', zIndex: 3, top: '1%', left: '11%', display: 'inline-block', overflowY: 'hidden' }}>
+                                    <div style={{ position: 'absolute', zIndex: 5, top: '1%', left: '11%', display: 'inline-block', overflowY: 'hidden' }}>
                                         <UploadImage imgType='Logo' colType='platforms' uid={platform._id} whichImage='change-logo' state={forceUpdate} />
                                     </div>
-                                    <div style={{ position: 'absolute', zIndex: 3, top: '1%', right: '1%', display: 'inline-block', overflowY: 'hidden' }}>
+                                    <div style={{ position: 'absolute', zIndex: 5, top: '1%', right: '1%', display: 'inline-block', overflowY: 'hidden' }}>
                                         <UploadImage imgType='Banner' colType='platforms' uid={platform._id} whichImage='change-banner' state={forceUpdate} />
                                     </div>
-                                    <div style={{ position: 'absolute', top: '23%', right: '1%', zIndex: 4 }}>
+                                    <div style={{ position: 'absolute', top: '23%', right: '1%', zIndex: 6 }}>
                                         <Button variant="contained" onClick={changeEditing}>Stop Editing</Button>
                                     </div>
                                 </span>
@@ -217,7 +226,7 @@ function PlatformPage() {
                                 {subs.map(sub => (
                                     <div className="plat-card_container">
                                         <div className="col s12 m7">
-                                            <Link to={`/user/${sub.userName}`} style={{ textDecoration: 'none' }}>
+                                            <Link to={`/profile/${sub.userName}`} style={{ textDecoration: 'none' }}>
                                                 <div className="plat-card">
                                                     <div>
                                                         {sub.profilePicture !== '' ? <img className="plat-card-image" src={sub.profilePicture}></img> : <img className="plat-card-image" src="https://pomegranate-io.s3.amazonaws.com/24-248253_user-profile-default-image-png-clipart-png-download.png"></img>}
@@ -238,19 +247,24 @@ function PlatformPage() {
                     <TabPanel className='about-tab react-tabs__tab-panel'>
                         {platform != null ?
                             <div style={{ zIndex: 6, textAlign: 'center', width: '100%', height: '100%' }}>
-                                <h2 style={viewMode} >{platform.description}</h2>
+                                <h2 style={Object.assign({}, viewMode, { position: 'relative', width: '100%'})}>{platform.description}</h2>
                                 <TextField variant="outlined" size={thisDesc}
                                     style={Object.assign({}, editMode, { width: '90%', zIndex: 7 })} onChange={handleEditChange}
-                                    value={thisDesc}
+                                    value={thisDesc} multiline
                                 />
                                 <br />
                                 <Button style={editMode} variant='contained' onClick={() => setDesc(platform.description)}>Cancel Edit</Button>
                                 &nbsp;
                                 &nbsp;
                                 <Button style={editMode} variant='contained' onClick={() => editDesc(thisDesc)}>Confirm Edit</Button>
+                                {platform.subscribers != null ? 
+                                <h2>Subscriber Count: {platform.subscribers.length}</h2>
+                                : null}
+                                {platform.createdAt != null ? <h2>Date Created: {convertDate(platform.createdAt)}</h2>:null}
+                                
                             </div>
                             :
-                            <h2></h2>
+                            null
                         }
                     </TabPanel>
                     <TabPanel className='options-tab react-tabs__tab-panel' style={editMode}>
