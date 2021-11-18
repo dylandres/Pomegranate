@@ -5,21 +5,24 @@ import '../style/tabs.css';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
 import { myContext } from '../Context.js'
-import { sortLeaderboard } from '../functions.js';
+import { getQuizLeaderboard } from '../functions.js';
 
 function QuizPage() {
 
     const [quiz, setQuiz] = useState({});
     const {userObject, setUserObject} = useContext(myContext)
     const [leaderboard, setLeaderboard] = useState({})
+    const [platform, setPlatform] = useState({});
     // Edit mode privilege
     // const [canEdit, setCanEdit] = useState(false);
 
     const getQuiz = async(quizName) => {
         const thisQuiz = await axios.get(`/api/users/${quizName}/quiz`).then(res => res.data);
         setQuiz(thisQuiz[0]);
+        const thisPlatform = await axios.get(`/api/platforms/by_id/${thisQuiz[0].ownerID}`).then(res => res.data);
+        setPlatform(thisPlatform[0]);
         // Get leaderboard information for quiz
-        const board = sortLeaderboard(thisQuiz[0]);
+        const board = getQuizLeaderboard(thisQuiz[0]);
         setLeaderboard(board);
     }
 
@@ -106,8 +109,9 @@ function QuizPage() {
                 {
                 (userObject) ? 
                 <Link to={`/quiztaking/${window.location.href.split('/').pop()}`}> <input type='button' className='take-quiz-button' value='Take Quiz!'></input> </Link>
-                : <p>Login to take quizzes!</p>
+                : <input type='button' className='take-quiz-button' value='Login to Take Quiz!' style={{fontSize: '14px'}}></input>
                 }
+                <Link to={`/platform/${platform.platformName}`}> <input type='button' className='go-platform-button' value='Visit Platform'></input> </Link>
             </div>
         </body>
     );

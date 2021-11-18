@@ -25,6 +25,7 @@ function PlatformPage() {
     const [isSubbed, setSubbed] = useState(false);
     const [thisDesc, setDesc] = useState('');
     const {userObject, setUserObject} = useContext(myContext)
+    const [leaderboard, setLeaderboard] = useState({});
     
     const changeEditing = () => {
         setEditing(!isEditing);
@@ -147,7 +148,7 @@ function PlatformPage() {
                             </div>
                             :
                             <div style={{ position: 'absolute', top: '24.5%', left: '1%', zIndex: 4 }}>
-                                <Button variant="contained" onClick={unsubscribe}>Unsubscribe</Button>
+                                <Button style={{backgroundColor: 'white', color: 'blue'}}variant="contained" onClick={unsubscribe}>Unsubscribe</Button>
                             </div>
                         :
                         null

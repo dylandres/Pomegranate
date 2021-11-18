@@ -367,6 +367,14 @@ router.get('/platforms/:ownerID/profile', (req, res, next) => {
         .catch(next)
 })
 
+router.get('/platforms/by_id/:id', (req, res, next) => {
+    Platform.find({ '_id': req.params.id })
+        .then(data => {
+            res.json(data)
+        })
+        .catch(next)
+})
+
 router.post('/platforms', (req, res, next) => {
     Platform.create(req.body)
         .then(data => res.json(data))
