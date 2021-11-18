@@ -53,35 +53,55 @@ function QuizPage() {
             <div className='quiz-profile'>
                 {quiz.quizBanner !== '' ? <img className="quiz-banner" src={quiz.quizBanner}></img> : <img className="quiz-banner" src="https://pomegranate-io.s3.amazonaws.com/1200px-Black_flag.svg.png"></img>}
                 {quiz.quizLogo !== '' ? <img className="quiz-logo" src={quiz.quizLogo}></img> : <img className="quiz-logo" src="https://pomegranate-io.s3.amazonaws.com/pomegranate.png"></img>}
-                Times Taken: {quiz.timesTaken}
-                <br/>
-                Rating: {(quiz.totalRating / quiz.totalVotes).toFixed(1)}
                 <div className="leaderboard">
-                Leaderboard
-                <br></br>
-                {
-                Object.entries(leaderboard).map( ([player, score], i) => 
-                    <p>
-                        {i+1}: {player}: {score}
-                    </p>
-                )}
+                    <section id="scrims-ladder--container" class="scrims-ladder">
+                        <div class="ladder-nav">
+                            <div class="ladder-nav--col ladder-title">
+                                <h1>Leaderboard</h1>
+                            </div>
+                        </div>
+                        {
+                        ((Object.keys(leaderboard).length !== 0))
+                        ? Object.entries(leaderboard).map( ([player, score], i) =>
+                            <Link to={`/profile/${player}`} style = {{textDecoration: 'None'}}> <div class="ladder-nav--results-players">
+                                <div class="results-col">
+                                    <span class="results-rank"><span class={i == 0 ? "rank-1" : i == 1 ? "rank-2" : i == 2 ? "rank-3" : "rank"}>{i+1}</span></span>
+                                </div>
+                                <div class="results-col">
+                                    <span class="results-gp">{player}</span>
+                                </div>
+                                <div class="results-col">
+                                    <span class="results-pts">{score}</span>
+                                </div>
+                            </div> </Link>
+                        )
+                        : <p class="empty-leaderboard">Be the first to take this quiz!</p>
+                        } 
+                    </section>
                 </div>
-                <div class="rating">
-                <div class="rating-upper" style={{width: `${calculateRating(quiz)}%`}}>
-                    <span>★</span>
-                    <span>★</span>
-                    <span>★</span> 
-                    <span>★</span>
-                    <span>★</span>
+                <div class="info">
+                    Times Taken: {quiz.timesTaken}
+                    <br/>
+                    Rating: {(quiz.totalRating / quiz.totalVotes).toFixed(1)}
+                    <div class="rating">
+                    <div class="rating-upper" style={{width: `${calculateRating(quiz)}%`}}>
+                        <span>★</span>
+                        <span>★</span>
+                        <span>★</span> 
+                        <span>★</span>
+                        <span>★</span>
+                    </div>
+                    <div class="rating-lower">
+                        <span>★</span>
+                        <span>★</span>
+                        <span>★</span>
+                        <span>★</span>
+                        <span>★</span>
+                    </div>
+                    </div>
+                    <br/>
+                    <div class="summary">{quiz.summary}</div>
                 </div>
-                <div class="rating-lower">
-                    <span>★</span>
-                    <span>★</span>
-                    <span>★</span>
-                    <span>★</span>
-                    <span>★</span>
-                </div>
-            </div>
                 <br/> <br/> <br/>
                 {
                 (userObject) ? 
