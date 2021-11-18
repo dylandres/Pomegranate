@@ -28,8 +28,7 @@ const PlatformSchema = new Schema( {
         required: true
     },
     leaderboard: {
-        type: Map,
-        of: Number,
+        type: Object,
         required: true
     }
 }, {timestamps: true});

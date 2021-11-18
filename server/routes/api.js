@@ -136,6 +136,7 @@ router.post('/login', async (req, res, next) => {
         audience: '954435352392-0hr4iqn8uii9u9kkoj1di3p8s5calv0t.apps.googleusercontent.com'
     })
     const payload = ticket.getPayload()
+    
     const email = payload.email
     const firstName = payload.given_name
     const lastName = payload.family_name
@@ -361,6 +362,14 @@ router.put('/platforms/:id/description', (req, res, next) => {
 router.get('/platforms/:ownerID/profile', (req, res, next) => {
     console.log(req.params.ownerID);
     Platform.find({ 'ownerID': req.params.ownerID })
+        .then(data => {
+            res.json(data)
+        })
+        .catch(next)
+})
+
+router.get('/platforms/by_id/:id', (req, res, next) => {
+    Platform.find({ '_id': req.params.id })
         .then(data => {
             res.json(data)
         })

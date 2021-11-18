@@ -9,19 +9,26 @@ import { makeStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
 import zIndex from '@material-ui/core/styles/zIndex';
-import UploadImage from './UploadImage.js'
-import { myContext } from '../Context.js'
+import UploadImage from './UploadImage.js';
+import CreatePlatform from './CreatePlatform.js';
+import { myContext } from '../Context.js';
 
 function ProfilePage() {
-    
+
     const [profile, setProfile] = useState({});
     const [platforms, setPlatforms] = useState([]);
     const [ignored, forceUpdate] = useReducer(x => x + 1, 0);
     const [isEditing, setEditing] = useState(false);
     const [thisBio, setBio] = useState('');
-    const {userObject, setUserObject} = useContext(myContext)
+    const { userObject, setUserObject } = useContext(myContext)
+    const [creating, setCreating] = useState(false);
+    const [subs, setSubs] = useState([]);
     // Edit mode privilege
     // const [canEdit, setCanEdit] = useState(false);
+
+    const toggleCreating = () => {
+        setCreating(!creating);
+    }
 
     const changeEditing = () => {
         setEditing(!isEditing);
@@ -31,10 +38,11 @@ function ProfilePage() {
     const getProfile = async (username) => {
         const thisProfile = await axios.get(`/api/users/${username}/user`).then(res => res.data);
         setProfile(thisProfile[0]);
-        if(userObject && (thisProfile[0]._id === userObject._id))
+        if (userObject && (thisProfile[0]._id === userObject._id))
             setUserObject(thisProfile[0]);
         setBio(thisProfile[0].bio);
         getPlatforms(thisProfile[0]);
+        getSubs(thisProfile[0]);
         return thisProfile;
     }
 
@@ -42,6 +50,12 @@ function ProfilePage() {
         const allPlatforms = await axios.get(`/api/platforms/${thisUser._id}/profile`).then(res => res.data);
         console.log(allPlatforms);
         setPlatforms(allPlatforms);
+    }
+
+    const getSubs = async (thisUser) => {
+        const platforms = await axios.get(`/api/platforms`).then(res => res.data);
+        const filtered = platforms.filter(plat => plat.subscribers.includes(thisUser._id));
+        setSubs(filtered);
     }
 
     const editBio = async (biography) => {
@@ -56,7 +70,7 @@ function ProfilePage() {
     useEffect(() => {
         getProfile(username);
 
-    }, [ignored])
+    }, [ignored, username])
 
     let viewMode = {};
     let editMode = {};
@@ -77,6 +91,12 @@ function ProfilePage() {
             <h1 className='profile-title'>@{username}</h1>
             <h1 className='profile-name'>{profile.fullName}</h1>
             <div className='profile'>
+                {
+                    creating && <CreatePlatform
+                        handleClose={toggleCreating}
+                        user={userObject}
+                    />
+                }
                 {console.log(profile)}
                 {console.log(userObject)}
                 {
@@ -98,15 +118,30 @@ function ProfilePage() {
                                         <Button variant="contained" onClick={changeEditing}>Stop Editing</Button>
                                     </div>
                                 </span>
+                            :
+                            null
                         :
                         null
-                    :
-                    null
                 }
+                {
+                    userObject ?
+                        profile._id === userObject._id ?
+                            !isEditing ?
+                                <div style={{ position: 'absolute', top: '1%', right: '1%', zIndex: 3 }}>
+                                    <Button variant="contained" onClick={toggleCreating}>Create Platform</Button>
+                                </div>
+                                :
+                                null
+                            :
+                            null
+                        :
+                        null
+                }
+                {console.log(creating)}
                 {profile.profileBanner !== '' ? <img className="profile-banner" src={profile.profileBanner}></img> : <img className="profile-banner" src="https://pomegranate-io.s3.amazonaws.com/1200px-Black_flag.svg.png"></img>}
                 {profile.profilePicture !== '' ? <img className="profile-logo" src={profile.profilePicture}></img> : <img className="profile-logo" src="https://pomegranate-io.s3.amazonaws.com/24-248253_user-profile-default-image-png-clipart-png-download.png"></img>}
                 <Tabs>
-                    <TabList style={{ position: 'relative', top: '0%', width: '98vw' }}>
+                    <TabList style={{ position: 'relative', top: '0%', width: '98vw', textAlign: 'center' }}>
                         <Tab className='profile-tab react-tabs__tab'>Profile</Tab>
                         <Tab className='profile-tab react-tabs__tab'>Owned Platforms</Tab>
                         <Tab className='profile-tab react-tabs__tab'>Quiz History</Tab>
@@ -160,8 +195,31 @@ function ProfilePage() {
                     <TabPanel style={{ position: 'relative', top: '0%' }}>
                         <h2>list of quizzes</h2>
                     </TabPanel>
-                    <TabPanel style={{ position: 'relative', top: '0%' }}>
-                        <h2>list of subscriptions</h2>
+                    <TabPanel className="plat-tab react-tabs__tab-panel">
+                        {
+                            <ul className="plat-list">
+                                {subs.map(platform => (
+                                    <div className="prof-card_container">
+                                        <div className="col s12 m7">
+                                            <Link to={`/platform/${platform.platformName}`} style={{ textDecoration: 'none' }}>
+                                                <div className="prof-card" >
+                                                    <div>
+                                                        {platform.platformLogo !== '' ? <img className="prof-card-image" src={platform.platformLogo}></img> : <img />}
+                                                        <br />
+                                                    </div>
+                                                    <span className="prof-card-title"><b>{platform.platformName}</b></span>
+                                                    <br />
+                                                    <div className="prof-card-content">
+                                                        <p>{platform.description}</p>
+                                                    </div>
+                                                    <br />
+                                                </div>
+                                            </Link>
+                                        </div>
+                                    </div>)
+                                )}
+                            </ul>
+                        }
                     </TabPanel>
                     <TabPanel style={{ position: 'relative', top: '0%' }}>
                         <h2>list of rewards</h2>

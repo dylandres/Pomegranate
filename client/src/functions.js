@@ -20,7 +20,7 @@ export const dateFromObjectId = function (objectId) {
 };
 
 // Sort quiz leaderboard in descending order
-export const sortLeaderboard = function (quiz) {
+export const getQuizLeaderboard = function (quiz) {
     var dict = {}
     // Get data from quiz object
     for(var player in quiz.leaderboard) {
@@ -35,6 +35,7 @@ export const sortLeaderboard = function (quiz) {
     items.sort(function(first, second) {
         return second[1] - first[1];
     });
+    items = items.slice(0, 5);
     // Create leaderboard dictionary object
     const leaderboard = {}
     for (var i in items) {

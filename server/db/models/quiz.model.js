@@ -11,7 +11,7 @@ const QuizSchema = new Schema( {
         required: true
     },
     leaderboard : {
-        type: Map,
+        type: Object,
         required: true
     },
     quizName : {
