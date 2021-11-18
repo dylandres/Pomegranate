@@ -1,9 +1,14 @@
 # Pomegranate
 
 Build #5 Plan
-- 3.1 Create Platform (done?)
-- 3.2 Delete Platform (done?)
-- 3.3 Create Quiz (done?)
+-..........
+-Done
+- 3.1 Create Platform (Done!)
+- 3.2 Delete Platform (Done!)
+- Leaderboards!
+-.....................
+-Todo
+- 3.3 Create Quiz (todo)
 - 3.4 Creation Question (done?)
 - 3.5 Delete Question (done?)
 - 3.6 Publish Quiz (done?)
