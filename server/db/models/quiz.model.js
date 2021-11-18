@@ -11,7 +11,7 @@ const QuizSchema = new Schema( {
         required: true
     },
     leaderboard : {
-        type: Map,
+        type: Object,
         required: true
     },
     quizName : {
@@ -28,6 +28,12 @@ const QuizSchema = new Schema( {
         type: String
     },
     timesTaken : {
+        type: Number
+    },
+    totalRating : {
+        type: Number
+    },
+    totalVotes : {
         type: Number
     }
 }, {timestamps: true});

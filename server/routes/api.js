@@ -127,13 +127,13 @@ router.put("/users/:id/change-banner", function (req, res) {
 
 const { OAuth2Client } = require('google-auth-library')
 const session = require('express-session')
-const client = new OAuth2Client('954435352392-vu748ldrt768bonguc7qp94bnj4cm334.apps.googleusercontent.com')
+const client = new OAuth2Client('954435352392-0hr4iqn8uii9u9kkoj1di3p8s5calv0t.apps.googleusercontent.com')
 
 router.post('/login', async (req, res, next) => {
     const {token} = req.body
     const ticket = await client.verifyIdToken({
         idToken: token,
-        audience: '954435352392-vu748ldrt768bonguc7qp94bnj4cm334.apps.googleusercontent.com'
+        audience: '954435352392-0hr4iqn8uii9u9kkoj1di3p8s5calv0t.apps.googleusercontent.com'
     })
     const payload = ticket.getPayload()
     
@@ -141,6 +141,7 @@ router.post('/login', async (req, res, next) => {
     const firstName = payload.given_name
     const lastName = payload.family_name
     const profilePicture = payload.picture
+    console.log(payload)
     User.findOne({email: email})
         .then(async user => {
             //if no user exists yet then create profile and user objects in DB
@@ -367,6 +368,14 @@ router.get('/platforms/:ownerID/profile', (req, res, next) => {
         .catch(next)
 })
 
+router.get('/platforms/by_id/:id', (req, res, next) => {
+    Platform.find({ '_id': req.params.id })
+        .then(data => {
+            res.json(data)
+        })
+        .catch(next)
+})
+
 router.post('/platforms', (req, res, next) => {
     Platform.create(req.body)
         .then(data => res.json(data))
@@ -396,6 +405,36 @@ router.put('/platforms/:id/:userID/unsubscribe', (req, res, next) => {
 });
 
 //////////////////////////////////QUIZ//////////////////////////////////
+router.get('/quizzes/by_id/:quiz_id', (req, res, next) => {
+    const qid = ObjectId(req.params.quiz_id);
+    Quiz.find({ '_id': qid })
+        .then(data => {
+            console.log('quiz')
+            console.log(data)
+            res.json(data)
+        })
+        .catch(next)
+});
+
+router.put('/quizzes/add_to_leaderboard/:id/:username/:score', (req, res, next) => {
+    const qid = ObjectId(req.params.id);
+    // Adds (player, score) to leaderboard
+    // If player exists, just update score
+    const key = "leaderboard." + req.params.username;
+    const value = req.params.score;
+    console.log(req.params.username)
+    console.log(value)
+    var update = { "$set" : {} }
+    update["$set"][key] = value
+    Quiz.findByIdAndUpdate(qid, update)
+    .then(data => {
+        console.log("updated leaderboard");
+        console.log(data);
+        res.json(data);
+    })
+    .catch(next);
+});
+
 router.get('/quizzes/:quizName', (req, res, next) => {
     Quiz.find({ 'quizName': req.params.quizName })
         .then(data => {
@@ -410,6 +449,31 @@ router.get('/quizzes/:quizName', (req, res, next) => {
 router.get('/quizzes', (req, res, next) => {
     Quiz.find({})
         .then(data => {
+            res.json(data)
+        })
+        .catch(next)
+});
+
+router.put('/quizzes/:id/incrementNumTaken', (req, res, next) => {
+    const qid = req.params.id;
+    Quiz.findByIdAndUpdate(qid, {$inc: {'timesTaken': 1}})
+        .then(data => {
+            console.log("yerrrr");
+            console.log(data);
+            console.log("yerrrr2");
+            res.json(data)
+        })
+        .catch(next)
+});
+
+router.put('/quizzes/:id/rate/:rating', (req, res, next) => {
+    const qid = req.params.id;
+    const rating = req.params.rating;
+    Quiz.findByIdAndUpdate(qid, {$inc: {'totalVotes': 1, 'totalRating': rating}})
+        .then(data => {
+            console.log("yerrrr");
+            console.log(data);
+            console.log("yerrrr2");
             res.json(data)
         })
         .catch(next)

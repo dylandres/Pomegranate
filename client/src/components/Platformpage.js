@@ -35,6 +35,7 @@ function PlatformPage() {
         const newDay = newDate[2] < 10 ? newDate[2].substring(1,2) : newDate[2];
         return newMonth + ' ' + newDay + ', ' + newDate[0];
     }
+    const [leaderboard, setLeaderboard] = useState({});
     
     const toggleDeleting = () => {
         setDeleting(!deleting);
@@ -176,8 +177,8 @@ function PlatformPage() {
                                 <Button variant="contained" onClick={subscribe}>Subscribe</Button>
                             </div>
                             :
-                            <div style={{ position: 'absolute', top: '24.5%', left: '0.5%', zIndex: 4 }}>
-                                <Button variant="contained" onClick={unsubscribe}>Unsubscribe</Button>
+                            <div style={{ position: 'absolute', top: '24.5%', left: '1%', zIndex: 4 }}>
+                                <Button style={{backgroundColor: 'white', color: 'blue'}}variant="contained" onClick={unsubscribe}>Unsubscribe</Button>
                             </div>
                         :
                         null
