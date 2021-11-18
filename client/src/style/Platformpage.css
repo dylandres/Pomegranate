@@ -3,7 +3,7 @@
     position: relative;
     z-index: 4;
     top: 320%;
-    margin-left: 1.4%;
+    margin-left: 1.15%;
     background-color: lightblue;
     display: inline-block;
 }
@@ -37,6 +37,21 @@
     border-top-right-radius: 10px;
 }
 
+.platform-tab {
+    padding-left: 0%;
+    padding-right: 0%;
+    width: 18vw;  
+    text-align: center;
+    z-index: 5;
+}
+
+.platform-tab-hidden {
+  padding-left: 0%;
+  padding-right: 0%;
+  width: 18vw;  
+  text-align: center;
+  z-index: 5;
+}
 .plat-card-image {
     text-align: center;
     width:20%;
@@ -120,6 +135,12 @@
 }
 
 .about-tab {
+  position: 'relative';
+  text-align: center;
+  top: 0%; 
+}
+
+.options-tab {
   position: 'relative';
   top: 0%; 
 }
