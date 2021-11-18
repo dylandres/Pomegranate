@@ -5,7 +5,7 @@ import '../style/tabs.css';
 import { parse } from '../functions.js';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
-import { sortLeaderboard } from '../functions.js';
+import { getQuizLeaderboard } from '../functions.js';
 import { myContext } from '../Context.js'
 
 function QuizTaking() {
@@ -38,7 +38,7 @@ function QuizTaking() {
             setQuestions(questionArray);
         }
         // Get leaderboard information for quiz
-        const board = sortLeaderboard(thisQuiz);
+        const board = getQuizLeaderboard(thisQuiz);
         setLeaderboard(board);
     }
 
