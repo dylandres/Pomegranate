@@ -42,9 +42,9 @@
 }
 
   .take-quiz-button {
-    position:relative;
+    position:absolute;
     transition: 0.5s;
-    bottom: 50%;
+    bottom: 25%;
     left:1%;
     width: 10%;
     height: 10%;
@@ -68,10 +68,10 @@
   }
 
   .go-platform-button {
-    position:relative;
+    position:absolute;
     transition: 0.5s;
-    bottom: 35%;
-    left:-9.2%;
+    bottom: 10%;
+    left:1%;
     width: 10%;
     height: 10%;
     text-align: center;

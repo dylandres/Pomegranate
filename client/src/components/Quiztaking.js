@@ -21,7 +21,12 @@ function QuizTaking() {
     const {userObject, setUserObject} = useContext(myContext);
     const [quizScore, setQuizScore] = useState(0);
 
-    const quizName = parse(window.location.href.split('/').pop());
+    var link = window.location.href;
+    console.log(link);
+    if (link.charAt(link.length - 1) === '/')
+        link = link.substring(0, link.length - 1)
+    console.log(link);
+    const quizName = parse(link.split('/').pop());
 
     const fillQuestions = async (quizName) => {
         // Get Quiz from db

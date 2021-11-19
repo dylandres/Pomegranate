@@ -79,7 +79,12 @@ function ProfilePage() {
     }
 
     // Get username from url
-    const username = window.location.href.split('/').pop();
+    var link = window.location.href;
+    console.log(link);
+    if(link.charAt(link.length - 1) === '/')
+        link = link.substring(0, link.length-1)
+    console.log(link);
+    const username = link.split('/').pop();
 
     useEffect(() => {
         getProfile(username);

@@ -129,7 +129,12 @@ function PlatformPage() {
         }
     }
 
-    var platformName = window.location.href.split('/').pop();
+    var link = window.location.href;
+    console.log(link);
+    if(link.charAt(link.length - 1) === '/')
+        link = link.substring(0, link.length-1)
+    console.log(link);
+    var platformName = link.split('/').pop();
 
     useEffect(() => {
         newPlatform(platformName);
