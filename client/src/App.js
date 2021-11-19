@@ -7,6 +7,7 @@ import ProfilePage from './components/Profilepage.js'
 import PlatformPage from './components/Platformpage.js'
 import QuizPage from './components/Quizpage.js'
 import QuizTaking from './components/Quiztaking.js'
+import EditQuiz from './components/EditQuiz.js'
 
 function App() {
   return (
@@ -23,6 +24,8 @@ function App() {
         <Route path='/profile' component={ProfilePage}/>
         {/* Quiz Page */}
         <Route path='/quizpage' component={QuizPage}/>
+        {/* Quiz Editing */}
+        <Route path='/quizediting' component={EditQuiz}/>
         {/* Quiz Taking */}
         <Route path='/quiztaking' component={QuizTaking}/>
         {/* Platform Page */}

@@ -25,6 +25,7 @@ function UploadImage({ imgType, colType, uid, whichImage, state}) {
             const request = await axios.put(`/api/${colType}/${uid}/${whichImage}`, formData)
                 .then(res => res.data);
             console.log(request);
+            selectFile(null);
             state();
         }
     }
