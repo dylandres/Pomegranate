@@ -14,6 +14,7 @@ import TextField from '@material-ui/core/TextField';
 import zIndex from '@material-ui/core/styles/zIndex';
 import { myContext } from '../Context.js';
 import DeletePlatform from './DeletePlatform.js';
+import CreateQuiz from './CreateQuiz.js';
 
 function PlatformPage() {
 
@@ -25,7 +26,12 @@ function PlatformPage() {
     const [isSubbed, setSubbed] = useState(false);
     const [thisDesc, setDesc] = useState('');
     const [deleting, setDeleting] = useState(false);
+    const [creating, setCreating] = useState(false);
     const { userObject, setUserObject } = useContext(myContext)
+
+    const toggleCreating = () => {
+        setCreating(!creating);
+    }
 
     const convertDate = (date) => {
         var newDate = date.substring(0, 10).split('-');
@@ -84,7 +90,14 @@ function PlatformPage() {
         const odd = filtered.filter((quiz, index) => index % 2 == 1);
         // final array, sorted such that columns are printed in row order
         const finalArray = evens.concat(odd);
-        setQuizzes(finalArray);
+        console.log(finalArray);
+        if(userObject && (userObject._id !== platform.ownerID)) {
+            const finalFinalArray = finalArray.filter((quiz) => quiz.published);
+            setQuizzes(finalFinalArray);
+        }
+        else {
+            setQuizzes(finalArray);
+        }
     }
 
     const editDesc = async (description) => {
@@ -142,6 +155,12 @@ function PlatformPage() {
                     />
                 }
                 {
+                    creating && <CreateQuiz
+                        handleClose={toggleCreating}
+                        platform={platform}
+                    />
+                }
+                {
                     userObject ?
                         platform.ownerID === userObject._id ?
                             !isEditing ?
@@ -160,6 +179,20 @@ function PlatformPage() {
                                         <Button variant="contained" onClick={changeEditing}>Stop Editing</Button>
                                     </div>
                                 </span>
+                            :
+                            null
+                        :
+                        null
+                }
+                {
+                    userObject ?
+                        platform.ownerID === userObject._id ?
+                            !isEditing ?
+                                <div style={{ position: 'absolute', top: '1%', right: '1%', zIndex: 3 }}>
+                                    <Button variant="contained" onClick={toggleCreating}>Create Quiz</Button>
+                                </div>
+                                :
+                                null
                             :
                             null
                         :
@@ -210,6 +243,19 @@ function PlatformPage() {
                                                     </div>
                                                     <br />
                                                     Times Taken: {quiz.timesTaken}
+                                                    <br />
+                                                    {
+                                                        userObject ?
+                                                            userObject._id === platform.ownerID ?
+                                                                quiz.published ?
+                                                                    <span>Published</span>
+                                                                    :
+                                                                    <span>Not Published</span>
+                                                                :
+                                                                null
+                                                            :
+                                                            null
+                                                    }
                                                 </div>
                                             </Link>
                                         </div>

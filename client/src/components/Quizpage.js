@@ -13,8 +13,8 @@ function QuizPage() {
     const {userObject, setUserObject} = useContext(myContext)
     const [leaderboard, setLeaderboard] = useState({})
     const [platform, setPlatform] = useState({});
-    // Edit mode privilege
-    // const [canEdit, setCanEdit] = useState(false);
+    //Edit mode privilege
+    const [canEdit, setCanEdit] = useState(false);
 
     const getQuiz = async(quizName) => {
         const thisQuiz = await axios.get(`/api/users/${quizName}/quiz`).then(res => res.data);
@@ -24,6 +24,9 @@ function QuizPage() {
         // Get leaderboard information for quiz
         const board = getQuizLeaderboard(thisQuiz[0]);
         setLeaderboard(board);
+        if(userObject) {
+            setCanEdit(thisPlatform[0].ownerID === userObject._id);
+        }
     }
 
     const parse = (url) => {
@@ -49,7 +52,7 @@ function QuizPage() {
 
     useEffect(() => {
         getQuiz(quizName);
-      }, [])
+      }, [userObject])
     return (
         <body>
             <h1 className='quiz-title'>{quiz.quizName}</h1>
@@ -112,6 +115,12 @@ function QuizPage() {
                 : <input type='button' className='take-quiz-button' value='Login to Take Quiz!' style={{fontSize: '14px'}}></input>
                 }
                 <Link to={`/platform/${platform.platformName}`}> <input type='button' className='go-platform-button' value='Visit Platform'></input> </Link>
+                {
+                    canEdit ? 
+                        <Link to={`/quizediting/${window.location.href.split('/').pop()}`}> <input type='button' className='quizpage-edit-button' value='Edit'></input> </Link>
+                        :
+                        null
+                }
             </div>
         </body>
     );
