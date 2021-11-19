@@ -1,13 +1,14 @@
 # Pomegranate
 
-Build #5 Plan
-- Done:
-- 
-- **Platform Creation:**
+Build #5
+
+Done:
+
+**Platform Creation:**
 -   3.1 Create Platform
 -   3.2 Delete Platform
 
-- **Quiz Creation:**
+**Quiz Creation:**
 -   3.3 Create Quiz
 -   3.4 Creation Question
 -   3.5 Delete Question
@@ -17,6 +18,6 @@ Build #5 Plan
 -   4.13 Change Quiz Page Description
 -   4.14. Save Quiz Page Changes
 
-- **Extra:**
+**Extra:**
 -   Leaderboards!
 -   Rate Quiz!
