@@ -30,6 +30,10 @@ const UserSchema = new Schema( {
     userName: {
         type: String,
         required: true,
+    },
+    quizHistory: {
+        type: [Object],
+        required: true,
     }
 }, {timestamps: true});
 

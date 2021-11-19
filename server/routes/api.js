@@ -223,6 +223,24 @@ router.get('/users', (req, res, next) => {
         })
         .catch(next)
 });
+router.put('/users/quiz_history/:quiz/:id/:score/:timestamp', (req, res, next) => {
+    const uid = req.params.id;
+    const update = {
+        $push: {
+            'quizHistory': {
+                $each: [{'quiz': req.params.quiz,
+                         'score': req.params.score,
+                         'timestamp': req.params.timestamp}],
+                //  Only keep 20 quizzes in history
+                $slice: 20,
+                $position: 0
+            }
+        }
+    }
+    User.findByIdAndUpdate(uid, update)
+        .then(data => res.json(data))
+        .catch(next)
+});
 
 router.get('/users/:profileID', (req, res, next) => {
     User.findOne({ 'profile': req.params.profileID })
@@ -436,10 +454,10 @@ router.put('/quizzes/add_to_leaderboard/:id/:username/:score', (req, res, next) 
 });
 
 router.get('/quizzes/:quizName', (req, res, next) => {
+    console.log(req.params.quizName);
     Quiz.find({ 'quizName': req.params.quizName })
         .then(data => {
             console.log('quiz')
-            console.log(req.params.query);
             console.log(data)
             res.json(data)
         })

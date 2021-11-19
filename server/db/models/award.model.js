@@ -8,7 +8,12 @@ const AwardSchema = new Schema( {
         required: true
     },
     awardPicture : {
-        type: String
+        type: String,
+        required: true
+    },
+    description : {
+        type: String,
+        required: true
     },
     users : {
         type: [Schema.Types.ObjectID]
