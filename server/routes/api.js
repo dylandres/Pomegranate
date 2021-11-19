@@ -73,6 +73,56 @@ router.put("/platforms/:id/change-banner", function (req, res) {
     });
 });
 
+router.put("/quizzes/:id/change-logo", function (req, res) {
+    const uid = req.params.id;
+    singleUpload(req, res, function (err) {
+        if (err) {
+            return res.json({
+                success: false,
+                errors: {
+                    title: "Image Upload Error",
+                    detail: err.message,
+                    error: err,
+                },
+            });
+        }
+        const params = {
+            Bucket: req.file.bucket,
+            Key: req.file.key
+        }
+        const url = s3.getSignedUrl('getObject', params).split("?AWS")[0];
+        let update = { quizLogo: url };
+        Quiz.findByIdAndUpdate(uid, update, { new: true })
+            .then((user) => res.status(200).json({ success: true, user: user }))
+            .catch((err) => res.status(400).json({ success: false, error: err }));
+    });
+});
+
+router.put("/quizzes/:id/change-banner", function (req, res) {
+    const uid = req.params.id;
+    singleUpload(req, res, function (err) {
+        if (err) {
+            return res.json({
+                success: false,
+                errors: {
+                    title: "Image Upload Error",
+                    detail: err.message,
+                    error: err,
+                },
+            });
+        }
+        const params = {
+            Bucket: req.file.bucket,
+            Key: req.file.key
+        }
+        const url = s3.getSignedUrl('getObject', params).split("?AWS")[0];
+        let update = { quizBanner: url };
+        Quiz.findByIdAndUpdate(uid, update, { new: true })
+            .then((user) => res.status(200).json({ success: true, user: user }))
+            .catch((err) => res.status(400).json({ success: false, error: err }));
+    });
+});
+
 router.put("/users/:id/change-pic", function (req, res) {
     const uid = req.params.id;
     singleUpload(req, res, function (err) {
@@ -422,6 +472,22 @@ router.put('/platforms/:id/:userID/unsubscribe', (req, res, next) => {
     .catch(next);
 });
 
+router.put('/platforms/:id/:quizID/add-quiz', (req, res, next) => {
+    const pid = req.params.id;
+    const qid = ObjectId(req.params.quizID);
+    Platform.findByIdAndUpdate(pid, {$push: {'quizzes': qid}})
+    .then(data => res.json(data))
+    .catch(next);
+});
+
+router.put('/platforms/:id/:quizID/remove-quiz', (req, res, next) => {
+    const pid = req.params.id;
+    const qid = ObjectId(req.params.quizID);
+    Platform.findByIdAndUpdate(pid, {$pull: {'quizzes': qid}})
+    .then(data => res.json(data))
+    .catch(next);
+});
+
 //////////////////////////////////QUIZ//////////////////////////////////
 router.get('/quizzes/by_id/:quiz_id', (req, res, next) => {
     const qid = ObjectId(req.params.quiz_id);
@@ -433,6 +499,22 @@ router.get('/quizzes/by_id/:quiz_id', (req, res, next) => {
         })
         .catch(next)
 });
+
+router.put('/quizzes/:id/summary', (req, res, next) => {
+    const qid = ObjectId(req.params.id);
+    console.log(req.body.summary);
+    Quiz.findByIdAndUpdate(qid, {'summary': req.body.summary})
+    .then(data => res.json(data))
+    .catch(next);
+})
+
+router.put('/quizzes/:id/published', (req, res, next) => {
+    const qid = ObjectId(req.params.id);
+    console.log(req.body.published);
+    Quiz.findByIdAndUpdate(qid, {'published': req.body.published})
+    .then(data => res.json(data))
+    .catch(next);
+})
 
 router.put('/quizzes/add_to_leaderboard/:id/:username/:score', (req, res, next) => {
     const qid = ObjectId(req.params.id);
@@ -457,8 +539,6 @@ router.get('/quizzes/:quizName', (req, res, next) => {
     console.log(req.params.quizName);
     Quiz.find({ 'quizName': req.params.quizName })
         .then(data => {
-            console.log('quiz')
-            console.log(data)
             res.json(data)
         })
         .catch(next)
@@ -497,17 +577,37 @@ router.put('/quizzes/:id/rate/:rating', (req, res, next) => {
         .catch(next)
 });
 
-// router.post('/quizzes', (req, res, next) => {
-//     Quiz.create(req.body)
-//         .then(data => res.json(data))
-//         .catch(next)
-// });
+ router.post('/quizzes', (req, res, next) => {
+     Quiz.create(req.body)
+         .then(data => res.json(data))
+         .catch(next)
+ });
 
-// router.delete('/quizzes/:id', (req, res, next) => {
-//     Quiz.findOneAndDelete({'_id': req.params.id})
-//         .then(data => res.json(data))
-//         .catch(next)
-// });
+ router.put('/quizzes/:quizid/:questionid/newQuestion', (req, res, next) => {
+     quizID = req.params.quizid;
+     console.log(quizID);
+     questionID = req.params.questionid;
+     console.log(questionID);
+     Quiz.findByIdAndUpdate(quizID, {$push: {'questions': questionID}})
+     .then(data => res.json(data))
+     .catch(next);
+ })
+
+ router.put('/quizzes/:quizid/:questionid/deleteQuestion', (req, res, next) => {
+    quizID = req.params.quizid;
+    console.log(quizID);
+    questionID = req.params.questionid;
+    console.log(questionID);
+    Quiz.findByIdAndUpdate(quizID, {$pull: {'questions': questionID}})
+    .then(data => res.json(data))
+    .catch(next);
+})
+
+ router.delete('/quizzes/:id', (req, res, next) => {
+     Quiz.findOneAndDelete({'_id': ObjectId(req.params.id)})
+         .then(data => res.json(data))
+         .catch(next)
+ });
 
 //////////////////////////////////QUESTION//////////////////////////////////
 router.get('/questions/:id', (req, res, next) => {
@@ -520,16 +620,39 @@ router.get('/questions/:id', (req, res, next) => {
         .catch(next)
 });
 
-// router.post('/questions', (req, res, next) => {
-//     Question.create(req.body)
-//         .then(data => res.json(data))
-//         .catch(next)
-// });
+router.put('/questions/:id', (req, res, next) => {
+    const qid = ObjectId(req.params.id);
+    console.log(qid);
+    const question = req.body.question;
+    const choices = req.body.choices;
+    const answer = req.body.answer;
+    Question.findByIdAndUpdate(qid, {'question': question, 'choices': choices, 'answer': answer})
+        .then(data => {
+            res.json(data)
+        })
+        .catch(next)
+});
 
-// router.delete('/questions/:id', (req, res, next) => {
-//     Question.findOneAndDelete({'_id': req.params.id})
-//         .then(data => res.json(data))
-//         .catch(next)
-// });
+router.get('/questions/:ownerID/by-quiz', (req, res, next) => {
+    const oid = req.params.ownerID;
+    Question.find({ownerID: ObjectId(oid) })
+    .then(data => {
+        res.json(data)
+    })
+    .catch(next)
+})
+
+ router.post('/questions', (req, res, next) => {
+     Question.create(req.body)
+         .then(data => res.json(data))
+         .catch(next)
+ });
+
+router.delete('/questions/:id', (req, res, next) => {
+    console.log(req.params.id);
+    Question.findOneAndDelete({'_id': req.params.id})
+        .then(data => res.json(data))
+        .catch(next)
+});
 
 module.exports = router;
