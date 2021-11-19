@@ -208,6 +208,7 @@ function ProfilePage() {
                     </TabPanel>
                     <TabPanel className="history-tab react-tabs__tab-panel">
                         {
+                            (quizHistory.length) ?
                             quizHistory.map(quiz => (
                                 <div className="history-card_container">
                                     <div className="col s12 m7">
@@ -228,6 +229,7 @@ function ProfilePage() {
                                     </div>
                                 </div>
                             ))
+                            : <p><b>{profile.userName} hasn't taken any quizzes yet!</b></p>
                         }
                     </TabPanel>
                     <TabPanel className="plat-tab react-tabs__tab-panel">
