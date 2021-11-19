@@ -60,7 +60,7 @@ function QuizPage() {
                     <section id="scrims-ladder--container" class="scrims-ladder">
                         <div class="ladder-nav">
                             <div class="ladder-nav--col ladder-title">
-                                <h1>Leaderboard</h1>
+                                <h1>Quiz Leaderboard</h1>
                             </div>
                         </div>
                         {
