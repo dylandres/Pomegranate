@@ -15,6 +15,8 @@ import zIndex from '@material-ui/core/styles/zIndex';
 import { myContext } from '../Context.js';
 import DeletePlatform from './DeletePlatform.js';
 import CreateQuiz from './CreateQuiz.js';
+import { getPlatformLeaderboard } from '../functions.js';
+
 
 function PlatformPage() {
 
@@ -28,6 +30,7 @@ function PlatformPage() {
     const [deleting, setDeleting] = useState(false);
     const [creating, setCreating] = useState(false);
     const { userObject, setUserObject } = useContext(myContext)
+    const [leaderboard, setLeaderboard] = useState({});
 
     const toggleCreating = () => {
         setCreating(!creating);
@@ -41,7 +44,6 @@ function PlatformPage() {
         const newDay = newDate[2] < 10 ? newDate[2].substring(1,2) : newDate[2];
         return newMonth + ' ' + newDay + ', ' + newDate[0];
     }
-    const [leaderboard, setLeaderboard] = useState({});
     
     const toggleDeleting = () => {
         setDeleting(!deleting);
@@ -94,9 +96,13 @@ function PlatformPage() {
         if(userObject && (userObject._id !== platform.ownerID)) {
             const finalFinalArray = finalArray.filter((quiz) => quiz.published);
             setQuizzes(finalFinalArray);
+            const board = getPlatformLeaderboard(finalFinalArray);
+            setLeaderboard(board);
         }
         else {
             setQuizzes(finalArray);
+            const board = getPlatformLeaderboard(finalArray);
+            setLeaderboard(board);
         }
     }
 
@@ -265,7 +271,32 @@ function PlatformPage() {
                         }
                     </TabPanel>
                     <TabPanel className='lb-tab react-tabs__tab-panel'>
-                        <h2 style={{ textAlign: 'center' }}>Leaderboard</h2>
+                    <div className="plat-leaderboard">
+                        <section id="scrims-ladder--container" class="scrims-ladder">
+                            <div class="ladder-nav">
+                                <div class="ladder-nav--col ladder-title">
+                                    <h1>Platform Leaderboard</h1>
+                                </div>
+                            </div>
+                            {
+                            ((Object.keys(leaderboard).length !== 0))
+                            ? Object.entries(leaderboard).map( ([player, score], i) =>
+                                <Link to={`/profile/${player}`} style = {{textDecoration: 'None'}}> <div class="ladder-nav--results-players">
+                                    <div class="results-col">
+                                        <span class="results-rank"><span class={i == 0 ? "rank-1" : i == 1 ? "rank-2" : i == 2 ? "rank-3" : "rank"}>{i+1}</span></span>
+                                    </div>
+                                    <div class="results-col">
+                                        <span class="results-gp">{player}</span>
+                                    </div>
+                                    <div class="results-col">
+                                        <span class="results-pts">{score}</span>
+                                    </div>
+                                </div> </Link>
+                            )
+                            : <p class="empty-leaderboard">Be the first to take a quiz from this platform!</p>
+                            } 
+                        </section>
+                    </div>
                     </TabPanel>
                     <TabPanel className='quiz-tab react-tabs__tab-panel'>
                         {
