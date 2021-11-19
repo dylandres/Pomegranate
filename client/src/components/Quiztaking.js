@@ -5,7 +5,7 @@ import '../style/tabs.css';
 import { parse } from '../functions.js';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
-import { getQuizLeaderboard } from '../functions.js';
+import { getQuizLeaderboard, formatTime } from '../functions.js';
 import { myContext } from '../Context.js'
 
 function QuizTaking() {
@@ -21,7 +21,12 @@ function QuizTaking() {
     const {userObject, setUserObject} = useContext(myContext);
     const [quizScore, setQuizScore] = useState(0);
 
-    const quizName = parse(window.location.href.split('/').pop());
+    var link = window.location.href;
+    console.log(link);
+    if (link.charAt(link.length - 1) === '/')
+        link = link.substring(0, link.length - 1)
+    console.log(link);
+    const quizName = parse(link.split('/').pop());
 
     const fillQuestions = async (quizName) => {
         // Get Quiz from db
@@ -60,23 +65,25 @@ function QuizTaking() {
         setQuestionIndex(questionIndex + 1);
         await axios.put(`/api/quizzes/${quiz._id}/incrementNumTaken`).then(res => res.data);
         // Update leaderboard if necessary
-        const oldScore = leaderboard[userObject.userName];
-        // User took this quiz before
-        if (oldScore) {
-            // High-score
-            if (quizScore > oldScore) {
-                await axios.put(`/api/quizzes/add_to_leaderboard/${quiz._id}/${userObject.userName}/${quizScore}`).then(res => res.data);
-            }
-        }
-        // User's first time taking quiz
-        else {
+        // const oldScore = leaderboard[userObject.userName];
+        // // User took this quiz before
+        // if (oldScore) {
+        //     // High-score
+        //     if (quizScore > oldScore) {
+        //         await axios.put(`/api/quizzes/add_to_leaderboard/${quiz._id}/${userObject.userName}/${quizScore}`).then(res => res.data);
+        //     }
+        // }
+        // // User's first time taking quiz
+        // else {
+        //     await axios.put(`/api/quizzes/add_to_leaderboard/${quiz._id}/${userObject.userName}/${quizScore}`).then(res => res.data);
+        // }
+        // Only put user's first score on leaderboard
+        if (!leaderboard[userObject.userName]) {
             await axios.put(`/api/quizzes/add_to_leaderboard/${quiz._id}/${userObject.userName}/${quizScore}`).then(res => res.data);
         }
-    }
-
-    const formatTime = () => {
-        var time = new Date(stopwatch * 1000).toISOString().substr(14, 5);
-        return time;
+        // Add to user's quiz history
+        const timestamp = Date.now();
+        await axios.put(`/api/users/quiz_history/${quiz.quizName}/${userObject._id}/${quizScore}/${timestamp}`).then(res => res.data);
     }
 
     const submitRating = async () => {
@@ -122,7 +129,7 @@ function QuizTaking() {
                 questionIndex < questions.length ?
 
                 <ul class="question">
-                    {formatTime()}
+                    {formatTime(stopwatch)}
                     <div>
                         <b>{questions[questionIndex].question}</b>
                         {
@@ -161,10 +168,11 @@ function QuizTaking() {
                     <br></br><br></br>
                     You got {numCorrect}/{questions.length} correct!
                     <br></br><br></br>
-                    Time Taken: {formatTime()}
+                    Time Taken: {formatTime(stopwatch)}
                     <br></br><br></br>
                     Score: {quizScore}
                     <br></br><br></br>
+                    {/* <Link to={`/quizpage/${quizName}`}><button class='back-button'>BACK</button></Link> */}
                     {
                     rating != -1
                     ? <div>
@@ -180,7 +188,8 @@ function QuizTaking() {
                             <input onClick={() => setRating(1)} type="radio" id="star1" name="rate" value="1" />
                                 <label for="star1" title="text">1 star</label>
                             </div>
-                            <button onClick={() => submitRating()} class="submit-rating">Submit Rating</button>
+                            <br></br><br></br>
+                            <Link to={`/quizpage/${quizName}`}><button onClick={() => submitRating()} class="submit-rating">Submit Rating</button></Link>
                         </div>
                     : <p>Rating received!</p>
                     }

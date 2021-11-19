@@ -14,6 +14,9 @@ import TextField from '@material-ui/core/TextField';
 import zIndex from '@material-ui/core/styles/zIndex';
 import { myContext } from '../Context.js';
 import DeletePlatform from './DeletePlatform.js';
+import CreateQuiz from './CreateQuiz.js';
+import { getPlatformLeaderboard } from '../functions.js';
+
 
 function PlatformPage() {
 
@@ -25,7 +28,13 @@ function PlatformPage() {
     const [isSubbed, setSubbed] = useState(false);
     const [thisDesc, setDesc] = useState('');
     const [deleting, setDeleting] = useState(false);
+    const [creating, setCreating] = useState(false);
     const { userObject, setUserObject } = useContext(myContext)
+    const [leaderboard, setLeaderboard] = useState({});
+
+    const toggleCreating = () => {
+        setCreating(!creating);
+    }
 
     const convertDate = (date) => {
         var newDate = date.substring(0, 10).split('-');
@@ -35,7 +44,6 @@ function PlatformPage() {
         const newDay = newDate[2] < 10 ? newDate[2].substring(1,2) : newDate[2];
         return newMonth + ' ' + newDay + ', ' + newDate[0];
     }
-    const [leaderboard, setLeaderboard] = useState({});
     
     const toggleDeleting = () => {
         setDeleting(!deleting);
@@ -84,7 +92,18 @@ function PlatformPage() {
         const odd = filtered.filter((quiz, index) => index % 2 == 1);
         // final array, sorted such that columns are printed in row order
         const finalArray = evens.concat(odd);
-        setQuizzes(finalArray);
+        console.log(finalArray);
+        if(userObject && (userObject._id !== platform.ownerID)) {
+            const finalFinalArray = finalArray.filter((quiz) => quiz.published);
+            setQuizzes(finalFinalArray);
+            const board = getPlatformLeaderboard(finalFinalArray);
+            setLeaderboard(board);
+        }
+        else {
+            setQuizzes(finalArray);
+            const board = getPlatformLeaderboard(finalArray);
+            setLeaderboard(board);
+        }
     }
 
     const editDesc = async (description) => {
@@ -110,7 +129,12 @@ function PlatformPage() {
         }
     }
 
-    var platformName = window.location.href.split('/').pop();
+    var link = window.location.href;
+    console.log(link);
+    if(link.charAt(link.length - 1) === '/')
+        link = link.substring(0, link.length-1)
+    console.log(link);
+    var platformName = link.split('/').pop();
 
     useEffect(() => {
         newPlatform(platformName);
@@ -142,6 +166,12 @@ function PlatformPage() {
                     />
                 }
                 {
+                    creating && <CreateQuiz
+                        handleClose={toggleCreating}
+                        platform={platform}
+                    />
+                }
+                {
                     userObject ?
                         platform.ownerID === userObject._id ?
                             !isEditing ?
@@ -160,6 +190,20 @@ function PlatformPage() {
                                         <Button variant="contained" onClick={changeEditing}>Stop Editing</Button>
                                     </div>
                                 </span>
+                            :
+                            null
+                        :
+                        null
+                }
+                {
+                    userObject ?
+                        platform.ownerID === userObject._id ?
+                            !isEditing ?
+                                <div style={{ position: 'absolute', top: '1%', right: '1%', zIndex: 3 }}>
+                                    <Button variant="contained" onClick={toggleCreating}>Create Quiz</Button>
+                                </div>
+                                :
+                                null
                             :
                             null
                         :
@@ -210,6 +254,19 @@ function PlatformPage() {
                                                     </div>
                                                     <br />
                                                     Times Taken: {quiz.timesTaken}
+                                                    <br />
+                                                    {
+                                                        userObject ?
+                                                            userObject._id === platform.ownerID ?
+                                                                quiz.published ?
+                                                                    <span>Published</span>
+                                                                    :
+                                                                    <span>Not Published</span>
+                                                                :
+                                                                null
+                                                            :
+                                                            null
+                                                    }
                                                 </div>
                                             </Link>
                                         </div>
@@ -219,7 +276,32 @@ function PlatformPage() {
                         }
                     </TabPanel>
                     <TabPanel className='lb-tab react-tabs__tab-panel'>
-                        <h2 style={{ textAlign: 'center' }}>Leaderboard</h2>
+                    <div className="plat-leaderboard">
+                        <section id="scrims-ladder--container" class="scrims-ladder">
+                            <div class="ladder-nav">
+                                <div class="ladder-nav--col ladder-title">
+                                    <h1>Platform Leaderboard</h1>
+                                </div>
+                            </div>
+                            {
+                            ((Object.keys(leaderboard).length !== 0))
+                            ? Object.entries(leaderboard).map( ([player, score], i) =>
+                                <Link to={`/profile/${player}`} style = {{textDecoration: 'None'}}> <div class="ladder-nav--results-players">
+                                    <div class="results-col">
+                                        <span class="results-rank"><span class={i == 0 ? "rank-1" : i == 1 ? "rank-2" : i == 2 ? "rank-3" : "rank"}>{i+1}</span></span>
+                                    </div>
+                                    <div class="results-col">
+                                        <span class="results-gp">{player}</span>
+                                    </div>
+                                    <div class="results-col">
+                                        <span class="results-pts">{score}</span>
+                                    </div>
+                                </div> </Link>
+                            )
+                            : <p class="empty-leaderboard">Be the first to take a quiz from this platform!</p>
+                            } 
+                        </section>
+                    </div>
                     </TabPanel>
                     <TabPanel className='quiz-tab react-tabs__tab-panel'>
                         {

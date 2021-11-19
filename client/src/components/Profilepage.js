@@ -23,6 +23,7 @@ function ProfilePage() {
     const { userObject, setUserObject } = useContext(myContext)
     const [creating, setCreating] = useState(false);
     const [subs, setSubs] = useState([]);
+    const [quizHistory, setQuizHistory] = useState([]);
     // Edit mode privilege
     // const [canEdit, setCanEdit] = useState(false);
 
@@ -43,6 +44,7 @@ function ProfilePage() {
         setBio(thisProfile[0].bio);
         getPlatforms(thisProfile[0]);
         getSubs(thisProfile[0]);
+        fillQuizHistory(thisProfile[0]);
         return thisProfile;
     }
 
@@ -64,8 +66,25 @@ function ProfilePage() {
         forceUpdate();
     }
 
+    const fillQuizHistory = async (thisUser) => {
+        var history = []
+        console.log("getting history");
+        for (const quiz of thisUser.quizHistory) {
+            console.log(quiz);
+            const logo = await axios.get(`/api/quizzes/${quiz.quiz}`).then(res => res.data[0].quizLogo);
+            history.push([quiz, logo]);
+        }
+        console.log(history);
+        setQuizHistory(history);
+    }
+
     // Get username from url
-    const username = window.location.href.split('/').pop();
+    var link = window.location.href;
+    console.log(link);
+    if(link.charAt(link.length - 1) === '/')
+        link = link.substring(0, link.length-1)
+    console.log(link);
+    const username = link.split('/').pop();
 
     useEffect(() => {
         getProfile(username);
@@ -192,8 +211,31 @@ function ProfilePage() {
                             </ul>
                         }
                     </TabPanel>
-                    <TabPanel style={{ position: 'relative', top: '0%' }}>
-                        <h2>list of quizzes</h2>
+                    <TabPanel className="history-tab react-tabs__tab-panel">
+                        {
+                            (quizHistory.length) ?
+                            quizHistory.map(quiz => (
+                                <div className="history-card_container">
+                                    <div className="col s12 m7">
+                                        <Link to={`/quizpage/${quiz[0].quiz}`} style={{ textDecoration: 'none' }}>
+                                            <div className="history-card" >
+                                                <div>
+                                                    {quiz[1] !== '' ? <img className="prof-card-image" src={quiz[1]}></img> : <img className="prof-card-image" src="https://pomegranate-io.s3.amazonaws.com/pomegranate.png"></img>}
+                                                    <br />
+                                                </div>
+                                                <span className="history-card-title"><b>{quiz[0].quiz}</b></span>
+                                                <br />
+                                                <div className="history-card-content">
+                                                    <p>Score: {quiz[0].score} ({Date(quiz[0].timestamp).substring(4,15)})</p>
+                                                </div>
+                                                <br />
+                                            </div>
+                                        </Link>
+                                    </div>
+                                </div>
+                            ))
+                            : <p><b>{profile.userName} hasn't taken any quizzes yet!</b></p>
+                        }
                     </TabPanel>
                     <TabPanel className="plat-tab react-tabs__tab-panel">
                         {

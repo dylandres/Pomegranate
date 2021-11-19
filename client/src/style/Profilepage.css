@@ -133,3 +133,50 @@
   list-style-type: none;
   text-align: center;
 }
+
+.history-card {
+  background: pink;
+  box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+  transition: 0.3s;
+  width: 40vw;
+  border-radius: 10px;
+  font-family: "Trebuchet MS", sans-serif;
+  position:relative;
+  display: inline-block;
+  text-align: center;
+}
+
+.history-card:hover {
+  box-shadow: 0 20px 100px 0 rgba(0, 0, 0, 0.2);
+  transform: scale(1.1) perspective(1px);
+}
+
+.history-card-title {
+  font-family: "Lucida Console", "Courier New", monospace;
+  position: relative;
+  top: 5%;
+  color: rgb(0, 180, 0);
+  text-align: center;
+  display: inline-block;
+}
+
+.history-card-content {
+  font-family: "Trebuchet MS", sans-serif;
+  color: rgb(117, 76, 1);
+  text-align: center;
+  height: 4em;
+  display: inline-block;
+}
+
+.history-card_container {
+  height: 90%;
+  text-align: center;
+  display: inline;
+}
+
+.history-tab {
+  overflow-y: scroll;
+  min-height: 96.5%;
+  list-style-type: none;
+  text-align: center;
+}
