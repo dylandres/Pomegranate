@@ -1,6 +1,7 @@
 # Pomegranate
 
 Build #5 Plan
+- Done
 - 3.1 Create Platform
 - 3.2 Delete Platform
 - 3.3 Create Quiz
@@ -11,3 +12,5 @@ Build #5 Plan
 - 4.12 Change Quiz Page Banner
 - 4.13 Change Quiz Page Description
 - 4.14. Save Quiz Page Changes
+
+- Extra - Leaderboards!
