@@ -124,9 +124,13 @@
 
 .quiz-tab {
   overflow-y: scroll;
-  min-height: 96.5%;
+  min-height: 100%;
   list-style-type: none;
   text-align: center;
+  background-color: #1d1d4a;
+  border-radius: 10px;
+  position: relative;
+  top: -2%;
 }
 
 .lb-tab {

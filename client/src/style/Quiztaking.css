@@ -8,7 +8,6 @@
     transition: 0.3s;
     position:relative;
     top: 20%;
-    left:45%;
 }
 
 .start-button:hover {
@@ -17,16 +16,78 @@
 }
 
 .question {
-    position:relative;
+    position: relative;
     top: 100%;
     text-align: center;
     font-size: 1.8rem;
+    
+}
+
+.question-text {
+    position: absolute;
+    display: inline-block;
+    background: white;
+    width: 80vw;
+    height: 53vh;
+    left: 10vw;
+    text-align: center;
+    border-radius: 10px;
+    border-color: palevioletred;
+    border-style: solid;
+    border-width: 3px;
+    
+}
+
+.question-inner {
+    position: absolute;
+    display: inline-block;
+    top: 50%;
+    left: 50%;
+    -moz-transform: translateX(-50%) translateY(-50%);
+    -webkit-transform: translateX(-50%) translateY(-50%);
+    transform: translateX(-50%) translateY(-50%);
+    width: 90%;
+    height: auto;
+    max-height: 100%;
+    overflow-y: scroll;
 }
 
 .answer {
-    width: 10%;
+    width: 35vw;
     border-radius: 15px;
     background-color:white;
+    height: 10vh;
+    transform: translateZ(0);
+    transition: 0.3s;
+}
+
+.question-list {
+    position: absolute;
+    left: 1%;
+    top: 10vh;
+    background-color: white;
+    height: 70vh;
+    width: 8%;
+    overflow-y: scroll;
+    border-radius: 15px;
+    border-color: rgb(236, 68, 124);
+    border-style: solid;
+    border-width: 3px;
+}
+
+.choice {
+    padding: 10px 10px;
+}
+
+.choice-list {
+    columns: 2;
+    -webkit-columns: 2;
+    column-gap: 6vw;
+    display: inline-block;
+    height: auto;
+    position: absolute;
+    left: 11vw;
+    top: 54vh;
 }
 
 .answer:hover{
@@ -35,7 +96,8 @@
 }
 
 .disabled-answer {
-    width: 10%;
+    width: 35vw;
+    height: 10vh;
     border-radius: 15px;
     background-color:white;
 }
@@ -114,3 +176,24 @@
     top: 20%;
     /* left:45%; */
 }
+
+.loader {
+    border: 16px solid #f3f3f3; /* Light grey */
+    border-top: 16px solid #3498db; /* Blue */
+    border-radius: 50%;
+    width: 90px;
+    height: 90px;
+    animation: spin 1s linear infinite;
+    position: fixed;
+    left: 50%;
+    top: 50%;
+    margin-top: -45px;
+    margin-left: -45px;
+    
+  }
+  
+  @keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+  }
+  
