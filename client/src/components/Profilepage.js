@@ -71,8 +71,9 @@ function ProfilePage() {
         console.log("getting history");
         for (const quiz of thisUser.quizHistory) {
             console.log(quiz);
-            const logo = await axios.get(`/api/quizzes/${quiz.quiz}`).then(res => res.data[0].quizLogo);
-            history.push([quiz, logo]);
+            const logo = await axios.get(`/api/quizzes/${quiz.quiz}`).then(res => res.data[0]);
+            if(logo)
+                history.push([quiz, logo.quizLogo]);
         }
         console.log(history);
         setQuizHistory(history);

@@ -18,6 +18,37 @@
     border-radius: 1px;
     border: 1px solid rgb(185, 185, 185);
     z-index: 10;
+    animation: slide-down 0.5s;
+  }
+
+  @keyframes darken {
+    0% {
+      opacity: 0;
+    }
+    100% {
+      opacity: 1
+    }
+  }
+
+  @keyframes slide-down {
+    0% {
+      margin-top: 0;
+    }
+    100% {
+      margin-top: calc(100vh - 85vh - 20px);
+    }
+  }
+
+  @keyframes appear-icon {
+    0% {
+      opacity: 0;
+    }
+    80% {
+      opacity: 0;
+    }
+    100% {
+      opacity: 1;
+    }
   }
    
   .close-icon-quiz {
@@ -35,4 +66,5 @@
     border: 1px solid #999;
     font-size: 20px;
     z-index: 10;
+    animation: appear-icon 0.5s;
   }

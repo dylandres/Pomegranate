@@ -94,10 +94,10 @@
   }
 
   .quizpage-edit-button {
-    position:relative;
+    position:absolute;
     transition: 0.5s;
-    bottom: 25%;
-    left: 68%;
+    bottom: 10%;
+    right: 1%;
     width: 10%;
     height: 10%;
     text-align: center;

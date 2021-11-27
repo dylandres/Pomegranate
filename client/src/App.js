@@ -31,7 +31,7 @@ function App() {
         {/* Platform Page */}
         <Route path='/platform' component={PlatformPage}/>
         {/* Invalid URL redirects to homepage */}
-        <Route render={() => <Redirect to={{pathname: "/"}} />} />
+        
       </body>
     </Router>
   );
