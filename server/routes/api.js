@@ -177,13 +177,13 @@ router.put("/users/:id/change-banner", function (req, res) {
 
 const { OAuth2Client } = require('google-auth-library')
 const session = require('express-session')
-const client = new OAuth2Client('954435352392-0hr4iqn8uii9u9kkoj1di3p8s5calv0t.apps.googleusercontent.com')
+const client = new OAuth2Client(process.env.GOOGLE_CLIENTID)
 
 router.post('/login', async (req, res, next) => {
     const {token} = req.body
     const ticket = await client.verifyIdToken({
         idToken: token,
-        audience: '954435352392-0hr4iqn8uii9u9kkoj1di3p8s5calv0t.apps.googleusercontent.com'
+        audience: process.env.GOOGLE_CLIENTID
     })
     const payload = ticket.getPayload()
     
@@ -199,16 +199,15 @@ router.post('/login', async (req, res, next) => {
                 const newUser = new User({userName: (firstName + lastName).replace(' ', ''), fullName: firstName + " " + lastName, profilePicture: profilePicture, profileBanner: '', bio: '',
                     email: email, subscriptions: [], awards: []})
                 req.session.userId = newUser.id
+                await newUser.save()
                 return res.json(newUser)
 
             }
             //otherwise this user exists so update their profile in case 
-            //google image or name changed, and return name and register as false
             else {
                 //console.log(data)
                 await User.updateOne({ _id: user.id }, {
                     fullName: firstName + ' ' + lastName,
-                    profilePicture: profilePicture
                 })
 
                 req.session.userId = user.id
