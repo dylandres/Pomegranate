@@ -117,7 +117,7 @@ function QuizPage() {
                 {
                     quiz.published ?
                         (userObject) ?
-                            <Link to={`/quiztaking/${link.split('/').pop()}`}> <input type='button' className='take-quiz-button' value='Take Quiz!'></input> </Link>
+                            <Link to={`/quiztaking/${link.split('/').pop()}`}> <input type='button' className='take-quiz-button' value={leaderboard[userObject.userName] ? 'Retake Quiz!' : 'Take Quiz!'}></input> </Link>
                             : 
                             <input type='button' className='take-quiz-button' value='Login to Take Quiz!' style={{ fontSize: '14px' }}></input>
                         :
