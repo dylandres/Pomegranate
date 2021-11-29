@@ -61,7 +61,7 @@
     transition: 0.3s;
 }
 
-.question-list {
+.questions-list {
     position: absolute;
     left: 1%;
     top: 10vh;
