@@ -17,6 +17,7 @@ function ProfilePage() {
 
     const [profile, setProfile] = useState({});
     const [platforms, setPlatforms] = useState([]);
+    const [awards, setAwards] = useState([])
     const [ignored, forceUpdate] = useReducer(x => x + 1, 0);
     const [isEditing, setEditing] = useState(false);
     const [thisBio, setBio] = useState('');
@@ -37,7 +38,9 @@ function ProfilePage() {
     };
 
     const getProfile = async (username) => {
-        const thisProfile = await axios.get(`/api/users/${username}/user`).then(res => res.data);
+        const thisProfile = await axios.get(`/api/users/${username}/user`).then(res => res.data)
+        const awards = await axios.put(`/api/awards/${thisProfile[0]._id}`).then(res => res.data.awards)
+        setAwards(awards)
         setProfile(thisProfile[0]);
         if (userObject && (thisProfile[0]._id === userObject._id))
             setUserObject(thisProfile[0]);
@@ -264,8 +267,8 @@ function ProfilePage() {
                             </ul>
                         }
                     </TabPanel>
-                    <TabPanel style={{ position: 'relative', top: '0%' }}>
-                        <h2>list of rewards</h2>
+                    <TabPanel className="plat-tab react-tabs__tab-panel">
+                        {awards.length > 0 ? <div>wow u have a reward <img alt = "award" src = {awards.awardPicture}></img></div> : <div>u hab no reward</div> }
                     </TabPanel>
                 </Tabs>
             </div>

@@ -15,9 +15,14 @@ const AwardSchema = new Schema( {
         type: String,
         required: true
     },
+    awardType : {
+        type: String,
+        required: true
+    },
     users : {
         type: [Schema.Types.ObjectID]
     }
+    //add a platform value?
 }, {timestamps: true});
 
 const Award = mongoose.model('Award', AwardSchema)

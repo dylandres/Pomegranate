@@ -180,3 +180,15 @@
   list-style-type: none;
   text-align: center;
 }
+
+.award-column {
+  float: left;
+  width: 32%;
+  padding: 10px;
+}
+
+.award-row:after {
+  content: "";
+  display: table;
+  clear: both;
+}
