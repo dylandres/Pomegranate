@@ -18,7 +18,7 @@ function SearchResults() {
 
     const getPlatforms = async (query) => {
         const result = await axios.get(`/api/users/${query}/platform`).then(res => res.data);
-        let res = []
+        // let res = []
         result.forEach(platform => {
                 let rank = Math.floor(Math.random() * 1000)
                 let link = 'platform/' + platform.platformName
@@ -31,11 +31,15 @@ function SearchResults() {
                     image: image,
                     title: title,
                     description: description,
+                    type: 'Platform',
                 };
                 // /platform/${platform.platformName}
                 allResults.push(plObj)
             }   
         )
+        allResults.sort(function(a, b){
+            return a.rank - b.rank
+        })
         console.log('getResults')
         console.log(allResults)
         setResults(allResults)
@@ -53,12 +57,26 @@ function SearchResults() {
         const result = await axios.get(`/api/users/${query}/quiz`).then(res => res.data);
         let res = []
         result.forEach(quiz => {
-                console.log('qz')
-                console.log(quiz)
-                res.push(quiz.quizName)
-                allResults.push(quiz.quizName)
+            let rank = Math.floor(Math.random() * 1000)
+            let link = 'quizpage/' + quiz.quizName
+            let image = quiz.quizLogo
+            let title = quiz.quizName
+            let description = quiz.summary
+            let plObj = {
+                rank: rank,
+                link: link,
+                image: image,
+                title: title,
+                description: description,
+                type: 'Quiz',
+            };
+            // /platform/${platform.platformName}
+            allResults.push(plObj)
             }   
         )
+        allResults.sort(function(a, b){
+            return a.rank - b.rank
+        })
         console.log('getResults')
         console.log(allResults)
         setResults(allResults)
@@ -69,10 +87,26 @@ function SearchResults() {
         const result = await axios.get(`/api/users/${query}/user`).then(res => res.data);
         let res = []
         result.forEach(user => {
-                res.push(user.userName)
-                allResults.push(user.userName)
+            let rank = Math.floor(Math.random() * 1000)
+            let link = 'quizpage/' + user.userName
+            let image = user.profilePicture
+            let title = user.userName
+            let description = user.bio
+            let plObj = {
+                rank: rank,
+                link: link,
+                image: image,
+                title: title,
+                description: description,
+                type: 'User',
+            };
+            // /platform/${platform.platformName}
+            allResults.push(plObj)
             }   
         )
+        allResults.sort(function(a, b){
+            return a.rank - b.rank
+        })
         // console.log('getResults')
         // console.log(allResults)
         setResults(allResults)
@@ -137,8 +171,14 @@ function SearchResults() {
         // allResults = a.concat(users)
         // allResults = allResults.conctat(users)
         // combineResults(quizzes, platforms, users)
+        results.sort(function(a, b){
+            return a.rank - b.rank
+        })
         console.log("all results")
         console.log(allResults)
+        // items.sort(function (a, b) {
+        //     return a.value - b.value;
+        //   });
     }, [query, filter])
 
     return (
@@ -149,82 +189,22 @@ function SearchResults() {
                 ? <h1>No results found!</h1>
                 :
                 <ul className="results">
-                    {platforms.map(platform => (
-                        <div className="card_container">
-                            <div className="col s12 m7">
-                                <Link to={`/platform/${platform.platformName}`} style={{ textDecoration: 'none' }}>
-                                    <div className="card">
-                                        {/* Platform */}
-                                        <div>
-                                            {platform.platformLogo !== '' ? <img className="search-card-image" src={platform.platformLogo}></img>:<img className="search-card-image" src="https://pomegranate-io.s3.amazonaws.com/pomegranate.png"></img>}
-                                        </div>
-                                        <span className="card-title"><b>{platform.platformName}</b></span>
-                                        <div className="card-content">
-                                            <p>{platform.description}</p>
-                                            <h1>Platform</h1>
-                                        </div>
-                                    </div>
-                                </Link>
-                            </div>
-                        </div>
-                    ))}
-                    {quizzes.map((quiz) => (
-                        <div className="card_container">
-                            <div className="col s12 m7">
-                                <Link to={`/quizpage/${quiz.quizName}`} style={{ textDecoration: 'none' }}>
-                                    <div className="card">
-                                        <div>
-                                            {quiz.quizLogo !== '' ? <img className="search-card-image" src={quiz.quizLogo}></img>:<img className="search-card-image" src="https://pomegranate-io.s3.amazonaws.com/pomegranate.png"></img>}
-                                        </div>
-                                        <span className="card-title"><b>{quiz.quizName}</b></span>
-                                        <div className="card-content">
-                                            <p>{quiz.summary}</p>
-                                            <h1>Quiz</h1>
-                                        </div>
-                                    </div>
-                                </Link>
-                            </div>
-                        </div>
-                    ))}
-                    {users.map((user) => (
-                        <div className="card_container">
-                            <div className="col s12 m7">
-                                <Link to={`/profile/${user.userName}`} style={{ textDecoration: 'none' }}>
-                                    <div className="card">
-                                        <div>
-                                            {user.profilePicture !== '' ? <img className="search-card-image" src={user.profilePicture}></img>:<img className="search-card-image" src="https://pomegranate-io.s3.amazonaws.com/24-248253_user-profile-default-image-png-clipart-png-download.png"></img>}
-                                        </div>
-                                        <span className="card-title"><b>{user.userName} ({user.fullName})</b></span>
-                                        <div className="card-content">
-                                            <p>{user.bio}</p>
-                                            <h1>User</h1>
-                                        </div>
-                                    </div>
-                                </Link>
-                            </div>
-                        </div>
-                    ))}
                     {results.map((result) => (
                         <div className="card_container">
                             <div className="col s12 m7">
-                                {<h1>x</h1>
-                                /* <Link to={`/profile/${user.userName}`} style={{ textDecoration: 'none' }}>
-                                    <div className="card">
+                                <div className="card">
+                                    <Link to={result.link} style={{ textDecoration: 'none' }}>
+                                        <h3>{result.type}</h3>
                                         <div>
-                                            {user.profilePicture !== '' ? <img className="search-card-image" src={user.profilePicture}></img>:<img className="search-card-image" src="https://pomegranate-io.s3.amazonaws.com/24-248253_user-profile-default-image-png-clipart-png-download.png"></img>}
+                                            {result.image !== '' ? <img className="search-card-image" src={result.image}></img>:<img className="search-card-image" src="https://pomegranate-io.s3.amazonaws.com/24-248253_user-profile-default-image-png-clipart-png-download.png"></img>}
                                         </div>
-                                        <span className="card-title"><b>{user.userName} ({user.fullName})</b></span>
+                                        <span className="card-title"><h2>{result.title}</h2></span>
                                         <div className="card-content">
-                                            <p>{user.bio}</p>
-                                            <h1>User</h1>
-                                        </div>
-                                    </div>
-                                </Link> */}
-                                {/* <Link to={result.link}> */}
-                                    <h1>{result.title}</h1>
-                                    <h1>{result.description}</h1>
-                                {/* </Link> */}
-                                
+                                            <p>{result.description}</p>
+                                            
+                                        </div> 
+                                    </Link>
+                                </div>    
                             </div>
                         </div>
                     ))}
