@@ -71,15 +71,21 @@ function ProfilePage() {
         console.log("getting history");
         for (const quiz of thisUser.quizHistory) {
             console.log(quiz);
-            const logo = await axios.get(`/api/quizzes/${quiz.quiz}`).then(res => res.data[0].quizLogo);
-            history.push([quiz, logo]);
+            const logo = await axios.get(`/api/quizzes/${quiz.quiz}`).then(res => res.data[0]);
+            if(logo)
+                history.push([quiz, logo.quizLogo]);
         }
         console.log(history);
         setQuizHistory(history);
     }
 
     // Get username from url
-    const username = window.location.href.split('/').pop();
+    var link = window.location.href;
+    console.log(link);
+    if(link.charAt(link.length - 1) === '/')
+        link = link.substring(0, link.length-1)
+    console.log(link);
+    const username = link.split('/').pop();
 
     useEffect(() => {
         getProfile(username);

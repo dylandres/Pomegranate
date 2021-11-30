@@ -93,7 +93,7 @@ function PlatformPage() {
         // final array, sorted such that columns are printed in row order
         const finalArray = evens.concat(odd);
         console.log(finalArray);
-        if(userObject && (userObject._id !== platform.ownerID)) {
+        if(!userObject || (userObject && (userObject._id !== platform.ownerID))) {
             const finalFinalArray = finalArray.filter((quiz) => quiz.published);
             setQuizzes(finalFinalArray);
             const board = getPlatformLeaderboard(finalFinalArray);
@@ -129,7 +129,12 @@ function PlatformPage() {
         }
     }
 
-    var platformName = window.location.href.split('/').pop();
+    var link = window.location.href;
+    console.log(link);
+    if(link.charAt(link.length - 1) === '/')
+        link = link.substring(0, link.length-1)
+    console.log(link);
+    var platformName = link.split('/').pop();
 
     useEffect(() => {
         newPlatform(platformName);

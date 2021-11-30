@@ -25,6 +25,9 @@ function DeletePlatform(props) {
             for (var i = 0; i < props.platform.subscribers.length; i ++) {
                 await axios.put(`/api/users/${props.platform.subscribers[i]}/${props.platform._id}/unsubscribe`).then(res => res.data);
             }
+            for (var i = 0; i < props.platform.quizzes.length; i ++) {
+                await axios.delete(`/api/quizzes/${props.platform.quizzes[i]}`).then(res => res.data);
+            }
             await axios.delete(`/api/platforms/${props.platform._id}`).then(res => res.data);
             window.location.href = `${window.location.origin}/profile/${props.user.userName}`;
         }

@@ -186,7 +186,7 @@ function SearchResults() {
             <br /><br />
             {
                 (!platforms.length && !quizzes.length && !users.length) 
-                ? <h1>No results found!</h1>
+                ? <div className='loader'></div>
                 :
                 <ul className="results">
                     {results.map((result) => (

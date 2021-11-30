@@ -51,7 +51,13 @@ function EditQuiz() {
     const scrollToBottom = () => {
         divEndRef.current?.scrollIntoView({ behavior: "smooth" })
     }
-    const quizName = window.location.href.split('/').pop();
+
+    var link = window.location.href;
+    console.log(link);
+    if(link.charAt(link.length - 1) === '/')
+        link = link.substring(0, link.length-1)
+    console.log(link);
+    const quizName = link.split('/').pop();
 
     const insertNewQuestion = () => {
         const newQuestion = {
