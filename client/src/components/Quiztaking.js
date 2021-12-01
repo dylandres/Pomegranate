@@ -172,7 +172,7 @@ function QuizTaking() {
                                     <div class='question-inner'>
                                         <b style={{ whiteSpace: 'pre-wrap', display: 'inline-block', textAlign: 'left', height: '100%', verticalAlign: 'middle' }}>{questions[questionIndex].question}</b>
                                         <br />
-                                        {(questionIndex % 2) == 0 ? null : <img className="question-image" src="https://pomegranate-io.s3.amazonaws.com/1637346739587.Bundesarchiv_Bild_183-76052-0335%2C_Schacholympiade%2C_Tal_%28UdSSR%29_gegen_Fischer_%28USA%29_Crop.jpg"></img>}
+                                        {questions[questionIndex].image !== '' ? <img className="question-image" src={questions[questionIndex].image}></img> : null}
                                     </div>
                                 </div>
                                 <div className='choice-list'>
