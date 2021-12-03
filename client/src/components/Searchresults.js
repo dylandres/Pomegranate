@@ -14,6 +14,7 @@ function SearchResults() {
     const [quizzes, setQuizzes] = useState([]);
     const [users, setUsers] = useState([]);
     const [results, setResults] = useState([]);
+
     let allResults = [];
 
     const getPlatforms = async (query) => {
@@ -34,8 +35,6 @@ function SearchResults() {
                     description: description,
                     type: 'Platform',
                 };
-                console.log("title: " + title)
-                console.log("rank: " + rank)
                 allResults.push(plObj)
             }   
         )
@@ -46,6 +45,13 @@ function SearchResults() {
         console.log(allResults)
         setResults(allResults)
         setPlatforms(result);
+        // const person = {
+        //     firstName: "John",
+        //     lastName: "Doe",
+        //     age: 50,
+        //     eyeColor: "blue"
+        //   };
+        // Math.floor(Math.random() * max);
     }
 
     const getQuizzes = async (query) => {

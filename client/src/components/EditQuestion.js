@@ -1,25 +1,34 @@
 import React from 'react'
 import '../style/Searchresults.css';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useReducer } from 'react';
 import { useLocation, Link } from 'react-router-dom';
 import { makeStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
 import axios from 'axios';
+import UploadImage from './UploadImage.js';
 
 function EditQuestion({ prop_question, exists, state, newDelete }) {
     const [question, setQuestion] = useState(prop_question.question);
+    const [image, setImage] = useState(prop_question.image);
     const [choice1, setChoice1] = useState(prop_question.choices[0]);
     const [choice2, setChoice2] = useState(prop_question.choices[1]);
     const [choice3, setChoice3] = useState(prop_question.choices[2]);
     const [choice4, setChoice4] = useState(prop_question.choices[3]);
     const [correct, setCorrect] = useState(prop_question.answer);
     const [isChanged, setChanged] = useState(true);
+    const [ignored, forceUpdate] = useReducer(x => x + 1, 0);
 
     const handleEditQuestionChange = (event) => {
         setQuestion(event.target.value);
         setChanged(false);
     }
+
+    const handleEditImageChange = (event) => {
+        setImage(event.target.value);
+        setChanged(false);
+    }
+
     const handleEditChoice1Change = (event) => {
         setChoice1(event.target.value);
         setChanged(false);
@@ -46,6 +55,7 @@ function EditQuestion({ prop_question, exists, state, newDelete }) {
             if (exists) {
                 const task = {
                     question: question,
+                    image: '',
                     choices: [choice1, choice2, choice3, choice4],
                     answer: correct
                 }
@@ -54,6 +64,7 @@ function EditQuestion({ prop_question, exists, state, newDelete }) {
             else {
                 const task = {
                     question: question,
+                    image: '',
                     choices: [choice1, choice2, choice3, choice4],
                     answer: correct,
                     quizName: prop_question.quizName,
@@ -157,6 +168,8 @@ function EditQuestion({ prop_question, exists, state, newDelete }) {
                 <Button variant="contained" color='error' sx={{ width: '20%' }} onClick={() => handleEditAnswerChange(3)}>Incorrect</Button>
             }
             <br />
+            {/* which image? atate forceUpdate? */}
+            <UploadImage imgType='Question Image' colType='questions' uid={prop_question._id} whichImage='question-image' state={forceUpdate}/>
             <br />
             {!isChanged ?
                 <Button variant="contained" onClick={handleCancel}>Cancel Changes</Button>

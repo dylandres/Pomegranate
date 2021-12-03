@@ -1,6 +1,9 @@
 # Pomegranate
 
-Build #6
+Image Upload
+
+THE PROBLEM:
+The image is created before the question...
 
 TODO:
 - Search Results Ranking Algorithm
