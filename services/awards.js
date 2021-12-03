@@ -54,5 +54,4 @@ const handleAward = async (user, award) => {
     }
 }
 
-
 exports.handleAward = handleAward
