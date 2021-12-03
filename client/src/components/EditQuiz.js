@@ -64,6 +64,7 @@ function EditQuiz() {
             ownerID: quiz._id,
             quizName: quiz.quizName,
             question: '',
+            image: '',
             choices: [],
             answer: 0
         }

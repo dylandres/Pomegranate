@@ -172,7 +172,8 @@ function QuizTaking() {
                                     <div class='question-inner'>
                                         <b style={{ whiteSpace: 'pre-wrap', display: 'inline-block', textAlign: 'left', height: '100%', verticalAlign: 'middle' }}>{questions[questionIndex].question}</b>
                                         <br />
-                                        {questions[questionIndex].image !== '' ? <img className="question-image" src={questions[questionIndex].image}></img> : null}
+                                        {questions[questionIndex].image !== '' ? 
+                                        <img style = {{width: '60%'}} className="question-image" src={questions[questionIndex].image}></img> : null}
                                     </div>
                                 </div>
                                 <div className='choice-list'>

@@ -50,6 +50,10 @@
     width:20%;
     height: 7.5em;
   }
+.sub-card-list {
+  width: auto;
+  text-align: center;
+}
 
 .sub-card {
     background: pink;
@@ -76,7 +80,6 @@
     height: 50%; */
     /* font-size: 1rem; */
     padding: 30px 16px;
-    
     /* background: pink; */
     text-align: center;
     transform: translateZ(0);

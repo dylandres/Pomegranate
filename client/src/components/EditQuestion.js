@@ -7,6 +7,7 @@ import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
 import axios from 'axios';
 import UploadImage from './UploadImage.js';
+import DeleteImage from './DeleteImage.js';
 
 function EditQuestion({ prop_question, exists, state, newDelete }) {
     const [question, setQuestion] = useState(prop_question.question);
@@ -49,6 +50,15 @@ function EditQuestion({ prop_question, exists, state, newDelete }) {
         setCorrect(answer);
         setChanged(false);
     }
+
+    const newImage = async () => {
+        const thisImage = await axios.get(`/api/questions/${prop_question._id}`).then(res => res.data);
+        setImage(thisImage[0].image);
+        console.log(thisImage[0].image);
+    }
+    useEffect(() => {
+        newImage();
+    }, [ignored]);
 
     const handleSubmission = async () => {
         if (question !== '' && choice1 !== '' && choice2 !== '' && choice3 !== '' && choice4 !== '') {
@@ -111,15 +121,51 @@ function EditQuestion({ prop_question, exists, state, newDelete }) {
     }
 
     return (
-        <div style={Object.assign({}, questionColor, { textAlign: 'center', border: '1px solid black', height: 'auto', width: '70vw' })}>
+
+        <div style={Object.assign({}, questionColor, { textAlign: 'left', border: '1px solid black', height: 'auto', width: '85vw' })}>
             <br />
             <Button variant="contained" color='error' sx={{ width: '1%', float: 'right', right: '1%' }} onClick={handleDelete}>X</Button>
+            {
+                exists ?
+                    <div style={{position: 'absolute', left: '76%', top: '25%'}}>
+                        {
+                        image !== '' ? 
+                            <img style={{width: '250px'}} src={image}/> 
+                            :
+                            <img style={{width: '250px'}} src='https://static.thenounproject.com/png/3674270-200.png'/>
+                        }
+                    </div>
+                    :
+                    null
+            }
+            {
+                exists ?
+                    <div style={{position: 'absolute', right: '1.75%', bottom: '14%', height: 'auto'}}>
+                        <UploadImage imgType='Question Image' colType='questions' uid={prop_question._id} whichImage='question-image' state={forceUpdate}/>
+                    </div>
+                    :
+                    null
+            }
+            {
+                exists ?
+                    image !== '' ?
+                        <div style={{position: 'absolute', right: '7.75%', bottom: '14%', height: 'auto'}}>
+                            <DeleteImage imgType='Question Image' colType='questions' uid={prop_question._id} whichImage='question-image' state={forceUpdate}/>
+                        </div>
+                        :
+                        null
+                    :
+                    null
+            }
+            
+            &nbsp;
             <TextField variant="outlined" label="Question"
                 style={{ width: '90%', zIndex: 6 }} onChange={handleEditQuestionChange}
                 value={question} multiline
             />
             <br />
             <br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
             <TextField variant="outlined" label="Choice 1"
                 style={{ width: '60%', zIndex: 6 }} onChange={handleEditChoice1Change}
                 value={choice1} multiline
@@ -127,11 +173,12 @@ function EditQuestion({ prop_question, exists, state, newDelete }) {
             &nbsp;
             &nbsp;
             {correct == 0 ?
-                <Button variant="contained" color='success' sx={{ width: '20%' }}>Correct</Button>
+                <Button variant="contained" color='success' sx={{ width: '10%' }}>Correct</Button>
                 :
-                <Button variant="contained" color='error' sx={{ width: '20%' }} onClick={() => handleEditAnswerChange(0)}>Incorrect</Button>
+                <Button variant="contained" color='error' sx={{ width: '10%' }} onClick={() => handleEditAnswerChange(0)}>Incorrect</Button>
             }
             <br /><br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
             <TextField variant="outlined" label="Choice 2"
                 style={{ width: '60%', zIndex: 6 }} onChange={handleEditChoice2Change}
                 value={choice2} multiline
@@ -139,11 +186,12 @@ function EditQuestion({ prop_question, exists, state, newDelete }) {
             &nbsp;
             &nbsp;
             {correct == 1 ?
-                <Button variant="contained" color='success' sx={{ width: '20%' }} >Correct</Button>
+                <Button variant="contained" color='success' sx={{ width: '10%' }} >Correct</Button>
                 :
-                <Button variant="contained" color='error' sx={{ width: '20%' }} onClick={() => handleEditAnswerChange(1)}>Incorrect</Button>
+                <Button variant="contained" color='error' sx={{ width: '10%' }} onClick={() => handleEditAnswerChange(1)}>Incorrect</Button>
             }
             <br /><br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
             <TextField variant="outlined" label="Choice 3"
                 style={{ width: '60%', zIndex: 6 }} onChange={handleEditChoice3Change}
                 value={choice3} multiline
@@ -151,11 +199,12 @@ function EditQuestion({ prop_question, exists, state, newDelete }) {
             &nbsp;
             &nbsp;
             {correct == 2 ?
-                <Button variant="contained" color='success' sx={{ width: '20%' }}>Correct</Button>
+                <Button variant="contained" color='success' sx={{ width: '10%' }}>Correct</Button>
                 :
-                <Button variant="contained" color='error' sx={{ width: '20%' }} onClick={() => handleEditAnswerChange(2)}>Incorrect</Button>
+                <Button variant="contained" color='error' sx={{ width: '10%' }} onClick={() => handleEditAnswerChange(2)}>Incorrect</Button>
             }
             <br /><br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
             <TextField variant="outlined" label="Choice 4"
                 style={{ width: '60%', zIndex: 6 }} onChange={handleEditChoice4Change}
                 value={choice4} multiline
@@ -163,31 +212,32 @@ function EditQuestion({ prop_question, exists, state, newDelete }) {
             &nbsp;
             &nbsp;
             {correct == 3 ?
-                <Button variant="contained" color='success' sx={{ width: '20%' }} >Correct</Button>
+                <Button variant="contained" color='success' sx={{ width: '10%' }} >Correct</Button>
                 :
-                <Button variant="contained" color='error' sx={{ width: '20%' }} onClick={() => handleEditAnswerChange(3)}>Incorrect</Button>
+                <Button variant="contained" color='error' sx={{ width: '10%' }} onClick={() => handleEditAnswerChange(3)}>Incorrect</Button>
             }
-            <br />
             {/* which image? atate forceUpdate? */}
-            <UploadImage imgType='Question Image' colType='questions' uid={prop_question._id} whichImage='question-image' state={forceUpdate}/>
-            <br />
-            {!isChanged ?
-                <Button variant="contained" onClick={handleCancel}>Cancel Changes</Button>
-                :
-                <Button variant="contained" disabled onClick={handleCancel}>Cancel Changes</Button>
-            }
-            &nbsp;
-            &nbsp;
-            {!isChanged ?
-                <Button variant="contained" onClick={handleSubmission}>Confirm Changes</Button>
-                :
-                <Button variant="contained" disabled onClick={handleSubmission}>Confirm Changes</Button>
-            }
-            <br />
-            {
 
-            }
+            <div style={{position: 'absolute', transform: 'translate(-50%, 25%)', left: '50%', height: 'auto'}}>
+                {!isChanged ?
+                    <Button variant="contained" onClick={handleCancel}>Cancel Changes</Button>
+                    :
+                    <Button variant="contained" disabled onClick={handleCancel}>Cancel Changes</Button>
+                }
+                &nbsp;
+                &nbsp;
+                {!isChanged ?
+                    <Button variant="contained" onClick={handleSubmission}>Confirm Changes</Button>
+                    :
+                    <Button variant="contained" disabled onClick={handleSubmission}>Confirm Changes</Button>
+                }
+                </div>
+            <br />
+            <br/>
+            <br/>
+            <br/>
         </div>
+        
     )
 }
 
