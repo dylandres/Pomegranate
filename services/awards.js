@@ -52,6 +52,17 @@ const handleAward = async (user, award) => {
             await User.updateOne({'_id' : user._id}, { $push: {awards: award._id}})
         }
     }
+    else if (type == "platforms") {
+        //get number of platforms under this user 
+        const platformNum = await Platform.count({ 'ownerID': user._id })
+        console.log("NUMBER OF PLATFORMS UNDER THIS USER" + platformNum)
+        if(platformNum >= val) {
+            //put this user id into the award user[]
+            await Award.updateOne({'_id' : award._id}, { $push: {users: user._id}})
+            //and put this award into the user
+            await User.updateOne({'_id' : user._id}, { $push: {awards: award._id}})
+        }
+    }
 }
 
 exports.handleAward = handleAward
