@@ -393,6 +393,11 @@ router.get('/awards', (req, res, next) => {
         .catch(next)
 });
 
+router.get('/awards/:id', async (req, res, next) => {
+    const awards = await Award.find({'users' : req.params.id})
+    res.json(awards)
+})
+
 router.post('/awards', (req, res, next) => {
     Award.create(req.body)
         .then(data => res.json(data))
@@ -404,7 +409,7 @@ router.put('/awards/:id', async (req, res, next) => {
     //check all awards that do NOT have user and then give it to them if they have satisfied the requirement
     const awards = await Award.find({'users': {$ne: req.params.id} })
     const user = await User.findOne({'_id' : req.params.id})
-    for(i = 0; i < awards.length; i++) {
+    for(let i = 0; i < awards.length; i++) {
         //function call to handle awards
         await awardsAPI.handleAward(user, awards[i])
     }

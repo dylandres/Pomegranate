@@ -192,3 +192,33 @@
   display: table;
   clear: both;
 }
+
+.award-card {
+  background: pink;
+  box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+  width: 20vw;
+  height: 200px;
+  border-radius: 10px;
+  font-family: "Trebuchet MS", sans-serif;
+  position: relative;
+  display: inline-block;
+  text-align: center;
+}
+
+.award-card-name {
+  font-size: 20pt;
+}
+
+.award-card-img {
+  width: 100px;
+  height: auto
+}
+
+.award-card-desc {
+  max-width: 200px;
+  margin: auto;
+}
+
+.award-card-text {
+  text-align: center;
+}
