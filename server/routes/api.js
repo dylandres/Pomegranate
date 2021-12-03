@@ -8,6 +8,7 @@ const Quiz = require('../db/models/quiz.model.js');
 const User = require('../db/models/user.model.js');
 const ObjectId = require('mongodb').ObjectId;
 const upload = require("../../services/ImageUpload");
+const awardsAPI = require("../../services/awards.js")
 const aws = require("aws-sdk");
 const singleUpload = upload.single("image");
 const dotenv = require('dotenv');
@@ -259,6 +260,7 @@ router.get('/users/:query/user', (req, res, next) => {
         .then(data => {
             console.log('user')
             console.log(data)
+            console.log('WARDS' + data[0].awards)
             res.json(data)
         })
         .catch(next)
@@ -272,12 +274,13 @@ router.get('/users', (req, res, next) => {
         })
         .catch(next)
 });
-router.put('/users/quiz_history/:quiz/:id/:score/:timestamp', (req, res, next) => {
+router.put('/users/quiz_history/:quizid/:quiz/:id/:score/:timestamp', (req, res, next) => {
     const uid = req.params.id;
     const update = {
         $push: {
             'quizHistory': {
                 $each: [{'quiz': req.params.quiz,
+                         'quizid': req.params.quizid,
                          'score': req.params.score,
                          'timestamp': req.params.timestamp}],
                 //  Only keep 20 quizzes in history
@@ -390,11 +393,29 @@ router.get('/awards', (req, res, next) => {
         .catch(next)
 });
 
+router.get('/awards/:id', async (req, res, next) => {
+    const awards = await Award.find({'users' : req.params.id})
+    res.json(awards)
+})
+
 router.post('/awards', (req, res, next) => {
     Award.create(req.body)
         .then(data => res.json(data))
         .catch(next)
 });
+
+//update awards for this user
+router.put('/awards/:id', async (req, res, next) => {
+    //check all awards that do NOT have user and then give it to them if they have satisfied the requirement
+    const awards = await Award.find({'users': {$ne: req.params.id} })
+    const user = await User.findOne({'_id' : req.params.id})
+    for(let i = 0; i < awards.length; i++) {
+        //function call to handle awards
+        await awardsAPI.handleAward(user, awards[i])
+    }
+    const updatedAwards = await User.findOne({'_id' : req.params.id})
+    res.json(updatedAwards)
+})
 
 router.delete('/awards/:id', (req, res, next) => {
     Award.findOneAndDelete({ '_id': req.params.id })
