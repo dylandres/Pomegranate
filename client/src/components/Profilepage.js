@@ -6,6 +6,7 @@ import { useLocation, Link } from 'react-router-dom';
 import '../style/tabs.css';
 import axios from 'axios';
 import { makeStyles } from '@material-ui/core/styles';
+import AwardRow from './AwardRow.js'
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
 import zIndex from '@material-ui/core/styles/zIndex';
@@ -17,6 +18,7 @@ function ProfilePage() {
 
     const [profile, setProfile] = useState({});
     const [platforms, setPlatforms] = useState([]);
+    const [awards, setAwards] = useState([])
     const [ignored, forceUpdate] = useReducer(x => x + 1, 0);
     const [isEditing, setEditing] = useState(false);
     const [thisBio, setBio] = useState('');
@@ -37,7 +39,11 @@ function ProfilePage() {
     };
 
     const getProfile = async (username) => {
-        const thisProfile = await axios.get(`/api/users/${username}/user`).then(res => res.data);
+        const thisProfile = await axios.get(`/api/users/${username}/user`).then(res => res.data)
+        await axios.put(`/api/awards/${thisProfile[0]._id}`)
+        var awards = await axios.get(`/api/awards/${thisProfile[0]._id}`).then(res => res.data)
+
+        setAwards(groupAwards(awards))
         setProfile(thisProfile[0]);
         if (userObject && (thisProfile[0]._id === userObject._id))
             setUserObject(thisProfile[0]);
@@ -46,6 +52,19 @@ function ProfilePage() {
         getSubs(thisProfile[0]);
         fillQuizHistory(thisProfile[0]);
         return thisProfile;
+    }
+
+    const groupAwards = (awardArr) => {
+        var index = 0;
+        var arrayLength = awardArr.length;
+        var tempArray = [];
+        
+        for (index = 0; index < arrayLength; index += 3) {
+            var threeAwards = awardArr.slice(index, index + 3);
+            tempArray.push(threeAwards);
+        }
+    
+        return tempArray;
     }
 
     const getPlatforms = async (thisUser) => {
@@ -264,8 +283,13 @@ function ProfilePage() {
                             </ul>
                         }
                     </TabPanel>
-                    <TabPanel style={{ position: 'relative', top: '0%' }}>
-                        <h2>list of rewards</h2>
+                    <TabPanel className="plat-tab react-tabs__tab-panel">
+                        {awards.length > 0 ?
+                        awards.map(threeAwards => (
+                            <AwardRow awards={threeAwards}/>
+                        ))
+                        // no awards found
+                        : <b>You have no rewards! Take some quizzes, or create a platform and quizzes to earn badges.</b> }
                     </TabPanel>
                 </Tabs>
             </div>

@@ -97,7 +97,7 @@ function QuizTaking() {
         }
         // Add to user's quiz history
         const timestamp = Date.now();
-        await axios.put(`/api/users/quiz_history/${quiz.quizName}/${userObject._id}/${quizScore}/${timestamp}`).then(res => res.data);
+        await axios.put(`/api/users/quiz_history/${quiz._id}/${quiz.quizName}/${userObject._id}/${quizScore}/${timestamp}`).then(res => res.data);
     }
 
     const submitRating = async () => {
