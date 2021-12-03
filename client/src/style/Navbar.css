@@ -17,42 +17,44 @@
 
   }
   .search-bar {
-    float: left;
-    width: 50%;
-    height: 30%;
+    width: 55%;
+    height: 40%;
     font-size: 1.5rem;
     position: absolute;
-    top: 20px;
-    left: 300px;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
   }
 
   .filter {
     position: absolute;
-    float: right;
-    top: 15%;
-    right: 22.9%;
+    top: 27.2%;
+    right: 77.75%;
+    width: 5%;
+    height: 45%;
   }
 
-  .button {
+  .button-search {
     position: absolute;
-    float: right;
-    top: 45%;
-    right: 23.9%;
+    top: 27.2%;
+    left: 75.2%;
+    height: 45%;
+    width: 2.5%;
   }
 
   .avatar {
     color: fuchsia;
-    float: right;
     position: absolute;
-    right: 20px;
-    width: 10%;
-    height: 15%;
+    left: 95%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    width: 60px;
+    height: 60px;
   }
 
   .logbutton{
     background-color: lightblue;
     position: absolute;
-    float: right;
     width: 5%;
     height: 40%;
     top: 30%;
@@ -60,8 +62,8 @@
   }
 
   .google-button {
-    position: relative;
-    float: right;
-    right: 15%;
-    top: 20%;
+    position: absolute;
+    transform: translate(-50%, -50%);
+    left: 87.5%;
+    top: 60%;
   }
