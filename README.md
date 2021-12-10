@@ -1,13 +1,14 @@
 # Pomegranate
 
-Build #6
+12/13 Presentation TODO
 
-TODO:
-- Search Results Ranking Algorithm
-- Rewards
-- Search Results Image Display Bug
-- Improved Scoring/Leaderboard Algorithm
+Improvements:
+- Scoring/Leaderboard Algorithm
+- Reward Icons
+- Search Results
+- Question Image sizing
+- More Rewards?
 
-Done:
--   Improve seach so no more platform-quiz-user (Ranking Algorithm TODO)
-
+Bugs:
+- Edit quiz not allowed right after creation
+- Quizzes with no questions have wheels spinning infinitely (Solution is to not allow publishing quiz if zero questions?)
