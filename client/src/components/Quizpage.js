@@ -82,7 +82,7 @@ function QuizPage() {
                                             <span class="results-gp">{player}</span>
                                         </div>
                                         <div class="results-col">
-                                            <span class="results-pts">{score}</span>
+                                            <span class="results-pts">{numberWithCommas(score)}</span>
                                         </div>
                                     </div> </Link>
                                 )
@@ -133,6 +133,10 @@ function QuizPage() {
             </div>
         </body>
     );
+}
+
+function numberWithCommas(x) {
+    return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 }
 
 export default QuizPage;

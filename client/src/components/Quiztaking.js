@@ -106,7 +106,9 @@ function QuizTaking() {
     }
 
     const calculateScore = () => {
-        setQuizScore(((((numCorrect / questions.length) * 10000) / stopwatch) * 100).toFixed(0));
+        // setQuizScore(((((numCorrect / questions.length) * 10000) / stopwatch) * 100).toFixed(0));
+        const coef = 308173
+        setQuizScore((((numCorrect * numCorrect) / stopwatch) * coef).toFixed(0));
     }
 
     useEffect(() => {
@@ -200,7 +202,7 @@ function QuizTaking() {
                                     }
                                 </div>
                                 <br />
-                                {displayFeedback == -1 ? <Link to={`/quizpage/${quizName}`}><button style={{ backgroundColor: "red", position: 'absolute', top: '80vh', right: '2%' }}>Quit Quiz</button></Link> : null}
+                                {displayFeedback == -1 ? <Link to={`/quizpage/${quizName}`}><button class="quit-quiz" style={{position: 'absolute', top: '75vh', right: '3%' }}>Quit Quiz</button></Link> : null}
                             </ul>
                             :
                             questionIndex == questions.length
@@ -216,7 +218,8 @@ function QuizTaking() {
                                     <br></br><br></br>
                                     Time Taken: {formatTime(stopwatch)}
                                     <br></br><br></br>
-                                    Score: {quizScore}
+                                    Score: {numberWithCommas(quizScore)}
+                                    {/* Score: {quizScore} */}
                                     <br></br><br></br>
                                     {/* <Link to={`/quizpage/${quizName}`}><button class='back-button'>BACK</button></Link> */}
                                     {
@@ -239,12 +242,18 @@ function QuizTaking() {
                                             </div>
                                             : <p>Rating received!</p>
                                     }
+                                    <br></br><br></br><br></br>
+                                    <Link to={`/quizpage/${quizName}`}><button class="submit-rating">Return</button></Link>
                                 </div>
                     :
                         <div className='loader'></div>
             }
         </body>
     );
+}
+
+function numberWithCommas(x) {
+    return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 }
 
 export default QuizTaking;
