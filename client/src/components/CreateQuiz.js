@@ -44,7 +44,7 @@ function CreateQuiz(props) {
             const quiz = await axios.post(`/api/quizzes`, properties).then(res => res.data);
             await axios.put(`/api/platforms/${props.platform._id}/${quiz._id}/add-quiz`).then(res => res.data);
             console.log(quiz);
-            window.location.href = `${window.location.origin}/quizpage/${quiz.quizName}`;
+            window.location.href = `${window.location.origin}/`;
     }
 
     return (
@@ -53,8 +53,18 @@ function CreateQuiz(props) {
                 <span className="close-icon-quiz" onClick={props.handleClose}>x</span>
                 <div style={{ background: '#ee8cf5', textAlign: 'center', height: '12%' }}>
                     <b style={{fontSize: '36px'}}>Quiz Creation</b>
+                    <p>
+                        You will be re-directed back to the homepage.
+                         Navigate to the quizpage again to edit/add questions. 
+                         If you are experiencing any errors, try navigating between homepage and the quiz editing page.
+                    </p>
+                    
                 </div>
-                <div style={{ background: '#fc83b4', height: '88%'}}>
+                <div style={{ background: '#fc83b4', height: '150%'}}>
+                    <br />
+                    <br />
+                    <br />
+                    <br />
                     <br />
                     <TextField variant="outlined" label="Name" style={{height: 'auto'}} onChange={handleNameChange} value={name}/>
                     <br />
@@ -63,6 +73,12 @@ function CreateQuiz(props) {
                         style={{ width: '80%', height: '30vh'}} onChange={handleSummaryChange} value={summary}/>
                     <br/>
                     <div style={{display: 'inline-block', position: 'absolute', top: '40vh', right: '1%'}}>
+                        <br/>
+                        <br/>
+                        <br/>
+                        <br/>
+                        <br/>
+                        <br/>
                         <Button variant="contained" onClick={() => handleCreate()}>Create Quiz</Button>
                     </div>
                 </div>
