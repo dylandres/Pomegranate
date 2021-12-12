@@ -15,6 +15,40 @@ function DashBoard() {
     const [subbed, setSubbed] = useState([])
     const [forYou, setForYou] = useState([])
     const {userObject, setUserObject} = useContext(myContext)
+    const [recs, setRecs] = useState([]);
+    let allRecs = [];
+    let recQueries = ["Developers", "One Piece"];
+
+    const getRecommended = async (query) => {
+        const result = await axios.get(`/api/users/${query}/quiz`).then(res => res.data);
+        let res = []
+        result.forEach(quiz => {
+            let link = 'quizpage/' + quiz.quizName
+            let image = quiz.quizLogo !== '' ? quiz.quizLogo : 'https://pomegranate-io.s3.amazonaws.com/pomegranate.png'
+            let title = quiz.quizName
+            let description = quiz.summary
+            // let rank = 0.75 * stringSimilarity.compareTwoStrings(query, title) + 0.25 * stringSimilarity.compareTwoStrings(query, description)
+            console.log("title: " + title)
+            // console.log("rank: " + rank)
+            let plObj = {
+                // rank: rank,
+                link: link,
+                image: image,
+                title: title,
+                description: description,
+                // type: 'Quiz',
+            };
+            allRecs.push(plObj)
+            }   
+        )
+        // allResults.sort(function(a, b){
+        //     return b.rank - a.rank
+        // })
+        // console.log('getResults')
+        // console.log(allResults)
+        setRecs(allRecs)
+        // setQuizzes(result);
+    }
 
     const fillPopularQuizzes = async () => {
         const quizzes = await axios.get(`/api/quizzes`).then(res => res.data);
@@ -54,6 +88,12 @@ function DashBoard() {
     useEffect(() => {
         fillPopularQuizzes();
         fillSubbedAndForYou();
+        recQueries.forEach( rq => {
+            getRecommended(rq)
+        })
+        // getRecommended("Developers");
+        // getRecommended("Java");
+        // getRecommended("One Piece");
     }, [userObject])
 
     return (
@@ -63,6 +103,7 @@ function DashBoard() {
                     <TabList>
                         <Tab>Popular Quizzes</Tab>
                         <Tab>For You</Tab>
+                        <Tab>Recommended</Tab>
                     </TabList>
                     <TabPanel className="popular-quiz-tab react-tabs__tab-panel">
                         {
@@ -118,6 +159,32 @@ function DashBoard() {
                                 )}
                             </ul>
                             : <p>Login to view personalized content!</p>
+                        }
+                    </TabPanel>
+                    <TabPanel className="popular-quiz-tab react-tabs__tab-panel">
+                        {
+                            <ul className="popular-quizzes ">
+                                {recs.map(result => (
+                                    <div className="card_container">
+                                        <div className="col s12 m7">
+                                            <div className="card">
+                                                <Link to={result.link} style={{ textDecoration: 'none' }}>
+                                                    <h3>{result.type}</h3>
+                                                    <div>
+                                                        {result.image !== '' ? <img className="search-card-image" src={result.image}></img>:null}
+                                                    </div>
+                                                    <span className="card-title"><h2>{result.title}</h2></span>
+                                                    <div className="card-content">
+                                                        <p>{result.description}</p>
+                                        
+                                                    </div> 
+                                                </Link>
+                                            </div>    
+                                        </div>
+                                    </div>
+                                )
+                                )}
+                            </ul>
                         }
                     </TabPanel>
                 </Tabs>
