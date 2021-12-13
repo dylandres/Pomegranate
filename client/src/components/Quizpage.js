@@ -94,7 +94,7 @@ function QuizPage() {
                     Times Taken: {quiz.timesTaken}
                     <br />
                     Rating: {(quiz.totalRating / quiz.totalVotes).toFixed(1)}
-                    <div class="rating">
+                    {/* <div class="rating">
                         <div class="rating-upper" style={{ width: `${calculateRating(quiz)}%` }}>
                             <span>★</span>
                             <span>★</span>
@@ -109,7 +109,7 @@ function QuizPage() {
                             <span>★</span>
                             <span>★</span>
                         </div>
-                    </div>
+                    </div> */}
                     <br />
                     <div class="summary">{quiz.summary}</div>
                 </div>
