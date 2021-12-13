@@ -17,8 +17,20 @@ import ProfilePage from './Profilepage';
 function CreatePlatform(props) {
     const [name, setName] = useState('');
     const [summary, setSummary] = useState('');
+    const [restricted, setRestricted] = useState(false);
+    const [empty, setEmpty] = useState(true);
 
     const handleNameChange = (event) => {
+        const delims  = [":" , "/" , "?" , "#" , "[" , "]" , "@", "!" , "$" , "&" , "'" , "(" , ")"
+        , "*" , "+" , "," , ";" , "=", "%", "^", "{", "}", "|", "\\", "\""];
+        var isRestricted = false
+        delims.map(thisChar => {
+            if(isRestricted === false)
+                isRestricted = event.target.value.includes(thisChar)
+        });
+        var isEmpty = event.target.value.length === 0
+        setRestricted(isRestricted)
+        setEmpty(isEmpty)
         setName(event.target.value);
     }
 
@@ -53,14 +65,22 @@ function CreatePlatform(props) {
                 </div>
                 <div style={{ background: '#fc83b4', height: '88%'}}>
                     <br />
+                    {restricted ? 
+                    <TextField variant="outlined" label="Invalid Character In Name!" style={{height: 'auto'}} onChange={handleNameChange} value={name}/>
+                    :
                     <TextField variant="outlined" label="Name" style={{height: 'auto'}} onChange={handleNameChange} value={name}/>
+                    }
                     <br />
                     <br />
                     <TextField variant="outlined" label="Summary" multiline
                         style={{ width: '80%', height: '30vh'}} onChange={handleSummaryChange} value={summary}/>
                     <br/>
                     <div style={{display: 'inline-block', position: 'absolute', top: '40vh', right: '1%'}}>
-                        <Button variant="contained" onClick={() => handleCreate()}>Create Platform</Button>
+                        {(restricted || empty) ? 
+                            <Button disabled variant="contained" onClick={() => handleCreate()}>Create Platform</Button>
+                            :
+                            <Button variant="contained" onClick={() => handleCreate()}>Create Platform</Button>
+                        }
                     </div>
                 </div>
             </div>
