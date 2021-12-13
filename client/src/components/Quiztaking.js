@@ -111,7 +111,8 @@ function QuizTaking() {
         await axios.put(`/api/users/quiz_history/${quiz._id}/${quiz.quizName}/${userObject._id}/${quizScore}/${timestamp}`).then(res => res.data);
     }
 
-    const submitRating = async () => {
+    const submitRating = async (ratingInput) => {
+        setRating(ratingInput)
         await axios.put(`/api/quizzes/${quiz._id}/rate/${rating}`).then(res => res.data);;
         setRating(-1);
     }
@@ -238,19 +239,19 @@ function QuizTaking() {
                                             rating != -1
                                                 ? <div>
                                                     <div class="rate">
-                                                        <input onClick={() => setRating(5)} type="radio" id="star5" name="rate" value="5" />
+                                                        <input onClick={() => submitRating(5)} type="radio" id="star5" name="rate" value="5" />
                                                         <label for="star5" title="text">5 stars</label>
-                                                        <input onClick={() => setRating(4)} type="radio" id="star4" name="rate" value="4" />
+                                                        <input onClick={() => submitRating(4)} type="radio" id="star4" name="rate" value="4" />
                                                         <label for="star4" title="text">4 stars</label>
-                                                        <input onClick={() => setRating(3)} type="radio" id="star3" name="rate" value="3" />
+                                                        <input onClick={() => submitRating(3)} type="radio" id="star3" name="rate" value="3" />
                                                         <label for="star3" title="text">3 stars</label>
-                                                        <input onClick={() => setRating(2)} type="radio" id="star2" name="rate" value="2" />
+                                                        <input onClick={() => submitRating(2)} type="radio" id="star2" name="rate" value="2" />
                                                         <label for="star2" title="text">2 stars</label>
-                                                        <input onClick={() => setRating(1)} type="radio" id="star1" name="rate" value="1" />
+                                                        <input onClick={() => submitRating(1)} type="radio" id="star1" name="rate" value="1" />
                                                         <label for="star1" title="text">1 star</label>
                                                     </div>
-                                                    <br></br><br></br>
-                                                    <Link to={`/quizpage/${quizName}`}><button onClick={() => submitRating()} class="submit-rating">Submit Rating</button></Link>
+                                                    {/* <br></br><br></br>
+                                                    <Link to={`/quizpage/${quizName}`}><button onClick={() => submitRating()} class="submit-rating">Submit Rating</button></Link> */}
                                                 </div>
                                                 : <p>Rating received!</p>
                                         }
