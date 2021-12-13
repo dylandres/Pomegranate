@@ -127,12 +127,12 @@ function EditQuestion({ prop_question, exists, state, newDelete }) {
             <Button variant="contained" color='error' sx={{ width: '1%', float: 'right', right: '1%' }} onClick={handleDelete}>X</Button>
             {
                 exists ?
-                    <div style={{position: 'absolute', left: '76%', top: '25%'}}>
+                    <div style={{position: 'absolute', left: '78%', bottom: '180`px', height: 'auto'}}>
                         {
                         image !== '' ? 
-                            <img style={{width: '250px'}} src={image}/> 
+                            <img style={{width: '200px', height: '200px'}} src={image}/> 
                             :
-                            <img style={{width: '250px'}} src='https://static.thenounproject.com/png/3674270-200.png'/>
+                            <img style={{width: '200px', height: '200px'}} src='https://static.thenounproject.com/png/3674270-200.png'/>
                         }
                     </div>
                     :
@@ -140,7 +140,7 @@ function EditQuestion({ prop_question, exists, state, newDelete }) {
             }
             {
                 exists ?
-                    <div style={{position: 'absolute', right: '1.75%', bottom: '14%', height: 'auto'}}>
+                    <div style={{position: 'absolute', right: '1.75%', bottom: '15px', height: 'auto', transform: 'translateY(-100%)'}}>
                         <UploadImage imgType='Question Image' colType='questions' uid={prop_question._id} whichImage='question-image' state={forceUpdate}/>
                     </div>
                     :
@@ -149,7 +149,7 @@ function EditQuestion({ prop_question, exists, state, newDelete }) {
             {
                 exists ?
                     image !== '' ?
-                        <div style={{position: 'absolute', right: '7.75%', bottom: '14%', height: 'auto'}}>
+                        <div style={{position: 'absolute', right: '7.75%', bottom: '15px', height: 'auto', transform: 'translateY(-100%)'}}>
                             <DeleteImage imgType='Question Image' colType='questions' uid={prop_question._id} whichImage='question-image' state={forceUpdate}/>
                         </div>
                         :
