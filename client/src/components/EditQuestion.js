@@ -127,7 +127,7 @@ function EditQuestion({ prop_question, exists, state, newDelete }) {
             <Button variant="contained" color='error' sx={{ width: '1%', float: 'right', right: '1%' }} onClick={handleDelete}>X</Button>
             {
                 exists ?
-                    <div style={{position: 'absolute', left: '78%', bottom: '180`px', height: 'auto'}}>
+                    <div style={{position: 'absolute', left: '78%', bottom: '180px', height: 'auto'}}>
                         {
                         image !== '' ? 
                             <img style={{width: '200px', height: '200px'}} src={image}/> 
