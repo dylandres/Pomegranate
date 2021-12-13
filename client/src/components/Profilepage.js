@@ -28,9 +28,6 @@ function ProfilePage() {
     const [quizHistory, setQuizHistory] = useState([]);
     const [stopwatch, setStopwatch] = useState(0);
 
-    // Edit mode privilege
-    // const [canEdit, setCanEdit] = useState(false);
-
     useEffect(() => {
         // Stopwatch mechanism
             setTimeout(() => setStopwatch(stopwatch + 1), 1000);
@@ -47,9 +44,8 @@ function ProfilePage() {
 
     const getProfile = async (username) => {
         const thisProfile = await axios.get(`/api/users/${username}/user`).then(res => res.data)
-        console.log(thisProfile[0].userName);
-        console.log(username);
-        if (thisProfile[0].userName !== username) {
+        
+        if (thisProfile.length === 0 || (thisProfile[0].userName !== username)) {
             setProfile(null);
             return;
         }

@@ -31,6 +31,12 @@ function PlatformPage() {
     const [creating, setCreating] = useState(false);
     const { userObject, setUserObject } = useContext(myContext)
     const [leaderboard, setLeaderboard] = useState({});
+    const [stopwatch, setStopwatch] = useState(0);
+
+    useEffect(() => {
+        // Stopwatch mechanism
+        setTimeout(() => setStopwatch(stopwatch + 1), 1000);
+    });
 
     const toggleCreating = () => {
         setCreating(!creating);
@@ -38,13 +44,13 @@ function PlatformPage() {
 
     const convertDate = (date) => {
         var newDate = date.substring(0, 10).split('-');
-        const month = ['January', 'February', 'March', 'April', 'May', 'June', 
-        'July', 'August', 'September', 'October', 'November', 'December'];
+        const month = ['January', 'February', 'March', 'April', 'May', 'June',
+            'July', 'August', 'September', 'October', 'November', 'December'];
         const newMonth = month[parseInt(newDate[1]) - 1];
-        const newDay = newDate[2] < 10 ? newDate[2].substring(1,2) : newDate[2];
+        const newDay = newDate[2] < 10 ? newDate[2].substring(1, 2) : newDate[2];
         return newMonth + ' ' + newDay + ', ' + newDate[0];
     }
-    
+
     const toggleDeleting = () => {
         setDeleting(!deleting);
     }
@@ -93,7 +99,7 @@ function PlatformPage() {
         // final array, sorted such that columns are printed in row order
         const finalArray = evens.concat(odd);
         console.log(finalArray);
-        if(!userObject || (userObject && (userObject._id !== platform.ownerID))) {
+        if (!userObject || (userObject && (userObject._id !== platform.ownerID))) {
             const finalFinalArray = finalArray.filter((quiz) => quiz.published);
             setQuizzes(finalFinalArray);
             const board = getPlatformLeaderboard(finalFinalArray);
@@ -114,6 +120,11 @@ function PlatformPage() {
 
     const newPlatform = async (pName) => {
         const newPlatform = await getResults(pName);
+        
+        if (newPlatform === null || newPlatform.platformName.replace(' ', '%20') !== pName) {
+            setPlatform(null);
+            return;
+        }
         setPlatform(newPlatform);
         setDesc(newPlatform.description)
         fillQuizzes(newPlatform);
@@ -131,8 +142,8 @@ function PlatformPage() {
 
     var link = window.location.href;
     console.log(link);
-    if(link.charAt(link.length - 1) === '/')
-        link = link.substring(0, link.length-1)
+    if (link.charAt(link.length - 1) === '/')
+        link = link.substring(0, link.length - 1)
     console.log(link);
     var platformName = link.split('/').pop();
 
@@ -156,7 +167,13 @@ function PlatformPage() {
 
     return (
         <body>
-            <h1 className='platform-title'>{platform.platformName}</h1>
+            {console.log(platform)}
+
+            {platform !== null && Object.keys(platform).length !== 0 ?
+                <h1 className='platform-title'>{platform.platformName}</h1>
+                : null
+                }
+            {platform !== null && Object.keys(platform).length !== 0 ?
             <div className='platform'>
                 {
                     deleting && <DeletePlatform
@@ -222,7 +239,7 @@ function PlatformPage() {
                             </div>
                             :
                             <div style={{ position: 'absolute', top: '24.5%', left: '1%', zIndex: 4 }}>
-                                <Button style={{backgroundColor: 'white', color: 'blue'}}variant="contained" onClick={unsubscribe}>Unsubscribe</Button>
+                                <Button style={{ backgroundColor: 'white', color: 'blue' }} variant="contained" onClick={unsubscribe}>Unsubscribe</Button>
                             </div>
                         :
                         null
@@ -276,32 +293,32 @@ function PlatformPage() {
                         }
                     </TabPanel>
                     <TabPanel className='lb-tab react-tabs__tab-panel'>
-                    <div className="plat-leaderboard">
-                        <section id="scrims-ladder--container" class="scrims-ladder">
-                            <div class="ladder-nav">
-                                <div class="ladder-nav--col ladder-title">
-                                    <h1>Platform Leaderboard</h1>
+                        <div className="plat-leaderboard">
+                            <section id="scrims-ladder--container" class="scrims-ladder">
+                                <div class="ladder-nav">
+                                    <div class="ladder-nav--col ladder-title">
+                                        <h1>Platform Leaderboard</h1>
+                                    </div>
                                 </div>
-                            </div>
-                            {
-                            ((Object.keys(leaderboard).length !== 0))
-                            ? Object.entries(leaderboard).map( ([player, score], i) =>
-                                <Link to={`/profile/${player}`} style = {{textDecoration: 'None'}}> <div class="ladder-nav--results-players">
-                                    <div class="results-col">
-                                        <span class="results-rank"><span class={i == 0 ? "rank-1" : i == 1 ? "rank-2" : i == 2 ? "rank-3" : "rank"}>{i+1}</span></span>
-                                    </div>
-                                    <div class="results-col">
-                                        <span class="results-gp">{player}</span>
-                                    </div>
-                                    <div class="results-col">
-                                        <span class="results-pts">{score}</span>
-                                    </div>
-                                </div> </Link>
-                            )
-                            : <p class="empty-leaderboard">Be the first to take a quiz from this platform!</p>
-                            } 
-                        </section>
-                    </div>
+                                {
+                                    ((Object.keys(leaderboard).length !== 0))
+                                        ? Object.entries(leaderboard).map(([player, score], i) =>
+                                            <Link to={`/profile/${player}`} style={{ textDecoration: 'None' }}> <div class="ladder-nav--results-players">
+                                                <div class="results-col">
+                                                    <span class="results-rank"><span class={i == 0 ? "rank-1" : i == 1 ? "rank-2" : i == 2 ? "rank-3" : "rank"}>{i + 1}</span></span>
+                                                </div>
+                                                <div class="results-col">
+                                                    <span class="results-gp">{player}</span>
+                                                </div>
+                                                <div class="results-col">
+                                                    <span class="results-pts">{score}</span>
+                                                </div>
+                                            </div> </Link>
+                                        )
+                                        : <p class="empty-leaderboard">Be the first to take a quiz from this platform!</p>
+                                }
+                            </section>
+                        </div>
                     </TabPanel>
                     <TabPanel className='quiz-tab react-tabs__tab-panel'>
                         {
@@ -315,7 +332,7 @@ function PlatformPage() {
                                                         {sub.profilePicture !== '' ? <img className="plat-card-image" src={sub.profilePicture}></img> : <img className="plat-card-image" src="https://pomegranate-io.s3.amazonaws.com/24-248253_user-profile-default-image-png-clipart-png-download.png"></img>}
                                                     </div>
                                                     <span className="card-title"><b>{sub.userName} ({sub.fullName})</b></span>
-                                                    <br/>
+                                                    <br />
                                                     <div className="plat-card-content">
                                                         <p>{sub.bio}</p>
                                                     </div>
@@ -330,7 +347,7 @@ function PlatformPage() {
                     <TabPanel className='about-tab react-tabs__tab-panel'>
                         {platform != null ?
                             <div style={{ zIndex: 6, textAlign: 'center', width: '100%', height: '100%' }}>
-                                <h2 style={Object.assign({}, viewMode, { position: 'relative', width: '100%'})}>{platform.description}</h2>
+                                <h2 style={Object.assign({}, viewMode, { position: 'relative', width: '100%' })}>{platform.description}</h2>
                                 <TextField variant="outlined" size={thisDesc}
                                     style={Object.assign({}, editMode, { width: '90%', zIndex: 7 })} onChange={handleEditChange}
                                     value={thisDesc} multiline
@@ -340,11 +357,11 @@ function PlatformPage() {
                                 &nbsp;
                                 &nbsp;
                                 <Button style={editMode} variant='contained' onClick={() => editDesc(thisDesc)}>Confirm Edit</Button>
-                                {platform.subscribers != null ? 
-                                <h2>Subscriber Count: {platform.subscribers.length}</h2>
-                                : null}
-                                {platform.createdAt != null ? <h2>Date Created: {convertDate(platform.createdAt)}</h2>:null}
-                                
+                                {platform.subscribers != null ?
+                                    <h2>Subscriber Count: {platform.subscribers.length}</h2>
+                                    : null}
+                                {platform.createdAt != null ? <h2>Date Created: {convertDate(platform.createdAt)}</h2> : null}
+
                             </div>
                             :
                             null
@@ -357,6 +374,12 @@ function PlatformPage() {
                     </TabPanel>
                 </Tabs>
             </div>
+            :
+            stopwatch < 2 ? 
+                    <div className='loader'></div>
+                    :
+                    <div style={{position: 'absolute', transform: 'translateX(-50%) translateY(-50%)', left: '50%', top: '50%'}}>Platform does not exist!</div>
+                }
         </body>
     );
 }
