@@ -50,6 +50,10 @@
     width:20%;
     height: 7.5em;
   }
+.sub-card-list {
+  width: auto;
+  text-align: center;
+}
 
 .sub-card {
     background: pink;
@@ -76,7 +80,6 @@
     height: 50%; */
     /* font-size: 1rem; */
     padding: 30px 16px;
-    
     /* background: pink; */
     text-align: center;
     transform: translateZ(0);
@@ -104,13 +107,21 @@
   }
 
 .popular-quiz-tab {
-    overflow-y: scroll;
-    min-height: 144%;
-    list-style-type: none;
-    text-align: center;
-    background-color: rgb(130, 130, 220);
+  overflow-y: scroll;
+  min-height: 144%;
+  list-style-type: none;
+  text-align: center;
+  background-color: rgb(130, 130, 220);
+  border-bottom-left-radius: 10px;
+  border-bottom-right-radius: 10px;
 }
 
 .for-you-tab {
-    text-align: center;
+  overflow-y: scroll;
+  min-height: 144%;
+  list-style-type: none;
+  text-align: center;
+  background-color: rgb(130, 130, 220);
+  border-bottom-left-radius: 10px;
+  border-bottom-right-radius: 10px;
 }

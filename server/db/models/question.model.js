@@ -10,6 +10,9 @@ const QuestionSchema = new Schema( {
         type: String,
         required: true
     },
+    image : {
+        type: String,
+    },
     choices : {
         type: [String],
         required: true

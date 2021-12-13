@@ -10,10 +10,9 @@ import { myContext } from '../Context.js'
 
 function Navbar() {
     const {userObject, setUserObject} = useContext(myContext)
-    console.log(userObject)
+     
     const [textField, setTextField] = useState('');
     const [filter, setFilter] = useState('all');
-    const [ignored, forceUpdate] = useReducer(x => x + 1, 0);
     //const [userObject, setuserObject] = useState(userObject);
     //replace userObject 
     return (
@@ -30,24 +29,24 @@ function Navbar() {
                     <option value="user">User</option>
                 </select>
                 {/* Button is "dead" if the search bar is empty */}
-                {textField.replace(/\s/g,"") == "" ?  <button type='button' className='button'>Search</button>
+                {textField.replace(/\s/g,"") == "" ?  <button type='button' className='button-search'>🔍</button>
                 :
-                <Link to={`/search?query=${textField}&filter=${filter}`}> <button type='submit' className='button'>Search</button> </Link>
+                <Link to={`/search?query=${textField}&filter=${filter}`}> <button type='submit' className='button-search'>🔍</button> </Link>
                 } 
             </form>
             {/* Login / Logout button */}
             <div className ='google-button'><GoogleWrapper/></div>
             {/* User Profile */}
             {userObject
-            ? <div style={{position: 'absolute', top: '20%', right: '2%'}}>
+            ? <div className='avatar'>
                 <Link to={`/profile/${userObject.userName}`}> 
-                <Avatar sx={{width: '100%', height: '100%'}} className='avatar' src={userObject.profilePicture}/>
+                <Avatar sx={{width: '100%', height: '100%'}} src={userObject.profilePicture}/>
                 </Link>
             </div>
             : null }
             {/* Greeting */}
             {userObject
-            ? `Hello, ${userObject.fullName}`
+            ? <div style={{position: 'absolute', transform: 'translate(-50%, -50%)', left: '50%', top: '35%'}}>Hello, {userObject.fullName}</div>
             : null }
             
         </div>

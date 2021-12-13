@@ -26,11 +26,6 @@ const PlatformSchema = new Schema( {
     quizzes: {
         type: [Schema.Types.ObjectID],
         required: true
-    },
-    leaderboard: {
-        type: Map,
-        of: Number,
-        required: true
     }
 }, {timestamps: true});
 
