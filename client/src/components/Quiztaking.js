@@ -113,7 +113,7 @@ function QuizTaking() {
 
     const submitRating = async (ratingInput) => {
         setRating(ratingInput)
-        await axios.put(`/api/quizzes/${quiz._id}/rate/${rating}`).then(res => res.data);;
+        await axios.put(`/api/quizzes/${quiz._id}/rate/${ratingInput}`).then(res => res.data);;
         setRating(-1);
     }
 
