@@ -103,7 +103,8 @@ function ProfilePage() {
             if (logo)
                 history.push([quiz, logo.quizLogo]);
         }
-         
+        // Take last 20
+        history = history.slice(0, 20);
         setQuizHistory(history);
     }
 
