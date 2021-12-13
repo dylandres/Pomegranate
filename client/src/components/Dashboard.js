@@ -56,7 +56,12 @@ function DashBoard() {
         fillSubbedAndForYou();
     }, [userObject])
 
+    var link = window.location.href;
+    const anything = link.split('/').pop();
+    console.log(anything);
+
     return (
+        anything === '' ?
         <body>
             <div className='feed'>
                 <Tabs>
@@ -152,6 +157,10 @@ function DashBoard() {
                     : <p>Login to view subscriptions!</p>
                 }
             </div>
+        </body>
+        :
+        <body>
+            <div style={{position: 'absolute', transform: 'translateX(-50%) translateY(-50%)', left: '50%', top: '50%'}}>404</div>
         </body>
     );
 }

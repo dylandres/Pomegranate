@@ -26,8 +26,15 @@ function ProfilePage() {
     const [creating, setCreating] = useState(false);
     const [subs, setSubs] = useState([]);
     const [quizHistory, setQuizHistory] = useState([]);
+    const [stopwatch, setStopwatch] = useState(0);
+
     // Edit mode privilege
     // const [canEdit, setCanEdit] = useState(false);
+
+    useEffect(() => {
+        // Stopwatch mechanism
+            setTimeout(() => setStopwatch(stopwatch + 1), 1000);
+    });
 
     const toggleCreating = () => {
         setCreating(!creating);
@@ -40,6 +47,12 @@ function ProfilePage() {
 
     const getProfile = async (username) => {
         const thisProfile = await axios.get(`/api/users/${username}/user`).then(res => res.data)
+        console.log(thisProfile[0].userName);
+        console.log(username);
+        if (thisProfile[0].userName !== username) {
+            setProfile(null);
+            return;
+        }
         await axios.put(`/api/awards/${thisProfile[0]._id}`)
         var awards = await axios.get(`/api/awards/${thisProfile[0]._id}`).then(res => res.data)
 
@@ -58,12 +71,12 @@ function ProfilePage() {
         var index = 0;
         var arrayLength = awardArr.length;
         var tempArray = [];
-        
+
         for (index = 0; index < arrayLength; index += 3) {
             var threeAwards = awardArr.slice(index, index + 3);
             tempArray.push(threeAwards);
         }
-    
+
         return tempArray;
     }
 
@@ -91,7 +104,7 @@ function ProfilePage() {
         for (const quiz of thisUser.quizHistory) {
             console.log(quiz);
             const logo = await axios.get(`/api/quizzes/${quiz.quiz}`).then(res => res.data[0]);
-            if(logo)
+            if (logo)
                 history.push([quiz, logo.quizLogo]);
         }
         console.log(history);
@@ -101,8 +114,8 @@ function ProfilePage() {
     // Get username from url
     var link = window.location.href;
     console.log(link);
-    if(link.charAt(link.length - 1) === '/')
-        link = link.substring(0, link.length-1)
+    if (link.charAt(link.length - 1) === '/')
+        link = link.substring(0, link.length - 1)
     console.log(link);
     const username = link.split('/').pop();
 
@@ -127,172 +140,183 @@ function ProfilePage() {
 
     return (
         <body>
-            <h1 className='profile-title'>@{username}</h1>
-            <h1 className='profile-name'>{profile.fullName}</h1>
-            <div className='profile'>
-                {
-                    creating && <CreatePlatform
-                        handleClose={toggleCreating}
-                        user={userObject}
-                    />
-                }
-                {console.log(profile)}
-                {console.log(userObject)}
-                {
-                    userObject ?
-                        profile._id === userObject._id ?
-                            !isEditing ?
-                                <div style={{ position: 'absolute', top: '23%', right: '1%', zIndex: 4 }}>
-                                    <Button variant="contained" onClick={changeEditing}>Edit</Button>
-                                </div>
-                                :
-                                <span style={{ position: 'absolute', width: '100%', height: '100%' }}>
-                                    <div style={{ position: 'absolute', zIndex: 4, top: '1%', left: '11%', display: 'inline-block' }}>
-                                        <UploadImage imgType='Picture' colType='users' uid={profile._id} whichImage='change-pic' state={forceUpdate} />
-                                    </div>
-                                    <div style={{ position: 'absolute', zIndex: 4, top: '1%', right: '1%', display: 'inline-block' }}>
-                                        <UploadImage imgType='Banner' colType='users' uid={profile._id} whichImage='change-banner' state={forceUpdate} />
-                                    </div>
+            
+            {profile !== null && Object.keys(profile).length !== 0 ?
+                <h1 className='profile-title'>@{username}</h1>
+                : null}
+            {profile !== null && Object.keys(profile).length !== 0 ?
+                <h1 className='profile-name'>{profile.fullName}</h1>
+                : null}
+            {profile !== null && Object.keys(profile).length !== 0 ?
+                <div className='profile'>
+                    {
+                        creating && <CreatePlatform
+                            handleClose={toggleCreating}
+                            user={userObject}
+                        />
+                    }
+                    {console.log(profile)}
+                    {console.log(userObject)}
+                    {
+                        userObject ?
+                            profile._id === userObject._id ?
+                                !isEditing ?
                                     <div style={{ position: 'absolute', top: '23%', right: '1%', zIndex: 4 }}>
-                                        <Button variant="contained" onClick={changeEditing}>Stop Editing</Button>
+                                        <Button variant="contained" onClick={changeEditing}>Edit</Button>
                                     </div>
-                                </span>
-                            :
-                            null
-                        :
-                        null
-                }
-                {
-                    userObject ?
-                        profile._id === userObject._id ?
-                            !isEditing ?
-                                <div style={{ position: 'absolute', top: '1%', right: '1%', zIndex: 3 }}>
-                                    <Button variant="contained" onClick={toggleCreating}>Create Platform</Button>
-                                </div>
+                                    :
+                                    <span style={{ position: 'absolute', width: '100%', height: '100%' }}>
+                                        <div style={{ position: 'absolute', zIndex: 4, top: '1%', left: '11%', display: 'inline-block' }}>
+                                            <UploadImage imgType='Picture' colType='users' uid={profile._id} whichImage='change-pic' state={forceUpdate} />
+                                        </div>
+                                        <div style={{ position: 'absolute', zIndex: 4, top: '1%', right: '1%', display: 'inline-block' }}>
+                                            <UploadImage imgType='Banner' colType='users' uid={profile._id} whichImage='change-banner' state={forceUpdate} />
+                                        </div>
+                                        <div style={{ position: 'absolute', top: '23%', right: '1%', zIndex: 4 }}>
+                                            <Button variant="contained" onClick={changeEditing}>Stop Editing</Button>
+                                        </div>
+                                    </span>
                                 :
                                 null
                             :
                             null
-                        :
-                        null
-                }
-                {console.log(creating)}
-                {profile.profileBanner !== '' ? <img className="profile-banner" src={profile.profileBanner}></img> : <img className="profile-banner" src="https://pomegranate-io.s3.amazonaws.com/1200px-Black_flag.svg.png"></img>}
-                {profile.profilePicture !== '' ? <img className="profile-logo" src={profile.profilePicture}></img> : <img className="profile-logo" src="https://pomegranate-io.s3.amazonaws.com/24-248253_user-profile-default-image-png-clipart-png-download.png"></img>}
-                <Tabs>
-                    <TabList style={{ position: 'relative', top: '0%', width: '98vw', textAlign: 'center' }}>
-                        <Tab className='profile-tab react-tabs__tab'>Profile</Tab>
-                        <Tab className='profile-tab react-tabs__tab'>Owned Platforms</Tab>
-                        <Tab className='profile-tab react-tabs__tab'>Quiz History</Tab>
-                        <Tab className='profile-tab react-tabs__tab'>Subscriptions</Tab>
-                        <Tab className='profile-tab react-tabs__tab'>Earned Rewards</Tab>
-                    </TabList>
-                    <TabPanel style={{ position: 'relative', top: '0%' }}>
-                        {profile != null ?
-                            <div style={{ zIndex: '5', textAlign: 'center', width: '100%', height: '100%', zIndex: 6 }}>
-                                <h2 style={viewMode} >{profile.bio}</h2>
-                                <TextField variant="outlined"
-                                    style={Object.assign({}, editMode, { width: '90%', zIndex: 6 })} onChange={handleEditChange}
-                                    value={thisBio} multiline
-                                />
-                                <br />
-                                <Button style={editMode} variant='contained' onClick={() => setBio(profile.bio)}>Cancel Edit</Button>
-                                &nbsp;
-                                &nbsp;
-                                <Button style={editMode} variant='contained' onClick={() => editBio(thisBio)}>Confirm Edit</Button>
-                            </div>
-                            :
-                            <h2></h2>
-                        }
-                    </TabPanel>
-                    <TabPanel className="plat-tab react-tabs__tab-panel">
-                        {
-                            <ul className="plat-list">
-                                {platforms.map(platform => (
-                                    <div className="prof-card_container">
-                                        <div className="col s12 m7">
-                                            <Link to={`/platform/${platform.platformName}`} style={{ textDecoration: 'none' }}>
-                                                <div className="prof-card" >
-                                                    <div>
-                                                        {platform.platformLogo !== '' ? <img className="prof-card-image" src={platform.platformLogo}></img> : <img />}
-                                                        <br />
-                                                    </div>
-                                                    <span className="prof-card-title"><b>{platform.platformName}</b></span>
-                                                    <br />
-                                                    <div className="prof-card-content">
-                                                        <p>{platform.description}</p>
-                                                    </div>
-                                                    <br />
-                                                </div>
-                                            </Link>
-                                        </div>
-                                    </div>)
-                                )}
-                            </ul>
-                        }
-                    </TabPanel>
-                    <TabPanel className="history-tab react-tabs__tab-panel">
-                        {
-                            (quizHistory.length) ?
-                            quizHistory.map(quiz => (
-                                <div className="history-card_container">
-                                    <div className="col s12 m7">
-                                        <Link to={`/quizpage/${quiz[0].quiz}`} style={{ textDecoration: 'none' }}>
-                                            <div className="history-card" >
-                                                <div>
-                                                    {quiz[1] !== '' ? <img className="prof-card-image" src={quiz[1]}></img> : <img className="prof-card-image" src="https://pomegranate-io.s3.amazonaws.com/pomegranate.png"></img>}
-                                                    <br />
-                                                </div>
-                                                <span className="history-card-title"><b>{quiz[0].quiz}</b></span>
-                                                <br />
-                                                <div className="history-card-content">
-                                                    <p>Score: {quiz[0].score} ({Date(quiz[0].timestamp).substring(4,15)})</p>
-                                                </div>
-                                                <br />
-                                            </div>
-                                        </Link>
+                    }
+                    {
+                        userObject ?
+                            profile._id === userObject._id ?
+                                !isEditing ?
+                                    <div style={{ position: 'absolute', top: '1%', right: '1%', zIndex: 3 }}>
+                                        <Button variant="contained" onClick={toggleCreating}>Create Platform</Button>
                                     </div>
+                                    :
+                                    null
+                                :
+                                null
+                            :
+                            null
+                    }
+                    {console.log(creating)}
+                    {profile.profileBanner !== '' ? <img className="profile-banner" src={profile.profileBanner}></img> : <img className="profile-banner" src="https://pomegranate-io.s3.amazonaws.com/1200px-Black_flag.svg.png"></img>}
+                    {profile.profilePicture !== '' ? <img className="profile-logo" src={profile.profilePicture}></img> : <img className="profile-logo" src="https://pomegranate-io.s3.amazonaws.com/24-248253_user-profile-default-image-png-clipart-png-download.png"></img>}
+                    <Tabs>
+                        <TabList style={{ position: 'relative', top: '0%', width: '98vw', textAlign: 'center' }}>
+                            <Tab className='profile-tab react-tabs__tab'>Profile</Tab>
+                            <Tab className='profile-tab react-tabs__tab'>Owned Platforms</Tab>
+                            <Tab className='profile-tab react-tabs__tab'>Quiz History</Tab>
+                            <Tab className='profile-tab react-tabs__tab'>Subscriptions</Tab>
+                            <Tab className='profile-tab react-tabs__tab'>Earned Rewards</Tab>
+                        </TabList>
+                        <TabPanel style={{ position: 'relative', top: '0%' }}>
+                            {profile != null ?
+                                <div style={{ zIndex: '5', textAlign: 'center', width: '100%', height: '100%', zIndex: 6 }}>
+                                    <h2 style={viewMode} >{profile.bio}</h2>
+                                    <TextField variant="outlined"
+                                        style={Object.assign({}, editMode, { width: '90%', zIndex: 6 })} onChange={handleEditChange}
+                                        value={thisBio} multiline
+                                    />
+                                    <br />
+                                    <Button style={editMode} variant='contained' onClick={() => setBio(profile.bio)}>Cancel Edit</Button>
+                                    &nbsp;
+                                    &nbsp;
+                                    <Button style={editMode} variant='contained' onClick={() => editBio(thisBio)}>Confirm Edit</Button>
                                 </div>
-                            ))
-                            : <p><b>{profile.userName} hasn't taken any quizzes yet!</b></p>
-                        }
-                    </TabPanel>
-                    <TabPanel className="plat-tab react-tabs__tab-panel">
-                        {
-                            <ul className="plat-list">
-                                {subs.map(platform => (
-                                    <div className="prof-card_container">
-                                        <div className="col s12 m7">
-                                            <Link to={`/platform/${platform.platformName}`} style={{ textDecoration: 'none' }}>
-                                                <div className="prof-card" >
-                                                    <div>
-                                                        {platform.platformLogo !== '' ? <img className="prof-card-image" src={platform.platformLogo}></img> : <img />}
+                                :
+                                <h2></h2>
+                            }
+                        </TabPanel>
+                        <TabPanel className="plat-tab react-tabs__tab-panel">
+                            {
+                                <ul className="plat-list">
+                                    {platforms.map(platform => (
+                                        <div className="prof-card_container">
+                                            <div className="col s12 m7">
+                                                <Link to={`/platform/${platform.platformName}`} style={{ textDecoration: 'none' }}>
+                                                    <div className="prof-card" >
+                                                        <div>
+                                                            {platform.platformLogo !== '' ? <img className="prof-card-image" src={platform.platformLogo}></img> : <img />}
+                                                            <br />
+                                                        </div>
+                                                        <span className="prof-card-title"><b>{platform.platformName}</b></span>
+                                                        <br />
+                                                        <div className="prof-card-content">
+                                                            <p>{platform.description}</p>
+                                                        </div>
                                                         <br />
                                                     </div>
-                                                    <span className="prof-card-title"><b>{platform.platformName}</b></span>
-                                                    <br />
-                                                    <div className="prof-card-content">
-                                                        <p>{platform.description}</p>
+                                                </Link>
+                                            </div>
+                                        </div>)
+                                    )}
+                                </ul>
+                            }
+                        </TabPanel>
+                        <TabPanel className="history-tab react-tabs__tab-panel">
+                            {
+                                (quizHistory.length) ?
+                                    quizHistory.map(quiz => (
+                                        <div className="history-card_container">
+                                            <div className="col s12 m7">
+                                                <Link to={`/quizpage/${quiz[0].quiz}`} style={{ textDecoration: 'none' }}>
+                                                    <div className="history-card" >
+                                                        <div>
+                                                            {quiz[1] !== '' ? <img className="prof-card-image" src={quiz[1]}></img> : <img className="prof-card-image" src="https://pomegranate-io.s3.amazonaws.com/pomegranate.png"></img>}
+                                                            <br />
+                                                        </div>
+                                                        <span className="history-card-title"><b>{quiz[0].quiz}</b></span>
+                                                        <br />
+                                                        <div className="history-card-content">
+                                                            <p>Score: {quiz[0].score} ({Date(quiz[0].timestamp).substring(4, 15)})</p>
+                                                        </div>
+                                                        <br />
                                                     </div>
-                                                    <br />
-                                                </div>
-                                            </Link>
+                                                </Link>
+                                            </div>
                                         </div>
-                                    </div>)
-                                )}
-                            </ul>
-                        }
-                    </TabPanel>
-                    <TabPanel className="plat-tab react-tabs__tab-panel">
-                        {awards.length > 0 ?
-                        awards.map(threeAwards => (
-                            <AwardRow awards={threeAwards}/>
-                        ))
-                        // no awards found
-                        : <b>You have no rewards! Take some quizzes, or create a platform and quizzes to earn badges.</b> }
-                    </TabPanel>
-                </Tabs>
-            </div>
+                                    ))
+                                    : <p><b>{profile.userName} hasn't taken any quizzes yet!</b></p>
+                            }
+                        </TabPanel>
+                        <TabPanel className="plat-tab react-tabs__tab-panel">
+                            {
+                                <ul className="plat-list">
+                                    {subs.map(platform => (
+                                        <div className="prof-card_container">
+                                            <div className="col s12 m7">
+                                                <Link to={`/platform/${platform.platformName}`} style={{ textDecoration: 'none' }}>
+                                                    <div className="prof-card" >
+                                                        <div>
+                                                            {platform.platformLogo !== '' ? <img className="prof-card-image" src={platform.platformLogo}></img> : <img />}
+                                                            <br />
+                                                        </div>
+                                                        <span className="prof-card-title"><b>{platform.platformName}</b></span>
+                                                        <br />
+                                                        <div className="prof-card-content">
+                                                            <p>{platform.description}</p>
+                                                        </div>
+                                                        <br />
+                                                    </div>
+                                                </Link>
+                                            </div>
+                                        </div>)
+                                    )}
+                                </ul>
+                            }
+                        </TabPanel>
+                        <TabPanel className="plat-tab react-tabs__tab-panel">
+                            {awards.length > 0 ?
+                                awards.map(threeAwards => (
+                                    <AwardRow awards={threeAwards} />
+                                ))
+                                // no awards found
+                                : <b>You have no rewards! Take some quizzes, or create a platform and quizzes to earn badges.</b>}
+                        </TabPanel>
+                    </Tabs>
+                </div>
+                : stopwatch < 2 ? 
+                    <div className='loader'></div>
+                    :
+                    <div style={{position: 'absolute', transform: 'translateX(-50%) translateY(-50%)', left: '50%', top: '50%'}}>Profile does not exist!</div>
+                }
         </body>
     );
 }
