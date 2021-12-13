@@ -102,29 +102,23 @@ function QuizPage() {
                             }
                         </section>
                     </div>
+                    {quiz.totalVotes !== 0 ? 
                     <div class="info">
                         Times Taken: {quiz.timesTaken}
                         <br />
                         Rating: {(quiz.totalRating / quiz.totalVotes).toFixed(1)}
-                        {/*<div class="rating">
-                            <div class="rating-upper" style={{ width: `${calculateRating(quiz)}%` }}>
-                                <span>★</span>
-                                <span>★</span>
-                                <span>★</span>
-                                <span>★</span>
-                                <span>★</span>
-                            </div>
-                            <div class="rating-lower">
-                                <span>★</span>
-                                <span>★</span>
-                                <span>★</span>
-                                <span>★</span>
-                                <span>★</span>
-                            </div>
-                        </div>*/}
                         <br />
                         <div class="summary">{quiz.summary}</div>
                     </div>
+                    :
+                    <div class="info">
+                        Times Taken: {quiz.timesTaken}
+                        <br />
+                        Rating: 5.0
+                        <br />
+                        <div class="summary">{quiz.summary}</div>
+                    </div>
+                    }
                     <br /> <br /> <br />
                     {
                         quiz.published ?
