@@ -30,16 +30,16 @@ function QuizTaking() {
     });
 
     var link = window.location.href;
-    console.log(link);
+     
     if (link.charAt(link.length - 1) === '/')
         link = link.substring(0, link.length - 1)
-    console.log(link);
+     
     const quizName = parse(link.split('/').pop());
 
     const fillQuestions = async (quizName) => {
         // Get Quiz from db
         const thisQuiz = await axios.get(`/api/quizzes/${quizName}`).then(res => res.data);
-        console.log(thisQuiz)
+         
         if (thisQuiz.length === 0 || thisQuiz[0].quizName !== quizName) {
             setQuiz(null);
             return;

@@ -54,7 +54,7 @@ function EditQuestion({ prop_question, exists, state, newDelete }) {
     const newImage = async () => {
         const thisImage = await axios.get(`/api/questions/${prop_question._id}`).then(res => res.data);
         setImage(thisImage[0].image);
-        console.log(thisImage[0].image);
+         
     }
     useEffect(() => {
         newImage();
@@ -90,8 +90,8 @@ function EditQuestion({ prop_question, exists, state, newDelete }) {
 
     const handleDelete = async() => {
         if(exists) {
-            console.log(prop_question.ownerID);
-            console.log(prop_question._id);
+             
+             
             await axios.put(`/api/quizzes/${prop_question.ownerID}/${prop_question._id}/deleteQuestion`);
             await axios.delete(`/api/questions/${prop_question._id}`);
             state();

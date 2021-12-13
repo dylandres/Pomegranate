@@ -39,7 +39,7 @@ function CreatePlatform(props) {
             leaderboard: []
         };
         const plat = await axios.post(`/api/platforms`, properties).then(res => res.data);
-        console.log(plat);
+         
 
         window.location.href = `${window.location.origin}/platform/${plat.platformName}`;
     }

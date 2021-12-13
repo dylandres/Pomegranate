@@ -43,7 +43,7 @@ function CreateQuiz(props) {
             };
             const quiz = await axios.post(`/api/quizzes`, properties).then(res => res.data);
             await axios.put(`/api/platforms/${props.platform._id}/${quiz._id}/add-quiz`).then(res => res.data);
-            console.log(quiz);
+             
             window.location.href = `${window.location.origin}/quizpage/${quiz.quizName}`;
     }
 

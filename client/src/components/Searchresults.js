@@ -32,8 +32,8 @@ function SearchResults() {
                 let title = platform.platformName
                 let description = platform.description
                 let rank = 0.75 * stringSimilarity.compareTwoStrings(query, platform.platformName) + 0.25 * stringSimilarity.compareTwoStrings(query, platform.description)
-                console.log("title: " + title)
-                console.log("rank: " + rank)
+                 
+                 
                 let plObj = {
                     rank: rank,
                     link: link,
@@ -48,8 +48,8 @@ function SearchResults() {
         allResults.sort(function(a, b){
             return b.rank - a.rank
         })
-        console.log('getResults')
-        console.log(allResults)
+         
+         
         setResults(allResults)
         setPlatforms(result);
         // const person = {
@@ -74,8 +74,8 @@ function SearchResults() {
             let title = quiz.quizName
             let description = quiz.summary
             let rank = 0.75 * stringSimilarity.compareTwoStrings(query, title) + 0.25 * stringSimilarity.compareTwoStrings(query, description)
-            console.log("title: " + title)
-            console.log("rank: " + rank)
+             
+             
             let plObj = {
                 rank: rank,
                 link: link,
@@ -90,15 +90,15 @@ function SearchResults() {
         allResults.sort(function(a, b){
             return b.rank - a.rank
         })
-        console.log('getResults')
-        console.log(allResults)
+         
+         
         setResults(allResults)
         setQuizzes(result);
     }
 
     const getUsers = async (query) => {
         const result = await axios.get(`/api/users/${query}/user`).then(res => res.data);
-        console.log(result)
+         
         if(result.length === 0) {
             setUsersEmpty(true);
             return;
@@ -109,8 +109,8 @@ function SearchResults() {
             let title = user.userName
             let description = user.bio
             let rank = 0.75 * stringSimilarity.compareTwoStrings(query, title) + 0.25 * stringSimilarity.compareTwoStrings(query, description)
-            console.log("title: " + title)
-            console.log("rank: " + rank)
+             
+             
             let plObj = {
                 rank: rank,
                 link: link,
@@ -142,24 +142,24 @@ function SearchResults() {
 
     // const combineResults = (quizzes, platforms, users) => {
     //     console.clear()
-    //     // setTimeout(() => {console.log("this is the first message")}, 5000);
-    //     console.log('combine results called')
-    //     // console.log(quizzes)
+    //     // setTimeout(() => 
+    //      
+    //     //  
     //     quizzes.forEach(quiz => {
-    //             console.log('qz')
-    //             console.log(quiz)
+    //              
+    //              
     //             allResults.push(quiz.quizName)
     //         }   
     //     )
     //     platforms.forEach(platform => {
-    //             console.log('pl')
-    //             console.log(platform)
+    //              
+    //              
     //             allResults.push(platform.platformName)
     //         }   
     //     )
     //     users.forEach(user => {
-    //         console.log('us')
-    //         console.log(user)
+    //          
+    //          
     //         allResults.push(user.userName)
             
     //     }
@@ -180,16 +180,16 @@ function SearchResults() {
         results.sort(function(a, b){
             return b.rank - a.rank
         })
-        console.log("all results")
-        console.log(allResults)
+         
+         
     }, [query, filter])
 
     return (
         <body>
             <br /><br />
-            {console.log(platformsEmpty)}
-            {console.log(quizzesEmpty)}
-            {console.log(usersEmpty)}
+            
+            
+            
             
             {
                 (!platforms.length && !quizzes.length && !users.length) 

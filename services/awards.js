@@ -44,7 +44,7 @@ const handleAward = async (user, award) => {
         for (let i = 0; i < platforms.length; i++) {
             quizCount += platforms[i].quizzes.length;
         }
-        console.log("this dude got " + quizCount + " quizzes");
+         
         if (quizCount >= val) {
             //put this user id into the award user[]
             await Award.updateOne({'_id' : award._id}, { $push: {users: user._id}})
@@ -55,7 +55,7 @@ const handleAward = async (user, award) => {
     else if (type == "platforms") {
         //get number of platforms under this user 
         const platformNum = await Platform.count({ 'ownerID': user._id })
-        console.log("NUMBER OF PLATFORMS UNDER THIS USER" + platformNum)
+         
         if(platformNum >= val) {
             //put this user id into the award user[]
             await Award.updateOne({'_id' : award._id}, { $push: {users: user._id}})
