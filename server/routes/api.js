@@ -315,7 +315,7 @@ router.put('/users/quiz_history/:quizid/:quiz/:id/:score/:timestamp', (req, res,
                          'score': req.params.score,
                          'timestamp': req.params.timestamp}],
                 //  Only keep 20 quizzes in history
-                $slice: 20,
+                // $slice: 20,
                 $position: 0
             }
         }
