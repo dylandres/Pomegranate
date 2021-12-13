@@ -98,7 +98,7 @@ function PlatformPage() {
         const odd = filtered.filter((quiz, index) => index % 2 == 1);
         // final array, sorted such that columns are printed in row order
         const finalArray = evens.concat(odd);
-        console.log(finalArray);
+         
         if (!userObject || (userObject && (userObject._id !== platform.ownerID))) {
             const finalFinalArray = finalArray.filter((quiz) => quiz.published);
             setQuizzes(finalFinalArray);
@@ -141,10 +141,10 @@ function PlatformPage() {
     }
 
     var link = window.location.href;
-    console.log(link);
+     
     if (link.charAt(link.length - 1) === '/')
         link = link.substring(0, link.length - 1)
-    console.log(link);
+     
     var platformName = link.split('/').pop();
 
     useEffect(() => {
@@ -167,7 +167,7 @@ function PlatformPage() {
 
     return (
         <body>
-            {console.log(platform)}
+            
 
             {platform !== null && Object.keys(platform).length !== 0 ?
                 <h1 className='platform-title'>{platform.platformName}</h1>
@@ -228,9 +228,9 @@ function PlatformPage() {
                 }
                 {platform.platformBanner !== '' ? <img className="platform-banner" src={platform.platformBanner}></img> : <img className="platform-banner" src="https://pomegranate-io.s3.amazonaws.com/1200px-Black_flag.svg.png"></img>}
                 {platform.platformLogo !== '' ? <img className="platform-logo" src={platform.platformLogo}></img> : <img className="platform-logo" src="https://pomegranate-io.s3.amazonaws.com/pomegranate.png"></img>}
-                {console.log(isSubbed)}
-                {console.log(platform)}
-                {console.log(userObject)}
+                
+                
+                
                 {
                     userObject ?
                         !isSubbed ?

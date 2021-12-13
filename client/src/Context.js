@@ -6,7 +6,7 @@ export default function Context(props) {
     const [userObject, setUserObject] = useState()
 
     useEffect(() => {
-        console.log('context rendered')
+         
         axios.get('/api/getuser', { withCredentials: true }).then(res => {
             if(res.data) {
                 setUserObject(res.data)

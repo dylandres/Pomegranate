@@ -35,8 +35,8 @@ function DashBoard() {
             for (const platform of filtered) {
                 for (const quiz_id of platform.quizzes) {
                     const quiz = await axios.get(`/api/quizzes/by_id/${quiz_id}`).then(res => res.data);
-                    console.log(quiz[0])
-                    //console.log(dateFromObjectId(quiz[0]._id));
+                     
+                    // 
                     if(quiz[0])
                       quizzes.push(quiz[0]);
                 }
@@ -44,7 +44,7 @@ function DashBoard() {
             // Sort by descending date
             quizzes = quizzes.sort((a, b) => dateFromObjectId(b._id) - dateFromObjectId(a._id))
             // Take the 10 most recent
-            console.log(quizzes);
+             
             quizzes = quizzes.filter((quiz) => quiz.published);
             //quizzes = quizzes.slice(0, 10);
             setForYou(quizzes);
@@ -58,7 +58,7 @@ function DashBoard() {
 
     var link = window.location.href;
     const anything = link.split('/').pop();
-    console.log(anything);
+     
 
     return (
         anything === '' ?

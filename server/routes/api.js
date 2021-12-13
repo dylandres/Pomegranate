@@ -41,7 +41,7 @@ router.put("/platforms/:id/change-logo", function (req, res) {
             Key: req.file.key
         }
         const url = s3.getSignedUrl('getObject', params).split("?AWS")[0];
-        console.log(url);
+         
         let update = { platformLogo: url };
         Platform.findByIdAndUpdate(uid, update, { new: true })
             .then((user) => res.status(200).json({ success: true, user: user }))
@@ -67,7 +67,7 @@ router.put("/questions/:id/question-image", function (req, res) {
             Key: req.file.key
         }
         const url = s3.getSignedUrl('getObject', params).split("?AWS")[0];
-        console.log(url);
+         
         let update = { image : url };
         Question.findByIdAndUpdate(uid, update, { new: true })
             .then((user) => res.status(200).json({ success: true, user: user }))
@@ -174,7 +174,7 @@ router.put("/users/:id/change-pic", function (req, res) {
             Key: req.file.key
         }
         const url = s3.getSignedUrl('getObject', params).split("?AWS")[0];
-        console.log(url);
+         
         let update = { profilePicture: url };
         User.findByIdAndUpdate(uid, update, { new: true })
             .then((user) => res.status(200).json({ success: true, user: user }))
@@ -224,7 +224,7 @@ router.post('/login', async (req, res, next) => {
     const firstName = payload.given_name
     const lastName = payload.family_name
     const profilePicture = payload.picture
-    console.log(payload)
+     
     User.findOne({email: email})
         .then(async user => {
             //if no user exists yet then create profile and user objects in DB
@@ -238,7 +238,7 @@ router.post('/login', async (req, res, next) => {
             }
             //otherwise this user exists so update their profile in case 
             else {
-                //console.log(data)
+                // 
                 await User.updateOne({ _id: user.id }, {
                     fullName: firstName + ' ' + lastName,
                 })
@@ -267,8 +267,8 @@ router.get('/users/:query/platform', (req, res, next) => {
     // regex for case insensitive query
     Platform.find({ 'platformName': { $regex: new RegExp(req.params.query, "i") } })
         .then(data => {
-            console.log('platform')
-            console.log(data)
+             
+             
             res.json(data)
         })
         .catch(next)
@@ -277,8 +277,8 @@ router.get('/users/:query/platform', (req, res, next) => {
 router.get('/users/:query/quiz', (req, res, next) => {
     Quiz.find({ 'quizName': { $regex: new RegExp(req.params.query, "i") } })
         .then(data => {
-            console.log('quiz')
-            console.log(data)
+             
+             
             res.json(data)
         })
         .catch(next)
@@ -290,8 +290,8 @@ router.get('/users/:query/user', (req, res, next) => {
         { 'fullName': { $regex: new RegExp(req.params.query, "i") } }]
     })
         .then(data => {
-            console.log('user')
-            console.log(data)
+             
+             
             res.json(data)
         })
         .catch(next)
@@ -479,7 +479,7 @@ router.put('/platforms/:id/description', (req, res, next) => {
 })
 
 router.get('/platforms/:ownerID/profile', (req, res, next) => {
-    console.log(req.params.ownerID);
+     
     Platform.find({ 'ownerID': req.params.ownerID })
         .then(data => {
             res.json(data)
@@ -544,8 +544,8 @@ router.get('/quizzes/by_id/:quiz_id', (req, res, next) => {
     const qid = ObjectId(req.params.quiz_id);
     Quiz.find({ '_id': qid })
         .then(data => {
-            console.log('quiz')
-            console.log(data)
+             
+             
             res.json(data)
         })
         .catch(next)
@@ -553,7 +553,7 @@ router.get('/quizzes/by_id/:quiz_id', (req, res, next) => {
 
 router.put('/quizzes/:id/summary', (req, res, next) => {
     const qid = ObjectId(req.params.id);
-    console.log(req.body.summary);
+     
     Quiz.findByIdAndUpdate(qid, {'summary': req.body.summary})
     .then(data => res.json(data))
     .catch(next);
@@ -561,7 +561,7 @@ router.put('/quizzes/:id/summary', (req, res, next) => {
 
 router.put('/quizzes/:id/published', (req, res, next) => {
     const qid = ObjectId(req.params.id);
-    console.log(req.body.published);
+     
     Quiz.findByIdAndUpdate(qid, {'published': req.body.published})
     .then(data => res.json(data))
     .catch(next);
@@ -573,21 +573,21 @@ router.put('/quizzes/add_to_leaderboard/:id/:username/:score', (req, res, next) 
     // If player exists, just update score
     const key = "leaderboard." + req.params.username;
     const value = req.params.score;
-    console.log(req.params.username)
-    console.log(value)
+     
+     
     var update = { "$set" : {} }
     update["$set"][key] = value
     Quiz.findByIdAndUpdate(qid, update)
     .then(data => {
-        console.log("updated leaderboard");
-        console.log(data);
+         
+         
         res.json(data);
     })
     .catch(next);
 });
 
 router.get('/quizzes/:quizName', (req, res, next) => {
-    console.log(req.params.quizName);
+     
     Quiz.find({ 'quizName': req.params.quizName })
         .then(data => {
             res.json(data)
@@ -607,9 +607,9 @@ router.put('/quizzes/:id/incrementNumTaken', (req, res, next) => {
     const qid = req.params.id;
     Quiz.findByIdAndUpdate(qid, {$inc: {'timesTaken': 1}})
         .then(data => {
-            console.log("yerrrr");
-            console.log(data);
-            console.log("yerrrr2");
+             
+             
+             
             res.json(data)
         })
         .catch(next)
@@ -620,9 +620,9 @@ router.put('/quizzes/:id/rate/:rating', (req, res, next) => {
     const rating = req.params.rating;
     Quiz.findByIdAndUpdate(qid, {$inc: {'totalVotes': 1, 'totalRating': rating}})
         .then(data => {
-            console.log("yerrrr");
-            console.log(data);
-            console.log("yerrrr2");
+             
+             
+             
             res.json(data)
         })
         .catch(next)
@@ -636,9 +636,9 @@ router.put('/quizzes/:id/rate/:rating', (req, res, next) => {
 
  router.put('/quizzes/:quizid/:questionid/newQuestion', (req, res, next) => {
      quizID = req.params.quizid;
-     console.log(quizID);
+      
      questionID = req.params.questionid;
-     console.log(questionID);
+      
      Quiz.findByIdAndUpdate(quizID, {$push: {'questions': questionID}})
      .then(data => res.json(data))
      .catch(next);
@@ -646,9 +646,9 @@ router.put('/quizzes/:id/rate/:rating', (req, res, next) => {
 
  router.put('/quizzes/:quizid/:questionid/deleteQuestion', (req, res, next) => {
     quizID = req.params.quizid;
-    console.log(quizID);
+     
     questionID = req.params.questionid;
-    console.log(questionID);
+     
     Quiz.findByIdAndUpdate(quizID, {$pull: {'questions': questionID}})
     .then(data => res.json(data))
     .catch(next);
@@ -664,8 +664,8 @@ router.put('/quizzes/:id/rate/:rating', (req, res, next) => {
 router.get('/questions/:id', (req, res, next) => {
     Question.find({ _id: ObjectId(req.params.id) })
         .then(data => {
-            console.log('ques');
-            console.log(data);
+             
+             
             res.json(data)
         })
         .catch(next)
@@ -673,7 +673,7 @@ router.get('/questions/:id', (req, res, next) => {
 
 router.put('/questions/:id', (req, res, next) => {
     const qid = ObjectId(req.params.id);
-    console.log(qid);
+     
     const question = req.body.question;
     const choices = req.body.choices;
     const answer = req.body.answer;
@@ -700,7 +700,7 @@ router.get('/questions/:ownerID/by-quiz', (req, res, next) => {
  });
 
 router.delete('/questions/:id', (req, res, next) => {
-    console.log(req.params.id);
+     
     Question.findOneAndDelete({'_id': req.params.id})
         .then(data => res.json(data))
         .catch(next)

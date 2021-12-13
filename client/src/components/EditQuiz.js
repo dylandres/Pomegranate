@@ -53,10 +53,10 @@ function EditQuiz() {
     }
 
     var link = window.location.href;
-    console.log(link);
+     
     if(link.charAt(link.length - 1) === '/')
         link = link.substring(0, link.length-1)
-    console.log(link);
+     
     const quizName = link.split('/').pop();
 
     const insertNewQuestion = () => {
@@ -73,7 +73,7 @@ function EditQuiz() {
 
     const confirmAboutEdits = async () => {
         const task = { summary: summary };
-        console.log(task);
+         
         await axios.put(`/api/quizzes/${quiz._id}/summary`, task);
         forceUpdate();
     }
@@ -94,14 +94,14 @@ function EditQuiz() {
 
     const fillQuestions = async (quiz) => {
         const questions = await axios.get(`/api/questions/${quiz._id}/by-quiz`).then(res => res.data);
-        console.log(questions);
+         
         setQuestions(questions);
     }
 
     const setEditing = async (quiz) => {
         const thisPlatform = await axios.get(`/api/platforms/by_id/${quiz.ownerID}`).then(res => res.data);
-        console.log(userObject);
-        console.log(thisPlatform);
+         
+         
         if (userObject) {
             setCanEdit(thisPlatform[0].ownerID === userObject._id);
         }

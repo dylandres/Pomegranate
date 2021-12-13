@@ -12,7 +12,7 @@ function DeleteImage({ imgType, colType, uid, whichImage, state}) {
     const handleSubmission = async () => {
         const request = await axios.put(`/api/${colType}/${uid}/${whichImage}/delete`)
             .then(res => res.data);
-        console.log(request);
+         
         state();
     }
 

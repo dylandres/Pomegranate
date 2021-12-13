@@ -78,7 +78,7 @@ function ProfilePage() {
 
     const getPlatforms = async (thisUser) => {
         const allPlatforms = await axios.get(`/api/platforms/${thisUser._id}/profile`).then(res => res.data);
-        console.log(allPlatforms);
+         
         setPlatforms(allPlatforms);
     }
 
@@ -96,23 +96,23 @@ function ProfilePage() {
 
     const fillQuizHistory = async (thisUser) => {
         var history = []
-        console.log("getting history");
+         
         for (const quiz of thisUser.quizHistory) {
-            console.log(quiz);
+             
             const logo = await axios.get(`/api/quizzes/${quiz.quiz}`).then(res => res.data[0]);
             if (logo)
                 history.push([quiz, logo.quizLogo]);
         }
-        console.log(history);
+         
         setQuizHistory(history);
     }
 
     // Get username from url
     var link = window.location.href;
-    console.log(link);
+     
     if (link.charAt(link.length - 1) === '/')
         link = link.substring(0, link.length - 1)
-    console.log(link);
+     
     const username = link.split('/').pop();
 
     useEffect(() => {
@@ -151,8 +151,8 @@ function ProfilePage() {
                             user={userObject}
                         />
                     }
-                    {console.log(profile)}
-                    {console.log(userObject)}
+                    
+                    
                     {
                         userObject ?
                             profile._id === userObject._id ?
@@ -191,7 +191,7 @@ function ProfilePage() {
                             :
                             null
                     }
-                    {console.log(creating)}
+                    
                     {profile.profileBanner !== '' ? <img className="profile-banner" src={profile.profileBanner}></img> : <img className="profile-banner" src="https://pomegranate-io.s3.amazonaws.com/1200px-Black_flag.svg.png"></img>}
                     {profile.profilePicture !== '' ? <img className="profile-logo" src={profile.profilePicture}></img> : <img className="profile-logo" src="https://pomegranate-io.s3.amazonaws.com/24-248253_user-profile-default-image-png-clipart-png-download.png"></img>}
                     <Tabs>

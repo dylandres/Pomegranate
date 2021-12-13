@@ -23,7 +23,7 @@ function DeleteQuiz(props) {
     const handleDelete = async () => {
         if(verify === 'Delete This Quiz') {
             const thisPlatform = await axios.get(`/api/platforms/by_id/${props.quiz.ownerID}`).then(res => res.data);
-            console.log(thisPlatform);
+             
             await axios.put(`/api/platforms/${props.quiz.ownerID}/${props.quiz._id}/remove-quiz`)
             await axios.delete(`/api/quizzes/${props.quiz._id}`).then(res => res.data);
             window.location.href = `${window.location.origin}/platform/${thisPlatform[0].platformName}`;

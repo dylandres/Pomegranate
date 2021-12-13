@@ -10,7 +10,7 @@ import { myContext } from '../Context.js'
 
 function Navbar() {
     const {userObject, setUserObject} = useContext(myContext)
-    console.log(userObject)
+     
     const [textField, setTextField] = useState('');
     const [filter, setFilter] = useState('all');
     //const [userObject, setuserObject] = useState(userObject);
