@@ -120,8 +120,7 @@ function PlatformPage() {
 
     const newPlatform = async (pName) => {
         const newPlatform = await getResults(pName);
-        
-        if (newPlatform === null || newPlatform.platformName.replace(' ', '%20') !== pName) {
+        if (newPlatform === null || newPlatform.platformName.replaceAll(' ', '%20') !== pName) {
             setPlatform(null);
             return;
         }
@@ -167,7 +166,7 @@ function PlatformPage() {
 
     return (
         <body>
-            
+           
 
             {platform !== null && Object.keys(platform).length !== 0 ?
                 <h1 className='platform-title'>{platform.platformName}</h1>
