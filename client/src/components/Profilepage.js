@@ -44,7 +44,7 @@ function ProfilePage() {
 
     const getProfile = async (username) => {
         const thisProfile = await axios.get(`/api/users/${username}/user`).then(res => res.data)
-        
+        console.log(thisProfile)
         if (thisProfile.length === 0 || (thisProfile[0].userName !== username)) {
             setProfile(null);
             return;

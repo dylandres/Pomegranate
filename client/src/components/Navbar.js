@@ -46,7 +46,7 @@ function Navbar() {
             : null }
             {/* Greeting */}
             {userObject
-            ? <div style={{position: 'absolute', transform: 'translate(-50%, -50%)', left: '50%', top: '35%'}}>Hello, {userObject.fullName}</div>
+            ? <div style={{position: 'absolute', transform: 'translate(-50%, -50%)', left: '50%', top: '10%', height: 'auto'}}>Hello, {userObject.fullName}</div>
             : null }
             
         </div>

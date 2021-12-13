@@ -69,6 +69,7 @@ function SearchResults() {
         }
         let res = []
         result.forEach(quiz => {
+            if(quiz.published) {
             let link = 'quizpage/' + quiz.quizName
             let image = quiz.quizLogo !== '' ? quiz.quizLogo : 'https://pomegranate-io.s3.amazonaws.com/pomegranate.png'
             let title = quiz.quizName
@@ -85,7 +86,8 @@ function SearchResults() {
                 type: 'Quiz',
             };
             allResults.push(plObj)
-            }   
+            }
+        }   
         )
         allResults.sort(function(a, b){
             return b.rank - a.rank

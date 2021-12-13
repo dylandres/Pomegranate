@@ -229,7 +229,16 @@ router.post('/login', async (req, res, next) => {
         .then(async user => {
             //if no user exists yet then create profile and user objects in DB
             if(!user) {
-                const newUser = new User({userName: (firstName + lastName).replace(' ', ''), fullName: firstName + " " + lastName, profilePicture: profilePicture, profileBanner: '', bio: '',
+                const randomNum = Math.floor(Math.random() * 10000);
+                const randNum = '' + randomNum;
+                if(randomNum < 1000)
+                    randNum = '0' + randNum;
+                if(randomNum < 100)
+                    randNum = '0' + randNum;
+                if(randomNum < 10)
+                    randNum = '0' + randNum;
+                
+                const newUser = new User({userName: (firstName + lastName + "-" + randNum).replace(' ', ''), fullName: firstName + " " + lastName, profilePicture: profilePicture, profileBanner: '', bio: '',
                     email: email, subscriptions: [], awards: []})
                 req.session.userId = newUser.id
                 await newUser.save()
@@ -285,13 +294,13 @@ router.get('/users/:query/quiz', (req, res, next) => {
 });
 
 router.get('/users/:query/user', (req, res, next) => {
+    console.log("hello");
     User.find({
         $or: [{ 'userName': { $regex: new RegExp(req.params.query, "i") } },
         { 'fullName': { $regex: new RegExp(req.params.query, "i") } }]
     })
         .then(data => {
-             
-             
+            console.log(data)
             res.json(data)
         })
         .catch(next)
