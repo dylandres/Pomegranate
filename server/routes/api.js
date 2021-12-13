@@ -292,7 +292,6 @@ router.get('/users/:query/user', (req, res, next) => {
         .then(data => {
             console.log('user')
             console.log(data)
-            console.log('WARDS' + data[0].awards)
             res.json(data)
         })
         .catch(next)

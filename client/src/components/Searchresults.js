@@ -14,11 +14,18 @@ function SearchResults() {
     const [quizzes, setQuizzes] = useState([]);
     const [users, setUsers] = useState([]);
     const [results, setResults] = useState([]);
-
+    const [quizzesEmpty, setQuizzesEmpty] = useState(false);
+    const [usersEmpty, setUsersEmpty] = useState(false);
+    const [platformsEmpty, setPlatformsEmpty] = useState(false);
+    
     let allResults = [];
 
     const getPlatforms = async (query) => {
         const result = await axios.get(`/api/users/${query}/platform`).then(res => res.data);
+        if(result.length === 0) {
+            setPlatformsEmpty(true);
+            return;
+        }
         result.forEach(platform => {
                 let link = 'platform/' + platform.platformName
                 let image = platform.platformLogo !== '' ? platform.platformLogo : 'https://pomegranate-io.s3.amazonaws.com/pomegranate.png' 
@@ -56,6 +63,10 @@ function SearchResults() {
 
     const getQuizzes = async (query) => {
         const result = await axios.get(`/api/users/${query}/quiz`).then(res => res.data);
+        if(result.length === 0) {
+            setQuizzesEmpty(true);
+            return;
+        }
         let res = []
         result.forEach(quiz => {
             let link = 'quizpage/' + quiz.quizName
@@ -87,6 +98,11 @@ function SearchResults() {
 
     const getUsers = async (query) => {
         const result = await axios.get(`/api/users/${query}/user`).then(res => res.data);
+        console.log(result)
+        if(result.length === 0) {
+            setUsersEmpty(true);
+            return;
+        }
         result.forEach(user => {
             let link = 'profile/' + user.userName
             let image = user.profilePicture !== '' ? user.profilePicture : 'https://pomegranate-io.s3.amazonaws.com/24-248253_user-profile-default-image-png-clipart-png-download.png'
@@ -171,9 +187,17 @@ function SearchResults() {
     return (
         <body>
             <br /><br />
+            {console.log(platformsEmpty)}
+            {console.log(quizzesEmpty)}
+            {console.log(usersEmpty)}
+            
             {
                 (!platforms.length && !quizzes.length && !users.length) 
-                ? <div className='loader'></div>
+                ? 
+                    (platformsEmpty && quizzesEmpty && usersEmpty) ?
+                    <div style={{position: 'absolute', transform: 'translateX(-50%) translateY(-50%)', left: '50%', top: '50%'}}>No search results found!</div>
+                    :
+                    <div className='loader'></div>
                 :
                 <ul className="results">
                     {results.map((result) => (
