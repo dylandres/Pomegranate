@@ -55,6 +55,7 @@
 
 .answer {
     width: 35vw;
+    font-size: 12pt;
     border-radius: 15px;
     background-color:white;
     height: 10vh;
@@ -106,6 +107,7 @@
 .disabled-answer {
     width: 35vw;
     height: 10vh;
+    font-size: 12pt;
     border-radius: 15px;
     background-color:white;
 }
