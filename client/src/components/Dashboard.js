@@ -46,7 +46,7 @@ function DashBoard() {
             // Take the 10 most recent
              
             quizzes = quizzes.filter((quiz) => quiz.published);
-            //quizzes = quizzes.slice(0, 10);
+            quizzes = quizzes.slice(0, 10);
             setForYou(quizzes);
         }
     }
